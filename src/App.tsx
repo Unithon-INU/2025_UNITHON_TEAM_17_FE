@@ -9,7 +9,7 @@ function App() {
             <ThemeProvider theme={Theme}>
                 <GlobalStyle/>
                 Hello World
-                <Button onClick={() => alert("asdas")} isFullWidth>로그인</Button>
+                <Button onClick={() => alert("asdas")} isDisable isFullWidth>로그인</Button>
             </ThemeProvider>
         </div>
     );

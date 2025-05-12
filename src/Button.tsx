@@ -6,12 +6,17 @@ export type ButtonProps = {
     onClick: () => void;
     background?: string;
     isFullWidth?: boolean;
+    isDisable?: boolean;
     children: ReactNode;
 }
 
 const ButtonColorStyle = css<ButtonProps>`
-  ${({background, theme}) => {
-    const bgColor = background ? background : theme.color.Primary;
+  ${({background, isDisable, theme}) => {
+    let bgColor = background ? background : theme.color.Primary;
+    
+    if(isDisable) {
+        bgColor = theme.color.Gray3
+    }
 
     return css`
       background: ${bgColor};
@@ -43,10 +48,12 @@ const ButtonStyle = styled.button<ButtonProps>`
   justify-content: center;
 
   cursor: pointer;
+  
+  pointer-events: ${p => p.isDisable && 'none'};
 `
 
-export const Button: FC<ButtonProps> = ({onClick, children, ...rest}) => {
+export const Button: FC<ButtonProps> = ({onClick, isDisable, children, ...rest}) => {
     return (
-        <ButtonStyle onClick={onClick} {...rest}>{children}</ButtonStyle>
+        <ButtonStyle onClick={() => { if(!isDisable) onClick()}} isDisable={!!isDisable} {...rest}>{children}</ButtonStyle>
     )
 }
