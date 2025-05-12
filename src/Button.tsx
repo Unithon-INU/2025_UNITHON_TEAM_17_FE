@@ -1,30 +1,59 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
+import {FC, ReactNode} from "react";
+import {darken, lighten} from "polished";
 
 export type ButtonProps = {
     onClick: () => void;
     background?: string;
-    children: React.ReactNode;
+    isFullWidth?: boolean;
+    isDisable?: boolean;
+    children: ReactNode;
 }
 
+const ButtonColorStyle = css<ButtonProps>`
+  ${({background, isDisable, theme}) => {
+    let bgColor = background ? background : theme.color.Primary;
+    
+    if(isDisable) {
+        bgColor = theme.color.Gray3
+    }
+
+    return css`
+      background: ${bgColor};
+      &:hover {
+        background: ${lighten(0.1, bgColor)};
+      }
+
+      &:active {
+        background: ${darken(0.1, bgColor)};
+      }
+    `
+  }}
+`
+
 const ButtonStyle = styled.button<ButtonProps>`
+  ${ButtonColorStyle};
+  width: ${p => p.isFullWidth && '100%'};
+
   color: white;
-  background: ${p => p.background ? p.background : 'red'};
   font-size: 20px;
   padding: 16px;
 
   border-radius: 10px;
   outline: none;
-  border: 0px;
+  border: 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   cursor: pointer;
+  
+  pointer-events: ${p => p.isDisable && 'none'};
 `
 
-export const Button: React.FC<ButtonProps> =({onClick, children, ...rest}) => {
+export const Button: FC<ButtonProps> = ({onClick, isDisable, children, ...rest}) => {
     return (
-        <ButtonStyle onClick={onClick} {...rest}>{children}</ButtonStyle>
+        <ButtonStyle onClick={() => { if(!isDisable) onClick()}} isDisable={!!isDisable} {...rest}>{children}</ButtonStyle>
     )
 }
