@@ -46,6 +46,11 @@ export const GlobalStyle = createGlobalStyle`
     content: '';
     content: none;
   }
+  
+  a {
+    color: unset;
+    text-decoration: unset;
+  }
 
   table {
     border-collapse: collapse;
