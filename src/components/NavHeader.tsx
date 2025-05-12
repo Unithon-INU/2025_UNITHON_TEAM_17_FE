@@ -32,6 +32,7 @@ const Title = styled.h1`
 const RightArea = styled.div`
   display: flex;
   align-items: center;
+  gap: 16px;
 `;
 
 export const NavHeader: FC<NavHeaderProps> = ({title, rightIcon}) => {
