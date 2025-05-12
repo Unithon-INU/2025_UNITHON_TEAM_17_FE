@@ -4,6 +4,7 @@ import {FC} from "react";
 export type InputProps = {
     value: string;
     onChange: (string) => void;
+    type? : "text" | "password" | "number" | "email";
     label: string;
     placeholder: string;
     errorMessage?: string | null;
@@ -35,12 +36,13 @@ const ErrorMessage = styled.div`
   padding: 4px 0;
 `
 
-export const Input: FC<InputProps> = ({value, onChange, placeholder, label, errorMessage}) => {
+export const Input: FC<InputProps> = ({value, onChange, type, placeholder, label, errorMessage}) => {
     return (
         <InputStyle>
             <LabelWrap>{label}</LabelWrap>
             <InputContent
                 value={value}
+                type={type}
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}
             />

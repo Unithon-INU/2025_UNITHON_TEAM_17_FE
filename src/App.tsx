@@ -16,7 +16,7 @@ const HomePage: FC = () => {
             HomePage
             <Link to={RoutePath.temp}>Temp Page로 이동</Link>
 
-            <Input value={password} onChange={setPassword} label={"비밀번호"} placeholder={"비번"} errorMessage={"ㄴㅇㅁㄴ"}/>
+            <Input value={password} onChange={setPassword} type={"number"} label={"비밀번호"} placeholder={"비번"} errorMessage={"ㄴㅇㅁㄴ"}/>
         </div>
     )
 }
