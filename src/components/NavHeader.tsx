@@ -1,11 +1,11 @@
 import {FC, ReactNode} from "react";
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
+import {BiChevronLeft} from "react-icons/bi";
 
 interface NavHeaderProps {
     title: string;
     rightIcon?: ReactNode;
-    onRightIconClick?: () => void;
 }
 
 const HeaderWrapper = styled.header`
@@ -32,10 +32,9 @@ const Title = styled.h1`
 const RightArea = styled.div`
   display: flex;
   align-items: center;
-  cursor: pointer;
 `;
 
-export const NavHeader: FC<NavHeaderProps> = ({title, rightIcon, onRightIconClick}) => {
+export const NavHeader: FC<NavHeaderProps> = ({title, rightIcon}) => {
     const navigate = useNavigate();
 
     const handleBack = () => {
@@ -45,15 +44,13 @@ export const NavHeader: FC<NavHeaderProps> = ({title, rightIcon, onRightIconClic
     return (
         <HeaderWrapper>
             <BackButton onClick={handleBack}>
-                ←
-                {/*todo: 아이콘 추가*/}
+                <BiChevronLeft />
+                {/*todo: 아이콘 변경*/}
             </BackButton>
 
             <Title>{title}</Title>
 
-            <RightArea
-                onClick={() => onRightIconClick && onRightIconClick()}
-            >
+            <RightArea>
                 {rightIcon}
             </RightArea>
         </HeaderWrapper>
