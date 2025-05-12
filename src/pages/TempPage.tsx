@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {Link} from "react-router-dom/dist";
+import {Link} from "react-router-dom";
 
 export const TempPage: FC = () => {
     return (
