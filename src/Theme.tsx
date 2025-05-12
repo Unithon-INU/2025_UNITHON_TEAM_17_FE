@@ -1,3 +1,5 @@
+import 'styled-components';
+
 export const color = {
     White: "#ffffff",
     Black: "#000000",
@@ -132,11 +134,14 @@ export const color = {
     Orange8: "#e8590c",
     Orange9: "#d9480f",
 
-    HeechanBlue: "#586FE9",
-};
+    Primary: "#6FC667",
+} as const;
+
 export const Theme = {
     color,
     size: {
-        mobileMaxWidth: 1000,
+        mobileMaxWidth: 800,
     }
-}
+} as const;
+
+export type ThemeType = typeof Theme

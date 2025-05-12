@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/unithon.iml" filepath="$PROJECT_DIR$/.idea/unithon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/unithon-vite.iml" filepath="$PROJECT_DIR$/.idea/unithon-vite.iml" />
     </modules>
   </component>
 </project>
