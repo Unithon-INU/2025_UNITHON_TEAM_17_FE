@@ -8,6 +8,17 @@ export type BottomNavigationProps = {}
 const BottomNavigationStyle = styled.div`
   width: 100%;
   padding: 12px;
+
+  background: #fff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  position: fixed;
+  left: 0;
+  bottom: 0px;
 `
 
 export const BottomNavigation: FC<BottomNavigationProps> = () => {

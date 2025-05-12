@@ -7,7 +7,6 @@ import {RoutePath} from "../RoutePath";
 export const HomePage: FC = () => {
     return (
         <PageLayout>
-            HomePage
             <Routes>
                 <Route path={"chat"} element={<ChatPage/>}/>
                 <Route path={"favorites"} element={<FavoritesPage/>}/>
@@ -22,40 +21,40 @@ export const HomePage: FC = () => {
 
 export const MainPage: FC = () => {
     return (
-        <PageLayout>
+        <div>
             메인 페이지
-        </PageLayout>
+        </div>
     );
 };
 
 export const ChatPage: FC = () => {
     return (
-        <PageLayout>
+        <div>
             채팅 페이지
-        </PageLayout>
+        </div>
     );
 };
 
 export const FavoritesPage: FC = () => {
     return (
-        <PageLayout>
+        <div>
             즐겨찾기 페이지
-        </PageLayout>
+        </div>
     );
 };
 
 export const WarehousePage: FC = () => {
     return (
-        <PageLayout>
+        <div>
             창고 페이지
-        </PageLayout>
+        </div>
     );
 };
 
 export const MyPage: FC = () => {
     return (
-        <PageLayout>
+        <div>
             마이페이지
-        </PageLayout>
+        </div>
     );
 };
