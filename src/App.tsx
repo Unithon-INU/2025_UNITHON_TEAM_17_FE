@@ -1,29 +1,39 @@
 import {GlobalStyle} from "./GlobalStyle";
 import {ThemeProvider} from "styled-components";
 import {Theme} from "./Theme";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import {FC} from "react";
-import {RoutePath} from "./RoutePath";
 
-const TempPage: FC = () => {
+const RoutePath = {
+    temp: "/temp"
+}
+
+const HomePage: FC = () => {
     return (
-        <div>TempPage</div>
+        <div>
+            HomePage
+            <Link to={RoutePath.temp}>Temp Page로 이동</Link>
+        </div>
     )
 }
 
+const TempPage: FC = () => {
+    return (
+        <div>
+            TempPage
+            <Link to={"/"}>Home Page로 이동</Link>
+        </div>
+    )
+}
 
 function App() {
     return (
         <div className="App">
-            <ThemeProvider theme={Theme}>
-                <GlobalStyle/>
-                <BrowserRouter>
-                    <Routes>
-                        <Route index element={<h1>1212</h1>}/>
-                        <Route path={RoutePath.temp} element={<TempPage/>}/>
-                    </Routes>
-                </BrowserRouter>
-            </ThemeProvider>
+            <GlobalStyle/>
+            <Routes>
+                <Route index element={<HomePage/>}/>
+                <Route path={RoutePath.temp} element={<TempPage/>}/>
+            </Routes>
         </div>
     );
 }
