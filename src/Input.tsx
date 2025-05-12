@@ -4,13 +4,14 @@ import {FC} from "react";
 export type InputProps = {
     value: string;
     onChange: (string) => void;
-    type? : "text" | "password" | "number" | "email";
+    type?: "text" | "password" | "number" | "email";
     label: string;
     placeholder: string;
     errorMessage?: string | null;
+    style?: "default" | "border";
 }
 const InputStyle = styled.div`
-    padding: 6px;
+  padding: 6px;
 `
 const LabelWrap = styled.div`
   font-size: 18px;
@@ -32,11 +33,11 @@ const ErrorMessage = styled.div`
   color: #D1292C;
   font-size: 12px;
   font-weight: 400;
-  
+
   padding: 4px 0;
 `
 
-export const Input: FC<InputProps> = ({value, onChange, type, placeholder, label, errorMessage}) => {
+export const Input: FC<InputProps>= ({value, onChange, type, placeholder, label, errorMessage, style="default"}) => {
     return (
         <InputStyle>
             <LabelWrap>{label}</LabelWrap>
@@ -45,6 +46,7 @@ export const Input: FC<InputProps> = ({value, onChange, type, placeholder, label
                 type={type}
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}
+                style={style}
             />
             <ErrorMessage>{errorMessage ? errorMessage : ""}</ErrorMessage>
         </InputStyle>
