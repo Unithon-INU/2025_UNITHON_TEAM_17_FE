@@ -1,11 +1,12 @@
 import {GlobalStyle} from "./styles/GlobalStyle";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {TempPage} from "./pages/TempPage";
-import {HomePage} from "./pages/HomePage";
 import {RoutePath} from "./RoutePath";
-import {FC} from "react";
-import {PageLayout} from "./styles/PageLayout";
-import {BottomNavigation} from "./components/BottomNavigation";
+import {MainPage} from "./pages/MainPage";
+import {ChatPage} from "./pages/ChatPage";
+import {FavoritesPage} from "./pages/FavoritesPage";
+import {WarehousePage} from "./pages/WarehousePage";
+import {MyPage} from "./pages/MyPage";
 
 function App() {
     return (
@@ -24,50 +25,5 @@ function App() {
         </div>
     );
 }
-
-export const MainPage: FC = () => {
-    return (
-        <PageLayout>
-            메인 페이지
-            <BottomNavigation/>
-        </PageLayout>
-    );
-};
-
-export const ChatPage: FC = () => {
-    return (
-        <PageLayout>
-            채팅 페이지
-            <BottomNavigation/>
-        </PageLayout>
-    );
-};
-
-export const FavoritesPage: FC = () => {
-    return (
-        <PageLayout>
-            즐겨찾기 페이지
-            <BottomNavigation/>
-        </PageLayout>
-    );
-};
-
-export const WarehousePage: FC = () => {
-    return (
-        <PageLayout>
-            창고 페이지
-            <BottomNavigation/>
-        </PageLayout>
-    );
-};
-
-export const MyPage: FC = () => {
-    return (
-        <PageLayout>
-            마이페이지
-            <BottomNavigation/>
-        </PageLayout>
-    );
-};
 
 export default App;

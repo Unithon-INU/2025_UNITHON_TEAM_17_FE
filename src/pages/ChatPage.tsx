@@ -1,13 +1,12 @@
 import {FC} from "react";
-import {Link, Route, Routes} from "react-router-dom";
 import {PageLayout} from "../styles/PageLayout";
 import {BottomNavigation} from "../components/BottomNavigation";
-import {RoutePath} from "../RoutePath";
 
-export const HomePage: FC = () => {
+export const ChatPage: FC = () => {
     return (
         <PageLayout>
+            채팅 페이지
             <BottomNavigation/>
         </PageLayout>
-    )
-}
+    );
+};
