@@ -6,9 +6,10 @@ export type InputProps = {
     onChange: (string) => void;
     label: string;
     placeholder: string;
+    errorMessage?: string | null;
 }
 const InputStyle = styled.div`
-
+    padding: 6px;
 `
 const LabelWrap = styled.div`
   font-size: 18px;
@@ -19,15 +20,22 @@ const InputContent = styled.input`
   font-size: 20px;
   font-weight: 400;
 
-  padding: 12px;
-  margin-top: 15px;
+  padding: 12px 4px;
 
   outline: none;
   background: none;
   border: none;
   border-bottom: 1px solid #A0A0A0;
 `
-export const Input: FC<InputProps> = ({value, onChange, placeholder, label}) => {
+const ErrorMessage = styled.div`
+  color: #D1292C;
+  font-size: 12px;
+  font-weight: 400;
+  
+  padding: 4px 0;
+`
+
+export const Input: FC<InputProps> = ({value, onChange, placeholder, label, errorMessage}) => {
     return (
         <InputStyle>
             <LabelWrap>{label}</LabelWrap>
@@ -36,6 +44,7 @@ export const Input: FC<InputProps> = ({value, onChange, placeholder, label}) => 
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}
             />
+            <ErrorMessage>{errorMessage ? errorMessage : ""}</ErrorMessage>
         </InputStyle>
     );
 };
