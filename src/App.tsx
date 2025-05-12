@@ -1,25 +1,28 @@
 import {GlobalStyle} from "./GlobalStyle";
 import {ThemeProvider} from "styled-components";
 import {Theme} from "./Theme";
-import {Button} from "./Button";
-import {useState} from "react";
-import {Input} from "./Input";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {FC} from "react";
+import {RoutePath} from "./RoutePath";
+
+const TempPage: FC = () => {
+    return (
+        <div>TempPage</div>
+    )
+}
 
 
 function App() {
-    const [name, setName] = useState("");
-
     return (
         <div className="App">
             <ThemeProvider theme={Theme}>
                 <GlobalStyle/>
-                Hello World
-                <Button onClick={() => alert("asdas")} isDisable isFullWidth>로그인</Button>
-                <Input
-                    value={name}
-                    onChange={setName}
-                    label={"이름"}
-                    placeholder={"dasd"}/>
+                <BrowserRouter>
+                    <Routes>
+                        <Route index element={<h1>1212</h1>}/>
+                        <Route path={RoutePath.temp} element={<TempPage/>}/>
+                    </Routes>
+                </BrowserRouter>
             </ThemeProvider>
         </div>
     );
