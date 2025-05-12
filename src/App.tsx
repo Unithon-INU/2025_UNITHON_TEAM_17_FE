@@ -1,20 +1,19 @@
 import {GlobalStyle} from "./styles/GlobalStyle";
-import {Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {TempPage} from "./pages/TempPage";
 import {HomePage} from "./pages/HomePage";
-
-export const RoutePath = {
-    temp: "/temp"
-}
+import {RoutePath} from "./RoutePath";
 
 function App() {
     return (
         <div className="App">
             <GlobalStyle/>
-            <Routes>
-                <Route index element={<HomePage/>}/>
-                <Route path={RoutePath.temp} element={<TempPage/>}/>
-            </Routes>
+            <BrowserRouter>
+                <Routes>
+                    <Route index path={"/home/*"} element={<HomePage/>}/>
+                    <Route path={RoutePath.temp} element={<TempPage/>}/>
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }
