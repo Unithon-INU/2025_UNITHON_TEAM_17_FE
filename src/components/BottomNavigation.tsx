@@ -47,13 +47,12 @@ const MainIcon = styled.div`
 
 export const BottomNavigation: FC<BottomNavigationProps> = () => {
     return (
-
         <BottomNavigationStyle>
             <ItonWrap>
                 <Link to={RoutePath.chat}>채팅</Link>
                 <Link to={RoutePath.favorites}>즐겨찾기</Link>
                 <Link to={RoutePath.main}>
-                    <MainIcon>d</MainIcon>
+                    <MainIcon>O</MainIcon>
                 </Link>
                 <Link to={RoutePath.warehouse}>창고</Link>
                 <Link to={RoutePath.my}>마이</Link>
