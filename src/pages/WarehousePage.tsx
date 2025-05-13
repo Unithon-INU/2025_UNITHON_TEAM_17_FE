@@ -2,10 +2,10 @@ import {FC} from "react";
 import {PageLayout} from "../styles/PageLayout";
 import {BottomNavigation} from "../components/BottomNavigation";
 
-export const MyPage: FC = () => {
+export const WarehousePage: FC = () => {
     return (
         <PageLayout>
-            마이페이지
+            창고 페이지
             <BottomNavigation/>
         </PageLayout>
     );

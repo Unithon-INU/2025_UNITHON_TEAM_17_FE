@@ -1,20 +1,27 @@
 import {GlobalStyle} from "./styles/GlobalStyle";
-import {Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {TempPage} from "./pages/TempPage";
-import {HomePage} from "./pages/HomePage";
-
-export const RoutePath = {
-    temp: "/temp"
-}
+import {RoutePath} from "./RoutePath";
+import {MainPage} from "./pages/MainPage";
+import {ChatPage} from "./pages/ChatPage";
+import {FavoritesPage} from "./pages/FavoritesPage";
+import {WarehousePage} from "./pages/WarehousePage";
+import {MyPage} from "./pages/MyPage";
 
 function App() {
     return (
         <div className="App">
             <GlobalStyle/>
-            <Routes>
-                <Route index element={<HomePage/>}/>
-                <Route path={RoutePath.temp} element={<TempPage/>}/>
-            </Routes>
+            <BrowserRouter>
+                <Routes>
+                    <Route path={RoutePath.chat} element={<ChatPage/>}/>
+                    <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
+                    <Route path={RoutePath.main} element={<MainPage/>}/>
+                    <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
+                    <Route path={RoutePath.my} element={<MyPage/>}/>
+                    <Route path={RoutePath.temp} element={<TempPage/>}/>
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }
