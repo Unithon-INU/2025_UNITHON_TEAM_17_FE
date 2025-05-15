@@ -1,4 +1,4 @@
-import {FC, ReactNode} from "react";
+import type {FC, ReactNode} from "react";
 import {useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import {BiChevronLeft} from "react-icons/bi";

@@ -7,6 +7,9 @@ import {ChatPage} from "./pages/ChatPage";
 import {FavoritesPage} from "./pages/FavoritesPage";
 import {WarehousePage} from "./pages/WarehousePage";
 import {MyPage} from "./pages/MyPage";
+import {EditLocation} from "./pages/EditLocation";
+import { PostWrite } from "./pages/PostWrite";
+import { Cart } from "./pages/Cart";
 
 function App() {
     return (
@@ -20,6 +23,9 @@ function App() {
                     <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
                     <Route path={RoutePath.my} element={<MyPage/>}/>
                     <Route path={RoutePath.temp} element={<TempPage/>}/>
+                    <Route path={RoutePath.editLocation} element={<EditLocation/>}/>
+                    <Route path={RoutePath.postWrite} element={<PostWrite/>}/>
+                    <Route path={RoutePath.cart} element={<Cart/>}/>
                 </Routes>
             </BrowserRouter>
         </div>
