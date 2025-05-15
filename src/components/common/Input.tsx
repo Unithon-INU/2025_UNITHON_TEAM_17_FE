@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {FC} from "react";
+import type {FC} from "react";
 
 export type InputProps = {
     value: string;

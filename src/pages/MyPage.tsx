@@ -1,12 +1,14 @@
-import {FC} from "react";
-import {PageLayout} from "../styles/PageLayout";
+import type {FC} from "react";
+import {PageBackground,PageLayout} from "../styles/PageLayout";
 import {BottomNavigation} from "../components/BottomNavigation";
 
 export const MyPage: FC = () => {
     return (
-        <PageLayout>
+        <PageBackground>
+            <PageLayout>
             마이페이지
             <BottomNavigation/>
-        </PageLayout>
+            </PageLayout>
+        </PageBackground>
     );
 };

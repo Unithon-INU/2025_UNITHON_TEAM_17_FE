@@ -1,5 +1,5 @@
 import styled, {css} from "styled-components";
-import {FC, ReactNode} from "react";
+import type {FC, ReactNode} from "react";
 import {darken, lighten} from "polished";
 
 export type ButtonProps = {

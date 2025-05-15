@@ -1,13 +1,11 @@
 import type {FC} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
-import {BottomNavigation} from "../components/BottomNavigation";
 
-export const FavoritesPage: FC = () => {
+export const Cart: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-                즐겨찾기 페이지
-            <BottomNavigation/>
+                 장바구니 페이지
             </PageLayout>
         </PageBackground>
     );

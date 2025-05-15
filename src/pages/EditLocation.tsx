@@ -1,13 +1,11 @@
 import type {FC} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
-import {BottomNavigation} from "../components/BottomNavigation";
 
-export const FavoritesPage: FC = () => {
+export const EditLocation: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-                즐겨찾기 페이지
-            <BottomNavigation/>
+                 장소 수정 페이지
             </PageLayout>
         </PageBackground>
     );
