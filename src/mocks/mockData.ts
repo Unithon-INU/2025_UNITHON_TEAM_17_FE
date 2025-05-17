@@ -1,7 +1,13 @@
+import image1 from "../assets/mock/불닭소스1.png";
+import image2 from "../assets/mock/크보빵.png";
+import image3 from "../assets/mock/강아지사료.png";
+import image4 from "../assets/mock/녹차티백.png";
+import image5 from "../assets/mock/샴푸.png";
+import image6 from "../assets/mock/폼클렌징.png";
+
 export interface Location {
     name: string;
     description: string;
-    productCount: number;
     imageUrl?: string;
   }
   
@@ -13,26 +19,23 @@ export interface Location {
     isNotified: boolean;
     imageUrl?: string;
   }
-  
+
   export const mockLocations: Location[] = [
     {
       name: "냉장고",
       description: "우리집 냉장고 & 냉동실",
-      productCount: 4,
       imageUrl: '',
     },
     {
       name: "화장실",
       description: "우리집 화장실",
-      productCount: 2,
       imageUrl: '',
     },
     {
       name: "거실",
       description: "우리집 거실 & 강아지 사료",
-      productCount: 1,
       imageUrl: '',
-    }
+    },
   ];
   
   export const mockProducts: Product[] = [
@@ -42,7 +45,7 @@ export interface Location {
       takenAt: "2024.04.02",
       expirationDate: "2025.06.01",
       isNotified: true,
-      imageUrl: '',
+      imageUrl: image1,
     },
     {
       name: "불닭소스2",
@@ -50,7 +53,7 @@ export interface Location {
       takenAt: "2024.05.02",
       expirationDate: "2025.06.24",
       isNotified: true,
-      imageUrl: '',
+      imageUrl: image1,
     },
     {
       name: "불닭소스3",
@@ -58,7 +61,7 @@ export interface Location {
       takenAt: "2024.05.10",
       expirationDate: "2025.07.01",
       isNotified: true,
-      imageUrl: '',
+      imageUrl: image1,
     },
     {
       name: "크보빵",
@@ -66,7 +69,7 @@ export interface Location {
       takenAt: "2025.05.03",
       expirationDate: "2025.05.30",
       isNotified: true,
-      imageUrl: '',
+      imageUrl: image2,
     },
     {
       name: "샴푸",
@@ -74,7 +77,7 @@ export interface Location {
       takenAt: "2024.10.24",
       expirationDate: "2025.05.20",
       isNotified: true,
-      imageUrl: '',
+      imageUrl: image5,
     },
     {
       name: "폼클렌징",
@@ -82,7 +85,7 @@ export interface Location {
       takenAt: "2024.12.24",
       expirationDate: "2025.05.25",
       isNotified: true,
-      imageUrl: '',
+      imageUrl: image6,
     },
     {
       name: "강아지사료",
@@ -90,6 +93,15 @@ export interface Location {
       takenAt: "2024.10.24",
       expirationDate: "2025.06.03",
       isNotified: true,
-      imageUrl: '',
+      imageUrl: image3,
+    },
+    {
+      name: "녹차티백",
+      location: "거실",
+      takenAt: "2024.07.24",
+      expirationDate: "2025.06.24",
+      isNotified: true,
+      imageUrl: image4,
     }
   ];
+

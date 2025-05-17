@@ -3,7 +3,7 @@ import { PageBackground, PageLayout} from "../../styles/PageLayout";
 import {BottomNavigation} from "../../components/BottomNavigation";
 import {AddLocation} from "./AddLocation"
 import {LocationItem} from "./LocationItem"
-import { mockLocations } from "../../mocks/mockData";
+import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { ExpiringProduct } from "./ExpiringProduct";
 import { AlertButton } from "./AlertButton";
 import styled from "styled-components";
@@ -19,17 +19,20 @@ export const WarehousePage: FC = () => {
 
         <ExpiringProduct/>
 
-        {mockLocations
-        .map((location) => (
-        <LocationItem
-          key={location.name}
-          name={location.name}
-          description={location.description}
-          productCount={location.productCount}
-          imageUrl={location.imageUrl}
-        />
-        ))}
+        {mockLocations.map((location) => {
+        const count = mockProducts.filter(p => p.location === location.name).length;
+        // productCount : mock프로덕트의 장소와 baseLocation이 같을 때 +1 함
 
+          return (
+            <LocationItem
+              key={location.name}
+              name={location.name}
+              description={location.description}
+              productCount={count}  
+              imageUrl={location.imageUrl}
+            />
+          );
+        })}
         <AddLocation />
 
         <BottomNavigation />
