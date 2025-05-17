@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 interface LocationItemProps {
   name: string;
@@ -13,6 +14,7 @@ const Container = styled.div`
   gap: 1rem;
   padding: 1.2rem 0;
   border-bottom: 1px solid #eee;
+  cursor: pointer;
 `;
 
 const ImageBox = styled.div<{ imageUrl?: string }>`
@@ -20,7 +22,8 @@ const ImageBox = styled.div<{ imageUrl?: string }>`
   height: 6rem;
   border-radius: 16px;
   background-color: #ccc;
-  background-image: ${({ imageUrl }) => imageUrl ? `url(${imageUrl})` : "none"};
+  background-image: ${({ imageUrl }) =>
+    imageUrl ? `url(${imageUrl})` : "none"};
   background-size: cover;
   background-position: center;
   margin-right: 1rem;
@@ -54,8 +57,14 @@ export const LocationItem: FC<LocationItemProps> = ({
   productCount = 0,
   imageUrl,
 }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`./${name}`);
+  };
+
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <ImageBox imageUrl={imageUrl} />
       <Info>
         <Title>{name}</Title>

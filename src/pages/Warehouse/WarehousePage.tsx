@@ -1,7 +1,6 @@
 import type {FC} from "react";
 import { PageBackground, PageLayout} from "../../styles/PageLayout";
 import {BottomNavigation} from "../../components/BottomNavigation";
-import {DefaultLocation} from "./DefaultLocation"
 import {AddLocation} from "./AddLocation"
 import {LocationItem} from "./LocationItem"
 import { mockLocations } from "../../mocks/mockData";
@@ -19,10 +18,8 @@ export const WarehousePage: FC = () => {
         </HeaderWrapper>
 
         <ExpiringProduct/>
-        <DefaultLocation />
 
         {mockLocations
-        .filter((l) => l.name !== "냉장고")
         .map((location) => (
         <LocationItem
           key={location.name}
