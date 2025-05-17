@@ -5,7 +5,7 @@ import {RoutePath} from "./RoutePath";
 import {MainPage} from "./pages/MainPage";
 import {ChatPage} from "./pages/ChatPage";
 import {FavoritesPage} from "./pages/FavoritesPage";
-import {WarehousePage} from "./pages/WarehousePage";
+import {WarehousePage} from "./pages/Warehouse/WarehousePage";
 import {MyPage} from "./pages/MyPage";
 import {EditLocation} from "./pages/EditLocation";
 import { PostWrite } from "./pages/PostWrite";
