@@ -23,7 +23,7 @@ const HeaderContainer = styled.div`
 `;
 
 const InnerContainer = styled.div`
-  padding: 0 1.5rem; /* 전체 내부 여백을 좌우에만 적용 */
+  padding: 0 1.5rem;
 `;
 
 const TopRow = styled.div`
