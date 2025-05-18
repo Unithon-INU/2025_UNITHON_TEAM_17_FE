@@ -6,12 +6,6 @@ export const RoutePath = {
     chat: "/home/chat",
     favorites: "/home/favorites",
     warehouse: "/home/warehouse",
-    warehouseDetail: (id: string | null) => {
-        if(id == null)
-            return "/home/warehouse/:locationName"
-        else
-            return `/home/warehouse/${id}`
-    },
     my: "/home/my",
     temp: "/temp"
 }
