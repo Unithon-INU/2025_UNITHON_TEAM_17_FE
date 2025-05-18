@@ -5,13 +5,13 @@ import {RoutePath} from "./RoutePath";
 import {MainPage} from "./pages/MainPage";
 import {ChatPage} from "./pages/ChatPage";
 import {FavoritesPage} from "./pages/FavoritesPage";
-import {WarehousePage} from "./pages/Warehouse/WarehousePage";
+import {WarehousePage} from "./pages/Warehouse/WarehousePage";
 import {MyPage} from "./pages/MyPage";
 import {EditLocation} from "./pages/EditLocation";
 import { PostWrite } from "./pages/PostWrite";
 import { Cart } from "./pages/Cart";
-import { LocationDetailPage } from "./pages/\bWarehouse/LocationDetailPage";
-import { AddLocationPage } from "./pages/\bWarehouse/AddLocationPage";
+import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
+import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
 
 function App() {
     return (
