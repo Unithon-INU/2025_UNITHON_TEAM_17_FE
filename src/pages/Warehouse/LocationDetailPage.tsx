@@ -20,14 +20,14 @@ const EmptyBox = styled.div`
 
 export const LocationDetailPage = () => {
   const { locationName } = useParams();
-  const location = mockLocations.find(loc => loc.name === locationName);
+  const location = mockLocations.find(loc => loc.id === locationName);
 
   if (!location) return <div>존재하지 않는 장소입니다.</div>;
 
   const today = new Date();
 
   const filteredProducts = mockProducts
-    .filter(p => p.location === locationName)
+    .filter(p => p.locationId === location.id)
     .map(product => {
       const daysLeft = differenceInDays(new Date(product.expirationDate), today);
       return { ...product, daysLeft };
@@ -37,6 +37,21 @@ export const LocationDetailPage = () => {
   const productsWithin7Days = filteredProducts.filter(p => p.daysLeft <= 7);
   const productsWithin30Days = filteredProducts.filter(p => p.daysLeft > 7 && p.daysLeft <= 30);
   const productsAfter30Days = filteredProducts.filter(p => p.daysLeft > 30);
+  
+  const ProductSection = ({
+    title,
+    products,
+  }: {
+    title: string;
+    products: any[];
+  }) => (
+    <>
+      <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginTop: "2rem", marginBottom: "1rem" }}>{title}</h3>
+      {products.length > 0
+        ? products.map(renderProduct)
+        : <EmptyBox> ⚠️ 해당 유통기한 임박 제품이 없습니다.</EmptyBox>}
+    </>
+  );
 
   const renderProduct = (product: any) => (
     <div
@@ -86,7 +101,7 @@ export const LocationDetailPage = () => {
               ? "#FFB800"
               : "#00C4B3",
           color: "white",
-          padding: "0.7rem 1.4rem",
+          padding: "0.8rem 1.4rem",
           borderRadius: "2rem",
           fontWeight: "bold",
           fontSize: "1rem",
@@ -110,24 +125,19 @@ export const LocationDetailPage = () => {
             </>
           }
         />
-
-        {/* 유통기한 7일 이내 */}
-        <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginTop: "2rem", marginBottom: "1rem" }}>유통기한 7일 이내 제품</h3>
-        {productsWithin7Days.length > 0
-          ? productsWithin7Days.map(renderProduct)
-          : <EmptyBox> ⚠️ 해당 유통기한 임박 제품이 없습니다.</EmptyBox>}
-
-        {/* 유통기한 30일 이내 */}
-        <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginTop: "2rem", marginBottom: "1rem" }}>유통기한 30일 이내 제품</h3>
-        {productsWithin30Days.length > 0
-          ? productsWithin30Days.map(renderProduct)
-          : <EmptyBox> ⚠️ 해당 유통기한 임박 제품이 없습니다.</EmptyBox>}
-
-        {/* 아직 한참 남은 제품 */}
-        <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginTop: "2rem", marginBottom: "1rem" }}>아직 한참 남은 제품</h3>
-        {productsAfter30Days.length > 0
-          ? productsAfter30Days.map(renderProduct)
-          : <EmptyBox> ⚠️ 해당 유통기한 임박 제품이 없습니다.</EmptyBox>}
+  
+        <ProductSection
+          title="유통기한 7일 이내 제품"
+          products={productsWithin7Days}
+        />
+        <ProductSection
+          title="유통기한 30일 이내 제품"
+          products={productsWithin30Days}
+        />
+        <ProductSection
+          title="아직 한참 남은 제품"
+          products={productsAfter30Days}
+        />
       </PageLayout>
     </PageBackground>
   );

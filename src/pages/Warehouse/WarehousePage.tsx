@@ -5,7 +5,6 @@ import {AddLocationButton} from "./AddLocationButton"
 import {LocationItem} from "./LocationItem"
 import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { ExpiringProduct } from "./ExpiringProduct";
-import { AlertButton } from "./AlertButton";
 import styled from "styled-components";
 
 export const WarehousePage: FC = () => {
@@ -14,17 +13,16 @@ export const WarehousePage: FC = () => {
       <PageLayout isBottomNavigation>
         <HeaderWrapper>
           <Title>내 창고</Title>
-          <AlertButton />
         </HeaderWrapper>
 
         <ExpiringProduct/>
 
         {mockLocations.map((location) => {
-        const count = mockProducts.filter(p => p.location === location.name).length;
-        // productCount : mock프로덕트의 장소와 baseLocation이 같을 때 +1 함
+        const count = mockProducts.filter(p => p.locationId === location.id).length;
 
           return (
             <LocationItem
+              id={location.id}
               key={location.name}
               name={location.name}
               description={location.description}
@@ -34,7 +32,6 @@ export const WarehousePage: FC = () => {
           );
         })}
         <AddLocationButton />
-
         <BottomNavigation />
       </PageLayout>
     </PageBackground>
@@ -52,4 +49,5 @@ const HeaderWrapper = styled.div`
 const Title = styled.h2`
   font-size: 1.8rem;
   font-weight: bold;
+  margin-bottom: 10px;
 `;

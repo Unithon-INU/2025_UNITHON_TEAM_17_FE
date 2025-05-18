@@ -3,7 +3,7 @@ import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import { NavHeader } from "../../components/NavHeader";
 import styled from "styled-components";
 import { FiImage } from "react-icons/fi";
-import { mockLocations } from "../../mocks/mockData";
+import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
@@ -68,6 +68,8 @@ export const AddLocationPage = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const maxId = Math.max(...mockLocations.map(loc => Number(loc.id)), 0);
+  const newId = String(maxId + 1);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -85,6 +87,7 @@ export const AddLocationPage = () => {
     }
   
     mockLocations.push({
+      id: newId,
       name,
       description,
       imageUrl,
