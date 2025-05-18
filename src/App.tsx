@@ -18,6 +18,7 @@ function App() {
             <GlobalStyle/>
             <BrowserRouter>
                 <Routes>
+                    <Route index element={<MainPage/>}/>
                     <Route path={RoutePath.chat} element={<ChatPage/>}/>
                     <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
