@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FiPlusCircle } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const Button = styled.button`
   width: 100%;
@@ -21,9 +22,11 @@ const PlusIcon = styled(FiPlusCircle)`
   font-size: 2rem;
 `;
 
-export const AddLocation = () => {
+export const AddLocationButton = () => {
+  const navigate = useNavigate();
+
   return (
-    <Button>
+    <Button onClick={() => navigate("/home/warehouse/add-location")}>
       <PlusIcon />
       장소 추가하기
     </Button>

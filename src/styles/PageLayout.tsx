@@ -24,6 +24,6 @@ export const PageLayout = styled.div<PageLayoutProps>`
   ${(props) =>
     props.isBottomNavigation &&
     css`
-      padding-bottom: 5rem; /* 바텀 네비게이션 고려 */
+      padding-bottom: 9rem; /* 바텀 네비게이션 고려 */
     `}
 `;

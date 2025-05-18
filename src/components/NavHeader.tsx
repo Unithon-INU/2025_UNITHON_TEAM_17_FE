@@ -24,7 +24,8 @@ const HeaderWrapper = styled.header`
 const Button = styled.button`
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 20px;
+  font-weight: bold;
   cursor: pointer;
   display: flex;
   align-items: center;

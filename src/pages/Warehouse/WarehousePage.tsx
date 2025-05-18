@@ -1,7 +1,7 @@
 import type {FC} from "react";
 import { PageBackground, PageLayout} from "../../styles/PageLayout";
 import {BottomNavigation} from "../../components/BottomNavigation";
-import {AddLocation} from "./AddLocation"
+import {AddLocationButton} from "./AddLocationButton"
 import {LocationItem} from "./LocationItem"
 import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { ExpiringProduct } from "./ExpiringProduct";
@@ -33,7 +33,7 @@ export const WarehousePage: FC = () => {
             />
           );
         })}
-        <AddLocation />
+        <AddLocationButton />
 
         <BottomNavigation />
       </PageLayout>

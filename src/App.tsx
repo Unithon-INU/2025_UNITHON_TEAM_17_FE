@@ -11,6 +11,7 @@ import {EditLocation} from "./pages/EditLocation";
 import { PostWrite } from "./pages/PostWrite";
 import { Cart } from "./pages/Cart";
 import { LocationDetailPage } from "./pages/\bWarehouse/LocationDetailPage";
+import { AddLocationPage } from "./pages/\bWarehouse/AddLocationPage";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path={RoutePath.editLocation} element={<EditLocation/>}/>
                     <Route path={RoutePath.postWrite} element={<PostWrite/>}/>
                     <Route path={RoutePath.cart} element={<Cart/>}/>
+                    <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
                 </Routes>
             </BrowserRouter>
         </div>
