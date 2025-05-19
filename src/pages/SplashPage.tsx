@@ -6,7 +6,7 @@ import Logo from "../assets/logo.png";
 import {Space} from "../components/common/Space";
 
 const SplashPageStyle = styled.div`
-    height: 100vh; //todo: 반응형 높이로 변경
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
