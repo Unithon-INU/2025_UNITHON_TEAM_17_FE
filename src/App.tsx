@@ -18,11 +18,12 @@ function App() {
             <GlobalStyle/>
             <BrowserRouter>
                 <Routes>
+                    <Route index element={<MainPage/>}/>
                     <Route path={RoutePath.chat} element={<ChatPage/>}/>
                     <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
                     <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
-                    <Route path="/home/warehouse/:locationName" element={<LocationDetailPage />} />
+                    <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />
                     <Route path={RoutePath.my} element={<MyPage/>}/>
                     <Route path={RoutePath.temp} element={<TempPage/>}/>
                     <Route path={RoutePath.editLocation} element={<EditLocation/>}/>
