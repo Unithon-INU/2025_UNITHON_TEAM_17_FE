@@ -1,5 +1,6 @@
 export const RoutePath = {
     main: "/home/main",
+    splash: "/splash",
     editLocation : "/edit-location",
     postWrite : "/post-write",
     cart : "/cart",

@@ -1,14 +1,12 @@
-import type {FC} from "react";
+import {FC} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
 
-export const LoginPage: FC = () => {
+export const SplashPage: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-                로그인 페이지
+                첫화면
             </PageLayout>
         </PageBackground>
     );
 };
-
-
