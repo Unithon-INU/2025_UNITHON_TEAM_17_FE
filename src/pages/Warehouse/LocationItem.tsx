@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 interface LocationItemProps {
+  id: string;
   name: string;
   description?: string;
   productCount?: number;
@@ -52,15 +53,16 @@ const ProductCount = styled.div`
 `;
 
 export const LocationItem: FC<LocationItemProps> = ({
+  id,
   name,
-  description = `우리집 ${name}`,
+  description,
   productCount = 0,
   imageUrl,
 }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`./${name}`);
+    navigate(`./${id}`);
   };
 
   return (

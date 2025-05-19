@@ -21,8 +21,8 @@ export const PageLayout = styled.div<PageLayoutProps>`
   font-family: 'Pretendard', sans-serif;
 
   ${(props) =>
-      props.isBottomNavigation &&
-      css`
-      padding-bottom: 5rem; /* 바텀 네비게이션 고려 */
+    props.isBottomNavigation &&
+    css`
+      padding-bottom: 9rem; /* 바텀 네비게이션 고려 */
     `}
 `;
