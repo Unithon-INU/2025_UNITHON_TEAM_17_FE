@@ -11,6 +11,7 @@ import {EditLocation} from "./pages/EditLocation";
 import { PostWrite } from "./pages/PostWrite";
 import { Cart } from "./pages/Cart";
 import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
+import {SplashPage} from "./pages/SplashPage";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route index element={<MainPage/>}/>
+                    <Route path={RoutePath.splash} element={<SplashPage/>}/>
                     <Route path={RoutePath.chat} element={<ChatPage/>}/>
                     <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>

@@ -12,7 +12,6 @@ export const PageBackground = styled.div<PageLayoutProps>`
 
 export const PageLayout = styled.div<PageLayoutProps>`
   width: 100%;
-  min-height: 100vh;
   max-width: 800px;
   margin: -1rem auto 0;
   background-color: #ffffff;
