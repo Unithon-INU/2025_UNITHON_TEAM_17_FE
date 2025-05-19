@@ -8,11 +8,12 @@ import {FavoritesPage} from "./pages/FavoritesPage";
 import {WarehousePage} from "./pages/Warehouse/WarehousePage";
 import {MyPage} from "./pages/MyPage";
 import {EditLocation} from "./pages/EditLocation";
-import {PostWrite} from "./pages/PostWrite";
-import {Cart} from "./pages/Cart";
-import {LocationDetailPage} from "./pages/Warehouse/LocationDetailPage";
 import {SplashPage} from "./pages/SplashPage";
 import {Resize} from "./components/Resize";
+import { PostWrite } from "./pages/PostWrite";
+import { Cart } from "./pages/Cart";
+import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
+import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
                     <Route path={RoutePath.editLocation} element={<EditLocation/>}/>
                     <Route path={RoutePath.postWrite} element={<PostWrite/>}/>
                     <Route path={RoutePath.cart} element={<Cart/>}/>
+                    <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
                 </Routes>
             </BrowserRouter>
         </div>
