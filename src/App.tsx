@@ -14,6 +14,8 @@ import { PostWrite } from "./pages/PostWrite";
 import { Cart } from "./pages/Cart";
 import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
 import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
+import {LoginPage} from "./pages/LoginPage";
+import {SignUpPage} from "./pages/SignUpPage";
 
 function App() {
     return (
@@ -25,6 +27,8 @@ function App() {
                     <Route index element={<MainPage/>}/>
                     <Route path={RoutePath.splash} element={<SplashPage/>}/>
                     <Route path={RoutePath.chat} element={<ChatPage/>}/>
+                    <Route path={RoutePath.login} element={<LoginPage/>}/>
+                    <Route path={RoutePath.signUp} element={<SignUpPage/>}/>
                     <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
                     <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
