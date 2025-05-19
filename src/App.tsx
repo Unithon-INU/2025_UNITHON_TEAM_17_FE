@@ -8,15 +8,17 @@ import {FavoritesPage} from "./pages/FavoritesPage";
 import {WarehousePage} from "./pages/Warehouse/WarehousePage";
 import {MyPage} from "./pages/MyPage";
 import {EditLocation} from "./pages/EditLocation";
-import { PostWrite } from "./pages/PostWrite";
-import { Cart } from "./pages/Cart";
-import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
+import {PostWrite} from "./pages/PostWrite";
+import {Cart} from "./pages/Cart";
+import {LocationDetailPage} from "./pages/Warehouse/LocationDetailPage";
 import {SplashPage} from "./pages/SplashPage";
+import {Resize} from "./components/Resize";
 
 function App() {
     return (
         <div className="App">
             <GlobalStyle/>
+            <Resize/>
             <BrowserRouter>
                 <Routes>
                     <Route index element={<MainPage/>}/>
