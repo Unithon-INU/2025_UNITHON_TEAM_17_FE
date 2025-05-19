@@ -37,7 +37,6 @@ export const LocationDetailPage = () => {
   const productsWithin7Days = filteredProducts.filter(p => p.daysLeft <= 7);
   const productsWithin30Days = filteredProducts.filter(p => p.daysLeft > 7 && p.daysLeft <= 30);
   const productsAfter30Days = filteredProducts.filter(p => p.daysLeft > 30);
-  
   const ProductSection = ({
     title,
     products,
@@ -125,7 +124,6 @@ export const LocationDetailPage = () => {
             </>
           }
         />
-  
         <ProductSection
           title="유통기한 7일 이내 제품"
           products={productsWithin7Days}

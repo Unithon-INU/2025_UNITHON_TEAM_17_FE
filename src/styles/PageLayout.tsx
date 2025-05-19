@@ -14,8 +14,7 @@ export const PageLayout = styled.div<PageLayoutProps>`
   width: 100%;
   min-height: 100vh;
   max-width: 800px;
-  margin: 0 auto;
-  margin-top: -1rem;
+  margin: -1rem auto 0;
   background-color: #ffffff;
   padding: 2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
