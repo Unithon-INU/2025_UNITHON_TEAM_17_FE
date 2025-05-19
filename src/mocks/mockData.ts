@@ -108,6 +108,7 @@ export const mockProducts: Product[] = [
 export interface Offering {
     id: number;
     name: string;          // 상품 이름
+    type: string;          // 상품 종류
     sellerName: string;    // 판매자 이름
     costPrice: number;     // 원가
     salePrice: number;     // 판매가
@@ -119,6 +120,7 @@ export const mockOfferings: Offering[] = [
     {
         id: 1,
         name: "유기농 사과",
+        type: "직거래",
         sellerName: "과일나라",
         costPrice: 1000,
         salePrice: 1500,
@@ -128,6 +130,7 @@ export const mockOfferings: Offering[] = [
     {
         id: 2,
         name: "도시락 김",
+        type: "마트",
         sellerName: "바다마트",
         costPrice: 500,
         salePrice: 1000,
@@ -137,6 +140,7 @@ export const mockOfferings: Offering[] = [
     {
         id: 3,
         name: "무항생제 계란",
+        type: "직거래",
         sellerName: "건강팜",
         costPrice: 2500,
         salePrice: 3200,
@@ -146,6 +150,7 @@ export const mockOfferings: Offering[] = [
     {
         id: 4,
         name: "수제 요거트",
+        type: "카페",
         sellerName: "헬씨푸드",
         costPrice: 1200,
         salePrice: 1800,
@@ -155,6 +160,7 @@ export const mockOfferings: Offering[] = [
     {
         id:5,
         name: "비건 샐러드",
+        type: "음식점",
         sellerName: "그린마켓",
         costPrice: 3000,
         salePrice: 4200,

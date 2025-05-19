@@ -22,7 +22,7 @@ const OfferingItemStyle = styled.li`
   }
 `
 const InfoWrap = styled.div`
-  padding: 10px 15px;
+  padding: 16px 15px;
   
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@ const InfoRow = styled.div`
 `
 const Name = styled.h4`
   font-size: 1em;
-  font-weight: 600;
+  font-weight: 800;
 `
 const Date = styled.div`
   color: #9D9D9D;
@@ -64,7 +64,7 @@ export const OfferingItem: FC<OfferingItemProps> = ({offering}) => {
                     <Name>{offering.name}</Name>
                 </InfoRow>
                 <InfoRow>
-                    <Date>{offering.createdAt}</Date>
+                    <Date>{offering.type} / {offering.createdAt}</Date>
                     <CostPrice>₩ {commaizeNumber(offering.costPrice)}</CostPrice>
                 </InfoRow>
                 <InfoRow>
