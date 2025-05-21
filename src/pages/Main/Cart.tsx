@@ -1,5 +1,5 @@
 import type {FC} from "react";
-import {PageBackground, PageLayout} from "../styles/PageLayout";
+import {PageBackground, PageLayout} from "../../styles/PageLayout";
 
 export const Cart: FC = () => {
     return (

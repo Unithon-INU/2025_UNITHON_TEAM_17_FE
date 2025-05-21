@@ -126,7 +126,9 @@ export interface Offering {
     costPrice: number;     // 원가
     salePrice: number;     // 판매가
     createdAt: string;       // 작성 일시
-    imageUrl: string;      // 썸네일
+    imageUrls: string[];      // 썸네일
+    quantity : string;
+    place : string;
 }
 
 export const mockOfferings: Offering[] = [
@@ -138,7 +140,9 @@ export const mockOfferings: Offering[] = [
         costPrice: 1000,
         salePrice: 1500,
         createdAt: "2025-05-01T10:15:00",
-        imageUrl: image1,
+        imageUrls: [image1,image1,image1],
+        quantity : '3',
+        place : '',
     },
     {
         id: 2,
@@ -148,7 +152,9 @@ export const mockOfferings: Offering[] = [
         costPrice: 500,
         salePrice: 1000,
         createdAt: "2025-05-02T09:00:00",
-        imageUrl: image1,
+        imageUrls: [image1,image1],
+        quantity : '3',
+        place : '인천대학교입구',
     },
     {
         id: 3,
@@ -158,7 +164,9 @@ export const mockOfferings: Offering[] = [
         costPrice: 2500,
         salePrice: 3200,
         createdAt: "2025-05-03T14:45:00",
-        imageUrl: image1,
+        imageUrls: [image1],
+        quantity : '3',
+        place : '',
     },
     {
         id: 4,
@@ -168,7 +176,9 @@ export const mockOfferings: Offering[] = [
         costPrice: 1200,
         salePrice: 1800,
         createdAt: "2025-05-04T08:30:00",
-        imageUrl: image1,
+        imageUrls: [image1],
+        quantity : '3',
+        place : '',
     },
     {
         id:5,
@@ -178,6 +188,8 @@ export const mockOfferings: Offering[] = [
         costPrice: 3000,
         salePrice: 4200,
         createdAt: "2025-05-05T12:00:00",
-        imageUrl: image1,
+        imageUrls: [image1],
+        quantity : '3',
+        place : '',
     },
 ];

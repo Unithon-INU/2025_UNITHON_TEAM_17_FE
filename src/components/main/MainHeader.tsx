@@ -74,12 +74,12 @@ export const MainHeader = () => {
       <HeaderContainer>
         <InnerContainer>
           <TopRow>
-            <Location to="/edit-location">송도타임스페이스 ⌄</Location>
+            <Location to="/home/main/edit-location">송도타임스페이스 ⌄</Location>
             <Icons>
-              <IconLink to="/post-write">
+              <IconLink to="/home/main/post-write">
                 <FaRegListAlt />
               </IconLink>
-              <IconLink to="/cart">
+              <IconLink to="/home/main/cart">
                 <FaShoppingCart />
               </IconLink>
             </Icons>

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {FC} from "react";
+import type {FC} from "react";
 
 export type OfferingTypeTabProps = {
     types: string[];
@@ -14,10 +14,11 @@ const OfferingTypeTabStyle = styled.nav`
 `
 const TabItem = styled.li<{ isSelected: boolean }>`
     color : ${({isSelected}) => isSelected ? "#1970FD" : "#999999"};
-    padding: 16px 10px;
-    font-size: 14px;
+    padding: 25px 8px;
+    font-size: 16px;
     font-weight: 500;
-    
+    margin-top: 20px;
+    margin-left: 28px;
     cursor: pointer;
 `
 export const OfferingTypeTab: FC<OfferingTypeTabProps> = ({types, selectedType, onSelectType}) => {
