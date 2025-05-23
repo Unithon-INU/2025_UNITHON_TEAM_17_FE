@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import {Offering} from "../../mocks/mockData";
-import {FC} from "react";
+import type {Offering} from "../../mocks/mockData";
+import type {FC} from "react";
 import {commaizeNumber} from "@toss/utils";
 
 export type OfferingItemProps = {
@@ -10,13 +10,12 @@ const OfferingItemStyle = styled.li`
   font-size: 18px;
   border-radius: 16px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  background-color: white;
 
   .thumbnail {
     width: 100%;
     height: 100px;
-
     border-radius: 16px 16px 0 0;
-
     background-position: center;
     background-size: cover;
   }
@@ -58,7 +57,7 @@ const SalePrice = styled.div`
 export const OfferingItem: FC<OfferingItemProps> = ({offering}) => {
     return (
         <OfferingItemStyle>
-            <div className={"thumbnail"} style={{backgroundImage: `url(${offering.imageUrl})`}}></div>
+            <div className={"thumbnail"} style={{backgroundImage: `url(${offering.imageUrls[0]})`}}></div>
             <InfoWrap>
                 <InfoRow>
                     <Name>{offering.name}</Name>
