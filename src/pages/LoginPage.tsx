@@ -6,6 +6,9 @@ import {LoginInput} from "../components/login/LoginInput";
 import {useState} from "react";
 import {Button} from "../components/common/Button";
 import {useAuth} from "../hooks/useAuth";
+import GoogleIcon from "./../assets/google.webp";
+import KakaoIcon from "./../assets/kakao.png";
+import {Space} from "../components/common/Space";
 
 const Title = styled.h1`
     font-size: 22px;
@@ -19,6 +22,26 @@ const LoginForm = styled.form`
     margin-top: 30px;
 `
 
+const SubLoginMessage = styled.div`
+    color: #a0a0a0;
+    font-size: 15px;
+    text-align: center;
+`
+
+const OauthLoginIconWrap = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap : 12px;
+`
+
+const OauthLoginIcon = styled.img`
+    width : 32px;
+    height : 32px;
+    border-radius: 100%;
+    
+    cursor: pointer;
+`
 
 export const LoginPage: FC = () => {
     const {login} = useAuth();
@@ -59,6 +82,13 @@ export const LoginPage: FC = () => {
                     />
 
                     <Button>로그인</Button>
+
+                    <Space v={65}/>
+                    <SubLoginMessage>다른 로그인 방식 선택</SubLoginMessage>
+                    <OauthLoginIconWrap>
+                        <OauthLoginIcon src={GoogleIcon}/>
+                        <OauthLoginIcon src={KakaoIcon}/>
+                    </OauthLoginIconWrap>
                 </LoginForm>
             </PageLayout>
         </PageBackground>
