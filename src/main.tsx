@@ -4,11 +4,14 @@ import App from './App.tsx'
 import {ThemeProvider} from "styled-components";
 import {Theme} from "./styles/Theme";
 import {BrowserRouter} from "react-router-dom";
+import {AuthProvider} from "./hooks/useAuth";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <ThemeProvider theme={Theme}>
-            <App/>
+            <AuthProvider>
+                <App/>
+            </AuthProvider>
         </ThemeProvider>
     </StrictMode>,
 )
