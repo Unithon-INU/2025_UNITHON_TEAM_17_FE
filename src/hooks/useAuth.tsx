@@ -1,6 +1,8 @@
 import {useState, useEffect, useContext, createContext} from 'react';
+import axios from "axios";
 
 interface AuthContextProps {
+    isLoading: boolean;
     signUp: (email: string, password: string) => Promise<void>;
 }
 
@@ -17,12 +19,26 @@ export const useAuth = () : AuthContextProps => {
 }
 
 export const AuthProvider: React.FC = ({children}) => {
+    const [isLoading, setIsLoading] = useState(true);
+
     const signUp = async (email: string, password: string) => {
-        console.log("회원가입 중")
+        setIsLoading(true);
+        try {
+            const res = await axios.post("/auth/signup", {
+                email,
+                password
+            })
+            console.log(res)
+        } catch (error) {
+            console.error("Sign up failed:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
-        <AuthContext.Provider value={{signUp}}>
+        <AuthContext.Provider value={{isLoading, signUp}}>
             {children}
         </AuthContext.Provider>
     )
