@@ -1,11 +1,11 @@
 import type {FC} from "react";
-import {PageBackground, PageLayout} from "../styles/PageLayout";
+import {PageBackground, PageLayout} from "../../styles/PageLayout";
 
-export const PostWrite: FC = () => {
+export const EditLocation: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-                 판매글 작성 페이지
+                 장소 수정 페이지
             </PageLayout>
         </PageBackground>
     );

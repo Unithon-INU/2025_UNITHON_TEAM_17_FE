@@ -2,16 +2,16 @@ import {GlobalStyle} from "./styles/GlobalStyle";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {TempPage} from "./pages/TempPage";
 import {RoutePath} from "./RoutePath";
-import {MainPage} from "./pages/MainPage";
+import {MainPage} from "./pages/Main/MainPage";
 import {ChatPage} from "./pages/ChatPage";
 import {FavoritesPage} from "./pages/FavoritesPage";
 import {WarehousePage} from "./pages/Warehouse/WarehousePage";
 import {MyPage} from "./pages/MyPage";
-import {EditLocation} from "./pages/EditLocation";
 import {SplashPage} from "./pages/SplashPage";
 import {Resize} from "./components/Resize";
-import { PostWrite } from "./pages/PostWrite";
-import { Cart } from "./pages/Cart";
+import {EditLocation} from "./pages/Main/EditLocation";
+import { PostWrite } from "./pages/Main/PostWrite";
+import { Cart } from "./pages/Main/Cart";
 import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
 import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
 import {LoginPage} from "./pages/LoginPage";
@@ -35,9 +35,9 @@ function App() {
                     <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />
                     <Route path={RoutePath.my} element={<MyPage/>}/>
                     <Route path={RoutePath.temp} element={<TempPage/>}/>
-                    <Route path={RoutePath.editLocation} element={<EditLocation/>}/>
-                    <Route path={RoutePath.postWrite} element={<PostWrite/>}/>
-                    <Route path={RoutePath.cart} element={<Cart/>}/>
+                    <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
+                    <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
+                    <Route path={RoutePath.mainPage.cart} element={<Cart/>}/>
                     <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
                 </Routes>
             </BrowserRouter>

@@ -6,6 +6,11 @@ export const RoutePath = {
     editLocation : "/edit-location",
     postWrite : "/post-write",
     cart : "/cart",
+    mainPage: {
+        postWrite: "/home/main/post-write",
+        editLocation: "/home/main/edit-location",
+        cart : "/home/main/cart",
+      },
     chat: "/home/chat",
     favorites: "/home/favorites",
     warehouse: "/home/warehouse",
