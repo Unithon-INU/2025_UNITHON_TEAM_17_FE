@@ -5,6 +5,7 @@ import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import { FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { NavHeader } from "../../components/NavHeader";
+import { Button } from "../../components/common/Button";
 
 export const OfferingItemDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -52,14 +53,20 @@ export const OfferingItemDetailPage = () => {
             <MapBox>🗺 지도 API 연동 예정</MapBox>
           </Content>
 
-          <BottomBar>
-          <Like>🤍</Like>
-          <PriceBox>
-            <span>{offering.salePrice.toLocaleString()}원</span>
-            <small>지금 {offering.quantity}개가 남아있어요!</small>
-          </PriceBox>
-          <BuyButton>상품담기</BuyButton>
-         </BottomBar>
+            <BottomBar>
+            <Like>🤍</Like>
+            <PriceBox>
+                <span>{offering.salePrice.toLocaleString()}원</span>
+                <small>지금 {offering.quantity}개가 남아있어요 !</small>
+            </PriceBox>
+            <Button
+                onClick={() => console.log("상품담기")}
+                background="#6fc667"
+                style={{ width: '120px', padding: '14px 20px', fontWeight: 'bold', fontSize: '18px' } }
+            >
+                상품담기
+            </Button>
+            </BottomBar>
           </Wrapper>
           </PageLayout>
     </PageBackground>
@@ -173,13 +180,4 @@ const PriceBox = styled.div`
     color: #999;
     font-size: 0.8rem;
   }
-`;
-const BuyButton = styled.button`
-  background: #6fc667;
-  margin-right: 15px;
-  color: white;
-  font-weight: bold;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
 `;
