@@ -4,6 +4,8 @@ import {Button} from "../components/common/Button";
 import styled from "styled-components";
 import Logo from "../assets/logo.png";
 import {Space} from "../components/common/Space";
+import {Link, useNavigate} from "react-router-dom";
+import {RoutePath} from "../RoutePath";
 
 const SplashPageStyle = styled.div`
     height: 100%;
@@ -21,6 +23,7 @@ const LogoWrap = styled.div`
 `
 
 export const SplashPage: FC = () => {
+    const navigate = useNavigate();
     return (
         <PageBackground>
             <PageLayout>
@@ -30,15 +33,18 @@ export const SplashPage: FC = () => {
                     </LogoWrap>
                     <div>
                         <Button isFullWidth onClick={() => {
-                        }}>회원가입</Button>
+                            navigate(RoutePath.signUp)
+                        }}>
+                            회원가입</Button>
                         <Space v={12}/>
                         <Button
                             isFullWidth
                             color={"#979797"}
                             background={"#ECECEC"}
                             onClick={() => {
-                            }}
-                        >로그인</Button>
+                                navigate(RoutePath.login)
+                            }}>
+                            로그인</Button>
                     </div>
                 </SplashPageStyle>
             </PageLayout>

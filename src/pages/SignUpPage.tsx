@@ -6,8 +6,7 @@ export const SignUpPage: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-                마이페이지
-                <BottomNavigation/>
+                회원가입 페이지
             </PageLayout>
         </PageBackground>
     );
