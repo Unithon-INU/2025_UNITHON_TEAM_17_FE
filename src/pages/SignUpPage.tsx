@@ -5,7 +5,7 @@ import {useAuth} from "../hooks/useAuth";
 import {Button} from "../components/common/Button";
 
 export const SignUpPage: FC = () => {
-    const {signUp, login} = useAuth();
+    const {signUp, login, loginByAuth} = useAuth();
 
     return (
         <PageBackground>
@@ -13,6 +13,7 @@ export const SignUpPage: FC = () => {
                 회원가입 페이지
                 <Button onClick={() => signUp("111@inu.ac.kr", "qwer1234")}>회원가입</Button>
                 <Button onClick={() => login("111@inu.ac.kr", "qwer1234")}>로그인</Button>
+                <Button onClick={() => loginByAuth("google")}>구글 로그인</Button>
             </PageLayout>
         </PageBackground>
     );

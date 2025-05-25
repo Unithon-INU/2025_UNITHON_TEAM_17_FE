@@ -5,6 +5,7 @@ interface AuthContextProps {
     isLoading: boolean;
     signUp: (email: string, password: string) => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
+    loginByAuth : (provider: "google" | "kakao") => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -54,8 +55,21 @@ export const AuthProvider: React.FC = ({children}) => {
         }
     }
 
+    const loginByAuth = async (provider: "google" | "kakao") => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(`/oauth2/authorization/${provider}`)
+            console.log(res)
+        } catch (error) {
+            console.error("login by auth failed:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{isLoading, signUp, login}}>
+        <AuthContext.Provider value={{isLoading, signUp, login, loginByAuth}}>
             {children}
         </AuthContext.Provider>
     )
