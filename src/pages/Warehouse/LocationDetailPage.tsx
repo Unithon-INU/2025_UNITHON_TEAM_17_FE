@@ -6,6 +6,10 @@ import { BiCamera, BiDotsHorizontalRounded } from "react-icons/bi";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import styled from "styled-components";
 
+const PaddedLayout = styled(PageLayout)`
+  padding: 2rem;
+`;
+
 const EmptyBox = styled.div`
   border: 2px solid #eee;
   border-radius: 12px;
@@ -115,6 +119,7 @@ export const LocationDetailPage = () => {
   return (
     <PageBackground>
       <PageLayout>
+        <PaddedLayout>
         <NavHeader
           title={location.name}
           rightIcon={
@@ -136,6 +141,7 @@ export const LocationDetailPage = () => {
           title="아직 한참 남은 제품"
           products={productsAfter30Days}
         />
+        </PaddedLayout>
       </PageLayout>
     </PageBackground>
   );

@@ -1,4 +1,4 @@
-import styled, {css} from "styled-components";
+import styled, {css, type CSSProperties} from "styled-components";
 import type {FC, ReactNode} from "react";
 import {darken, lighten} from "polished";
 
@@ -8,6 +8,7 @@ export type ButtonProps = {
     isFullWidth?: boolean;
     isDisable?: boolean;
     children: ReactNode;
+    style?: CSSProperties;
 }
 
 const ButtonColorStyle = css<ButtonProps>`
