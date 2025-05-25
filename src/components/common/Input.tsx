@@ -7,6 +7,7 @@ export type InputProps = {
     label: string;
     placeholder: string;
     type: "text" | "email" | "password";
+    error?: string | null;
 }
 const InputStyle = styled.div`
 
@@ -15,7 +16,7 @@ const LabelWrap = styled.div`
   font-size: 18px;
   font-weight: 400;
 `
-const InputContent = styled.input`
+const InputContent = styled.input<{isError : boolean}>`
   width: 100%;
   font-size: 20px;
   font-weight: 400;
@@ -26,9 +27,17 @@ const InputContent = styled.input`
   outline: none;
   background: none;
   border: none;
-  border-bottom: 1px solid #A0A0A0;
+  border-bottom: 1px solid ${p => p.isError ? '#D1292C' : '#A0A0A0'};
 `
-export const Input: FC<InputProps> = ({value, onChange, placeholder, label}) => {
+
+const ErrorMessage = styled.div`
+    color: red;
+    font-size: 14px;
+    
+    padding: 6px;
+`
+
+export const Input: FC<InputProps> = ({value, onChange, placeholder, label, error}) => {
     return (
         <InputStyle>
             <LabelWrap>{label}</LabelWrap>
@@ -36,7 +45,9 @@ export const Input: FC<InputProps> = ({value, onChange, placeholder, label}) => 
                 value={value}
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}
+                isError={!!error}
             />
+            <ErrorMessage>{error ? error : ""}</ErrorMessage>
         </InputStyle>
     );
 };
