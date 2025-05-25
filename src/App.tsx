@@ -12,6 +12,7 @@ import { PostWrite } from "./pages/Main/PostWrite";
 import { Cart } from "./pages/Main/Cart";
 import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
 import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
+import { OfferingItemDetailPage } from "./pages/Main/OfferingItemDetailPage";
 
 function App() {
     return (
@@ -23,14 +24,15 @@ function App() {
                     <Route path={RoutePath.chat} element={<ChatPage/>}/>
                     <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
-                    <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
-                    <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />
-                    <Route path={RoutePath.my} element={<MyPage/>}/>
-                    <Route path={RoutePath.temp} element={<TempPage/>}/>
-                    <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
                     <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
                     <Route path={RoutePath.mainPage.cart} element={<Cart/>}/>
+                    <Route path="/home/main/:id" element={<OfferingItemDetailPage/> } />
+                    <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
+                    <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />
+                    <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
                     <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
+                    <Route path={RoutePath.my} element={<MyPage/>}/>
+                    <Route path={RoutePath.temp} element={<TempPage/>}/>
                 </Routes>
             </BrowserRouter>
         </div>

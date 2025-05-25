@@ -21,7 +21,7 @@ export const LightGrayLayer = styled.div`
   & > div {
     width: 100%;
     height: 100%;
-    min-height: 200vh;
+    min-height: 150vh;
     max-width: 800px;
     padding: 0 2rem;
   }
@@ -29,7 +29,7 @@ export const LightGrayLayer = styled.div`
 
 export const MainPageLayout = styled.div<PageLayoutProps>`
   width: 100%;
-  min-height: 200vh;
+  min-height: 100vh;
   max-width: 800px;
   margin: 0rem auto 0;
   background-color: #ffffff;
@@ -50,8 +50,7 @@ export const PageLayout = styled.div<PageLayoutProps>`
   max-width: 800px;
   margin: 0rem auto 0;
   background-color: #ffffff;
-  padding: 2rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 10px rgba(4, 3, 3, 0.05);
   font-family: 'Pretendard', sans-serif;
 
   ${(props) =>

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { PageBackground, MainPageLayout, LightGrayLayer } from "../../styles/PageLayout";
+import { PageBackground, PageLayout, LightGrayLayer } from "../../styles/PageLayout";
 import { BottomNavigation } from "../../components/BottomNavigation";
 import { MainHeader } from "../../components/main/MainHeader";
 import { mockOfferings } from "../../mocks/mockData";
@@ -14,22 +14,28 @@ const OfferingList = styled.ul`
   gap: 25px;
 `;
 
-
-
 export const MainPage: FC = () => {
   const all = "현재올라온할인";
   const [selectedType, setSelectedType] = useState<string>(all);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const types = [all, ...new Set(mockOfferings.map((item) => item.type))];
-  
-  const filteredOfferings = selectedType === all
-    ? mockOfferings
-    : mockOfferings.filter((item) => item.type === selectedType);
+
+  const filteredOfferings = mockOfferings
+    .filter((item) =>
+      selectedType === all ? true : item.type === selectedType
+    )
+    .filter((item) =>
+      item.name.toLowerCase().includes(searchKeyword.toLowerCase())
+    );
 
   return (
     <PageBackground>
-      <MainHeader />
-      <MainPageLayout>
+      <PageLayout>
+        <MainHeader
+        searchKeyword={searchKeyword}
+        onSearchChange={(e) => setSearchKeyword(e.target.value)}
+        />
         <OfferingTypeTab
           types={types}
           selectedType={selectedType}
@@ -47,7 +53,7 @@ export const MainPage: FC = () => {
         </LightGrayLayer>
 
         <BottomNavigation />
-      </MainPageLayout>
+      </PageLayout>
     </PageBackground>
   );
 };
