@@ -6,6 +6,7 @@ export type InputProps = {
     onChange: (string) => void;
     label: string;
     placeholder: string;
+    type: "text" | "email" | "password";
 }
 const InputStyle = styled.div`
 

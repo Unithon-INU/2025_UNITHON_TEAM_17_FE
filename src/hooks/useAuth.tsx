@@ -5,7 +5,7 @@ interface AuthContextProps {
     isLoading: boolean;
     signUp: (email: string, password: string) => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
-    loginByAuth : (provider: "google" | "kakao") => Promise<void>;
+    loginByOAuth : (provider: "google" | "kakao") => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -55,7 +55,7 @@ export const AuthProvider: React.FC = ({children}) => {
         }
     }
 
-    const loginByAuth = async (provider: "google" | "kakao") => {
+    const loginByOAuth = async (provider: "google" | "kakao") => {
         setIsLoading(true);
         try {
             const res = await axios.get(`/oauth2/authorization/${provider}`)
@@ -69,7 +69,7 @@ export const AuthProvider: React.FC = ({children}) => {
     }
 
     return (
-        <AuthContext.Provider value={{isLoading, signUp, login, loginByAuth}}>
+        <AuthContext.Provider value={{isLoading, signUp, login, loginByOAuth}}>
             {children}
         </AuthContext.Provider>
     )

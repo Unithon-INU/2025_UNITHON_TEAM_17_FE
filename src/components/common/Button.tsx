@@ -3,7 +3,7 @@ import type {FC, ReactNode} from "react";
 import {darken, lighten} from "polished";
 
 export type ButtonProps = {
-    onClick: () => void;
+    onClick?: () => void;
     color?: string;
     background?: string;
     isFullWidth?: boolean;
@@ -57,7 +57,7 @@ const ButtonStyle = styled.button<ButtonProps>`
 export const Button: FC<ButtonProps> = ({onClick, isDisable, children, ...rest}) => {
     return (
         <ButtonStyle onClick={() => {
-            if (!isDisable) onClick()
+            if (!isDisable && onClick) onClick()
         }} isDisable={!!isDisable} {...rest}>{children}</ButtonStyle>
     )
 }
