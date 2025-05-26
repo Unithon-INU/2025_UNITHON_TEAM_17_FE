@@ -1,5 +1,11 @@
 export const RoutePath = {
     main: "/home/main",
+    splash: "/splash",
+    login: "/login",
+    signUp: "/signup",
+    editLocation : "/edit-location",
+    postWrite : "/post-write",
+    cart : "/cart",
     mainPage: {
         postWrite: "/home/main/post-write",
         editLocation: "/home/main/edit-location",

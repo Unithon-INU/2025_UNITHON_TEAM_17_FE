@@ -46,13 +46,14 @@ export const MainPageLayout = styled.div<PageLayoutProps>`
 
 export const PageLayout = styled.div<PageLayoutProps>`
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
   max-width: 800px;
   margin: 0rem auto 0;
   background-color: #ffffff;
   padding: 2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   font-family: 'Pretendard', sans-serif;
+  box-sizing: border-box;
 
   ${(props) =>
     props.isBottomNavigation &&

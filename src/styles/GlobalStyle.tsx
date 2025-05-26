@@ -22,6 +22,7 @@ export const GlobalStyle = createGlobalStyle`
     vertical-align: baseline;
     box-sizing: border-box;
     list-style: none;
+    font-family: 'Pretendard', sans-serif;
   }
 
   /* HTML5 display-role reset for older browsers */

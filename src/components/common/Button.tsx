@@ -3,7 +3,8 @@ import type {FC, ReactNode} from "react";
 import {darken, lighten} from "polished";
 
 export type ButtonProps = {
-    onClick: () => void;
+    onClick?: () => void;
+    color?: string;
     background?: string;
     isFullWidth?: boolean;
     isDisable?: boolean;
@@ -11,31 +12,32 @@ export type ButtonProps = {
 }
 
 const ButtonColorStyle = css<ButtonProps>`
-  ${({background, isDisable, theme}) => {
+  ${({background, color, isDisable, theme}) => {
+    let textColor = color ? color : theme.color.White;
     let bgColor = background ? background : theme.color.Primary;
-    
-    if(isDisable) {
+
+    if (isDisable) {
         bgColor = theme.color.Gray3
     }
 
     return css`
+      color: ${textColor};
       background: ${bgColor};
       &:hover {
-        background: ${lighten(0.1, bgColor)};
+        background: ${lighten(0.05, bgColor)};
       }
 
       &:active {
-        background: ${darken(0.1, bgColor)};
+        background: ${darken(0.05, bgColor)};
       }
     `
-  }}
+}}
 `
 
 const ButtonStyle = styled.button<ButtonProps>`
   ${ButtonColorStyle};
   width: ${p => p.isFullWidth && '100%'};
 
-  color: white;
   font-size: 20px;
   padding: 16px;
 
@@ -54,6 +56,8 @@ const ButtonStyle = styled.button<ButtonProps>`
 
 export const Button: FC<ButtonProps> = ({onClick, isDisable, children, ...rest}) => {
     return (
-        <ButtonStyle onClick={() => { if(!isDisable) onClick()}} isDisable={!!isDisable} {...rest}>{children}</ButtonStyle>
+        <ButtonStyle onClick={() => {
+            if (!isDisable && onClick) onClick()
+        }} isDisable={!!isDisable} {...rest}>{children}</ButtonStyle>
     )
 }
