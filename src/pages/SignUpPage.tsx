@@ -8,6 +8,7 @@ import {Input, InputProps} from "../components/common/Input";
 
 export const SignUpPage: FC = () => {
     const {signUp, login, loginByOAuth} = useAuth();
+    
 
     return (
         <PageBackground>

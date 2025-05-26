@@ -9,6 +9,7 @@ import {useAuth} from "../hooks/useAuth";
 import GoogleIcon from "./../assets/google.webp";
 import KakaoIcon from "./../assets/kakao.png";
 import {Space} from "../components/common/Space";
+import axios from "axios";
 
 const Title = styled.h1`
     font-size: 22px;
@@ -44,7 +45,7 @@ const OauthLoginIcon = styled.img`
 `
 
 export const LoginPage: FC = () => {
-    const {login} = useAuth();
+    const {login, loginByOAuth} = useAuth();
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -56,6 +57,10 @@ export const LoginPage: FC = () => {
         } catch (error) {
             alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
         }
+    }
+
+    const onLoginOauth = async (provider: "google" | "kakao") => {
+        window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/${provider}`;
     }
 
     return (
@@ -86,8 +91,8 @@ export const LoginPage: FC = () => {
                     <Space v={65}/>
                     <SubLoginMessage>다른 로그인 방식 선택</SubLoginMessage>
                     <OauthLoginIconWrap>
-                        <OauthLoginIcon src={GoogleIcon}/>
-                        <OauthLoginIcon src={KakaoIcon}/>
+                        <OauthLoginIcon src={GoogleIcon} onClick={() => onLoginOauth("google")}/>
+                        <OauthLoginIcon src={KakaoIcon} onClick={() => onLoginOauth("kakao")}/>
                     </OauthLoginIconWrap>
                 </LoginForm>
             </PageLayout>
