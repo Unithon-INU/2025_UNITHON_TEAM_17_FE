@@ -3,7 +3,7 @@ import axios from "axios";
 
 interface AuthContextProps {
     isLoading: boolean;
-    signUp: (email: string, password: string) => Promise<void>;
+    signUp: (email: string, password: string, name: string) => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
     loginByOAuth : (provider: "google" | "kakao") => Promise<void>;
 }
@@ -23,12 +23,13 @@ export const useAuth = (): AuthContextProps => {
 export const AuthProvider: React.FC = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
 
-    const signUp = async (email: string, password: string) => {
+    const signUp = async (email: string, password: string, name: string) => {
         setIsLoading(true);
         try {
             const res = await axios.post("/api/auth/signup", {
                 email,
-                password
+                password,
+                name
             })
             console.log(res)
         } catch (error) {
