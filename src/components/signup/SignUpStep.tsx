@@ -4,23 +4,24 @@ import {Button} from "../common/Button";
 
 export type SignUpStepProps = {
     children: ReactNode;
+    buttonText?: string;
     onNext: () => void;
 }
 const SignUpStepStyle = styled.div`
-    min-height: calc((var(--vh) * 100) - 100px);
+    height : calc(100% - 80px);
     
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 `
 export const SignUpStep: FC<SignUpStepProps>
-    = ({children, onNext}) => {
+    = ({children, onNext, buttonText="다음"}) => {
     return (
         <SignUpStepStyle>
             <div>
                 {children}
             </div>
-            <Button onClick={() => onNext()}>다음</Button>
+            <Button onClick={() => onNext()}>{buttonText}</Button>
         </SignUpStepStyle>
     );
 };

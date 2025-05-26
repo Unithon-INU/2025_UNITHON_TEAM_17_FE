@@ -5,11 +5,14 @@ import {useAuth} from "../hooks/useAuth";
 import {Input} from "../components/common/Input";
 import {NavHeader} from "../components/common/NavHeader";
 import {SignUpStep} from "../components/signup/SignUpStep";
+import {useNavigate} from "react-router-dom";
+import {RoutePath} from "../RoutePath";
 
 type SignUpStep = "email" | "password" | "passwordCheck" | "name";
 
 
 export const SignUpPage: FC = () => {
+    const navigate = useNavigate();
     const {signUp, login, loginByOAuth} = useAuth();
     const [step, setStep] = useState<SignUpStep>("email");
     const [email, setEmail] = useState<string>("");
@@ -18,8 +21,14 @@ export const SignUpPage: FC = () => {
     const [name, setName] = useState<string>("");
 
     const onSignUp = async () => {
-        const res = await signUp(email, password, name);
-        console.log(res)
+        try{
+            const res = await signUp(email, password, name);
+            navigate(RoutePath.main)
+        }
+        catch (error) {
+            alert("회원가입에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
+            return;
+        }
     }
 
     let stepTemplate : ReactNode
@@ -64,7 +73,10 @@ export const SignUpPage: FC = () => {
     }
     else if(step == "name") {
         stepTemplate = (
-            <SignUpStep onNext={() => onSignUp()}>
+            <SignUpStep
+                onNext={() => onSignUp()}
+                buttonText={"회원가입"}
+            >
                 <Input
                     value={name}
                     onChange={setName}

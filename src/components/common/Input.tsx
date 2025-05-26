@@ -37,7 +37,7 @@ const ErrorMessage = styled.div`
     padding: 6px;
 `
 
-export const Input: FC<InputProps> = ({value, onChange, placeholder, label, error}) => {
+export const Input: FC<InputProps> = ({value, onChange, placeholder, label, error, type}) => {
     return (
         <InputStyle>
             <LabelWrap>{label}</LabelWrap>
@@ -46,6 +46,7 @@ export const Input: FC<InputProps> = ({value, onChange, placeholder, label, erro
                 placeholder={placeholder}
                 onChange={(e) => onChange(e.target.value)}
                 isError={!!error}
+                type={type}
             />
             <ErrorMessage>{error ? error : ""}</ErrorMessage>
         </InputStyle>
