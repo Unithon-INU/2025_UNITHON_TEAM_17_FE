@@ -10,15 +10,29 @@ import {RoutePath} from "../RoutePath";
 
 type SignUpStep = "email" | "password" | "passwordCheck" | "name";
 
+function useSignUpInput(initialValue: string) {
+    const [value, setValue] = useState<string>(initialValue);
+    const [error, setError] = useState<string | null>(null)
+
+    return [value, setValue, error, setError];
+}
 
 export const SignUpPage: FC = () => {
     const navigate = useNavigate();
     const {signUp, login, loginByOAuth} = useAuth();
     const [step, setStep] = useState<SignUpStep>("email");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [passwordCheck, setPasswordCheck] = useState<string>("");
-    const [name, setName] = useState<string>("");
+    const [email, setEmail, emailError, setEmailError] = useSignUpInput("");
+    const [password, setPassword, passwordError, setPasswordError] = useSignUpInput("");
+    const [passwordCheck, setPasswordCheck, passwordCheckError, setPasswordCheckError] = useSignUpInput("");
+    const [name, setName, nameError, setNameError] = useSignUpInput("");
+
+    const onPasswordCheckNext = () => {
+        if(password !== passwordCheck) {
+            setPasswordCheckError("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        setStep("name");
+    }
 
     const onSignUp = async () => {
         try{
@@ -41,6 +55,7 @@ export const SignUpPage: FC = () => {
                     label={"이메일"}
                     placeholder={"이메일 주소를 입력하세요."}
                     type={"email"}
+                    error={emailError}
                 />
             </SignUpStep>
         );
@@ -54,19 +69,21 @@ export const SignUpPage: FC = () => {
                     label={"비밀번호"}
                     placeholder={"비밀번호를 입력하세요."}
                     type={"password"}
+                    error={passwordError}
                 />
             </SignUpStep>
         );
     }
     else if(step == "passwordCheck") {
         stepTemplate = (
-            <SignUpStep onNext={() => setStep("name")}>
+            <SignUpStep onNext={() => onPasswordCheckNext()}>
                 <Input
                     value={passwordCheck}
                     onChange={setPasswordCheck}
                     label={"비밀번호 확인"}
                     placeholder={"비밀번호를 다시 입력하세요."}
                     type={"password"}
+                    error={passwordCheckError}
                 />
             </SignUpStep>
         );
@@ -83,6 +100,7 @@ export const SignUpPage: FC = () => {
                     label={"이름"}
                     placeholder={"이름을 입력하세요."}
                     type={"text"}
+                    error={nameError}
                 />
             </SignUpStep>
         );
