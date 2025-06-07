@@ -1,10 +1,12 @@
-import {useState, useEffect, useContext, createContext} from 'react';
+import {createContext, useContext, useState} from 'react';
 import axios from "axios";
+import {LoginReq, LoginRes, SignUpReq, SignUpRes, User} from "../type/auth";
+
 
 interface AuthContextProps {
     isLoading: boolean;
-    signUp: (email: string, password: string, name: string) => Promise<void>;
-    login: (email: string, password: string) => Promise<void>;
+    signUp: (req : SignUpReq) => Promise<User>;
+    login: (req : LoginReq) => Promise<User>;
     loginByOAuth : (provider: "google" | "kakao") => Promise<void>;
 }
 
@@ -23,15 +25,16 @@ export const useAuth = (): AuthContextProps => {
 export const AuthProvider: React.FC = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
 
-    const signUp = async (email: string, password: string, name: string) => {
+    const signUp = async (req : SignUpReq) : Promise<User> => {
         setIsLoading(true);
         try {
-            const res = await axios.post("/api/auth/signup", {
-                email,
-                password,
-                name
-            })
-            console.log(res)
+            const res = await axios.post("/api/auth/signup", req)
+            if(res.status !== 200) {
+                throw new Error("Sign up failed with status: " + res.status);
+            }
+
+            const {email, name, id} : User = res.data as SignUpRes;
+            return {email, name, id}
         } catch (error) {
             console.error("Sign up failed:", error);
             throw error;
@@ -40,14 +43,15 @@ export const AuthProvider: React.FC = ({children}) => {
         }
     }
 
-    const login = async (email: string, password: string) => {
+    const login = async (req : LoginReq) : Promise<User> => {
         setIsLoading(true);
         try {
-            const res = await axios.post("/api/auth/login", {
-                email,
-                password
-            })
-            console.log(res)
+            const res = await axios.post("/api/auth/login", req)
+            if(res.status !== 200) {
+                throw new Error("Login failed with status: " + res.status);
+            }
+            const {email, name, id} : User = res.data as LoginRes;
+            return {email, name, id}
         } catch (error) {
             console.error("Sign up failed:", error);
             throw error;

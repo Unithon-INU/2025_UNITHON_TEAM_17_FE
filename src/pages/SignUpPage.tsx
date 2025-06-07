@@ -7,6 +7,7 @@ import {NavHeader} from "../components/common/NavHeader";
 import {SignUpStep} from "../components/signup/SignUpStep";
 import {useNavigate} from "react-router-dom";
 import {RoutePath} from "../RoutePath";
+import {SignUpReq} from "../type/auth";
 
 type SignUpStep = "email" | "password" | "passwordCheck" | "name";
 
@@ -36,7 +37,9 @@ export const SignUpPage: FC = () => {
 
     const onSignUp = async () => {
         try{
-            const res = await signUp(email, password, name);
+            const req : SignUpReq = {email, password, name}
+            const res = await signUp(req);
+            console.log(res)
             navigate(RoutePath.main)
         }
         catch (error) {

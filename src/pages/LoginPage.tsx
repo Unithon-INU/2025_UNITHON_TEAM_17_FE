@@ -55,7 +55,8 @@ export const LoginPage: FC = () => {
         e.preventDefault();
 
         try {
-            await login(email, password);
+            const req = {email, password};
+            const res = await login(req);
             navigate("/")
         } catch (error) {
             alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
