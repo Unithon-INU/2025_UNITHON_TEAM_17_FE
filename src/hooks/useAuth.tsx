@@ -15,11 +15,18 @@ export type SignUpReq = {
 
 export type SignUpRes = User & { message: string; }
 
+export type LoginReq = {
+    email: string;
+    password: string;
+}
+
+export type LoginRes = SignUpRes
+
 
 interface AuthContextProps {
     isLoading: boolean;
-    signUp: (req : SignUpReq) => Promise<SignUpRes>;
-    login: (email: string, password: string) => Promise<void>;
+    signUp: (req : SignUpReq) => Promise<User>;
+    login: (req : LoginReq) => Promise<User>;
     loginByOAuth : (provider: "google" | "kakao") => Promise<void>;
 }
 
@@ -56,14 +63,15 @@ export const AuthProvider: React.FC = ({children}) => {
         }
     }
 
-    const login = async (email: string, password: string) => {
+    const login = async (req : LoginReq) : Promise<User> => {
         setIsLoading(true);
         try {
-            const res = await axios.post("/api/auth/login", {
-                email,
-                password
-            })
-            console.log(res)
+            const res = await axios.post("/api/auth/login", req)
+            if(res.status !== 200) {
+                throw new Error("Login failed with status: " + res.status);
+            }
+            const {email, name, id} : User = res.data as LoginRes;
+            return {email, name, id}
         } catch (error) {
             console.error("Sign up failed:", error);
             throw error;
