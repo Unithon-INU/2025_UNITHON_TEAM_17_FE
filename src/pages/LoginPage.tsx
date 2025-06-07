@@ -10,6 +10,8 @@ import GoogleIcon from "./../assets/google.webp";
 import KakaoIcon from "./../assets/kakao.png";
 import {Space} from "../components/common/Space";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import {RoutePath} from "../RoutePath";
 
 const Title = styled.h1`
     font-size: 22px;
@@ -46,6 +48,7 @@ const OauthLoginIcon = styled.img`
 
 export const LoginPage: FC = () => {
     const {login, loginByOAuth} = useAuth();
+    const navigate = useNavigate()
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -55,6 +58,7 @@ export const LoginPage: FC = () => {
         try {
             const req = {email, password};
             const res = await login(req);
+            navigate(RoutePath.main)
         } catch (error) {
             alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
         }

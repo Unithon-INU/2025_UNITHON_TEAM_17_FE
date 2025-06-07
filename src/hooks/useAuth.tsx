@@ -5,9 +5,10 @@ import {LoginReq, LoginRes, SignUpReq, SignUpRes, User} from "../type/auth";
 
 interface AuthContextProps {
     isLoading: boolean;
-    signUp: (req : SignUpReq) => Promise<User>;
-    login: (req : LoginReq) => Promise<User>;
-    loginByOAuth : (provider: "google" | "kakao") => Promise<void>;
+    user: User | null;
+    signUp: (req: SignUpReq) => Promise<User>;
+    login: (req: LoginReq) => Promise<User>;
+    loginByOAuth: (provider: "google" | "kakao") => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -24,16 +25,18 @@ export const useAuth = (): AuthContextProps => {
 
 export const AuthProvider: React.FC = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
+    const [user, setUser] = useState<User | null>(null);
 
-    const signUp = async (req : SignUpReq) : Promise<User> => {
+    const signUp = async (req: SignUpReq): Promise<User> => {
         setIsLoading(true);
         try {
             const res = await axios.post("/api/auth/signup", req)
-            if(res.status !== 200) {
+            if (res.status !== 200) {
                 throw new Error("Sign up failed with status: " + res.status);
             }
 
-            const {email, name, id} : User = res.data as SignUpRes;
+            const {email, name, id}: User = res.data as SignUpRes;
+            setUser({email, name, id});
             return {email, name, id}
         } catch (error) {
             console.error("Sign up failed:", error);
@@ -43,14 +46,15 @@ export const AuthProvider: React.FC = ({children}) => {
         }
     }
 
-    const login = async (req : LoginReq) : Promise<User> => {
+    const login = async (req: LoginReq): Promise<User> => {
         setIsLoading(true);
         try {
             const res = await axios.post("/api/auth/login", req)
-            if(res.status !== 200) {
+            if (res.status !== 200) {
                 throw new Error("Login failed with status: " + res.status);
             }
-            const {email, name, id} : User = res.data as LoginRes;
+            const {email, name, id}: User = res.data as LoginRes;
+            setUser({email, name, id});
             return {email, name, id}
         } catch (error) {
             console.error("Sign up failed:", error);
@@ -74,7 +78,7 @@ export const AuthProvider: React.FC = ({children}) => {
     }
 
     return (
-        <AuthContext.Provider value={{isLoading, signUp, login, loginByOAuth}}>
+        <AuthContext.Provider value={{isLoading, user, signUp, login, loginByOAuth}}>
             {children}
         </AuthContext.Provider>
     )
