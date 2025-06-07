@@ -1,12 +1,13 @@
 import type {FC, ReactNode} from "react";
 import {useState} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
-import {SignUpReq, useAuth} from "../hooks/useAuth";
+import {useAuth} from "../hooks/useAuth";
 import {Input} from "../components/common/Input";
 import {NavHeader} from "../components/common/NavHeader";
 import {SignUpStep} from "../components/signup/SignUpStep";
 import {useNavigate} from "react-router-dom";
 import {RoutePath} from "../RoutePath";
+import {SignUpReq} from "../type/auth";
 
 type SignUpStep = "email" | "password" | "passwordCheck" | "name";
 
