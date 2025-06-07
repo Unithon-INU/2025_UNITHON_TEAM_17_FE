@@ -1,7 +1,7 @@
 import type {FC, ReactNode} from "react";
 import {useState} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
-import {useAuth} from "../hooks/useAuth";
+import {SignUpReq, useAuth} from "../hooks/useAuth";
 import {Input} from "../components/common/Input";
 import {NavHeader} from "../components/common/NavHeader";
 import {SignUpStep} from "../components/signup/SignUpStep";
@@ -36,7 +36,9 @@ export const SignUpPage: FC = () => {
 
     const onSignUp = async () => {
         try{
-            const res = await signUp(email, password, name);
+            const req : SignUpReq = {email, password, name}
+            const res = await signUp(req);
+            console.log(res)
             navigate(RoutePath.main)
         }
         catch (error) {
