@@ -6,6 +6,11 @@ import { FiImage } from "react-icons/fi";
 import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { useNavigate } from "react-router-dom";
 
+
+const PaddedLayout = styled(PageLayout)`
+  padding: 2rem;
+`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -99,6 +104,7 @@ export const AddLocationPage = () => {
   return (
     <PageBackground>
       <PageLayout>
+        <PaddedLayout>
         <NavHeader title="장소 입력" rightIcon="완료" onRightClick={handleComplete} />
 
         <Wrapper>
@@ -129,6 +135,7 @@ export const AddLocationPage = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
         </Wrapper>
+        </PaddedLayout>
       </PageLayout>
     </PageBackground>
   );

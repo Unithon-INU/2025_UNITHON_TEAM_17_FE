@@ -1,76 +1,106 @@
 import styled from "styled-components";
-import type {Offering} from "../../mocks/mockData";
-import type {FC} from "react";
-import {commaizeNumber} from "@toss/utils";
+import type { Offering } from "../../mocks/mockData";
+import type { FC } from "react";
+import { commaizeNumber } from "@toss/utils";
+import { Link } from "react-router-dom";
 
 export type OfferingItemProps = {
-    offering: Offering
-}
+  offering: Offering;
+};
+
 const OfferingItemStyle = styled.li`
   font-size: 18px;
   border-radius: 16px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   background-color: white;
+  overflow: hidden;
+  cursor: pointer;
+`;
 
-  .thumbnail {
-    width: 100%;
-    height: 100px;
-    border-radius: 16px 16px 0 0;
-    background-position: center;
-    background-size: cover;
-  }
-`
+const Thumbnail = styled.div`
+  width: 100%;
+  height: 100px;
+  border-radius: 16px 16px 0 0;
+  background-position: center;
+  background-size: cover;
+`;
+
 const InfoWrap = styled.div`
   padding: 16px 15px;
-  
   display: flex;
   flex-direction: column;
   gap: 8px;
-`
+`;
+
 const InfoRow = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
+
 const Name = styled.h4`
   font-size: 1em;
   font-weight: 800;
-`
+`;
+
 const Date = styled.div`
-  color: #9D9D9D;
+  color: #9d9d9d;
   font-size: 0.85em;
   font-weight: 500;
-`
+`;
+
 const CostPrice = styled.div`
   color: #999999;
   font-size: 0.85em;
   font-weight: 600;
   text-decoration: line-through;
-`
+`;
+
 const SellerName = styled.div`
   font-size: 0.85em;
   font-weight: 600;
-`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
 const SalePrice = styled.div`
   font-size: 1.2em;
   font-weight: 600;
-`
-export const OfferingItem: FC<OfferingItemProps> = ({offering}) => {
-    return (
-        <OfferingItemStyle>
-            <div className={"thumbnail"} style={{backgroundImage: `url(${offering.imageUrls[0]})`}}></div>
-            <InfoWrap>
-                <InfoRow>
-                    <Name>{offering.name}</Name>
-                </InfoRow>
-                <InfoRow>
-                    <Date>{offering.type} / {offering.createdAt}</Date>
-                    <CostPrice>₩ {commaizeNumber(offering.costPrice)}</CostPrice>
-                </InfoRow>
-                <InfoRow>
-                    <SellerName>{offering.sellerName}</SellerName>
-                    <SalePrice>₩ {commaizeNumber(offering.salePrice)}</SalePrice>
-                </InfoRow>
-            </InfoWrap>
-        </OfferingItemStyle>
-    );
+`;
+
+const Badge = styled.span`
+  background-color: #dff6df;
+  color: #2e8b57;
+  font-size: 0.75em;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+`;
+
+export const OfferingItem: FC<OfferingItemProps> = ({ offering }) => {
+  return (
+    <Link to={`/home/main/${offering.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+      <OfferingItemStyle>
+        <Thumbnail style={{ backgroundImage: `url(${offering.imageUrls[0]})` }} />
+        <InfoWrap>
+          <InfoRow>
+            <Name>{offering.name}</Name>
+          </InfoRow>
+          <InfoRow>
+            <Date>
+              {offering.type} / {offering.createdAt}
+            </Date>
+            <CostPrice>₩ {commaizeNumber(offering.costPrice)}</CostPrice>
+          </InfoRow>
+          <InfoRow>
+            <SellerName>
+              {offering.sellerName}
+              {offering.hasBadge && <Badge>{offering.badgeText}</Badge>}
+            </SellerName>
+            <SalePrice>₩ {commaizeNumber(offering.salePrice)}</SalePrice>
+          </InfoRow>
+        </InfoWrap>
+      </OfferingItemStyle>
+    </Link>
+  );
 };
