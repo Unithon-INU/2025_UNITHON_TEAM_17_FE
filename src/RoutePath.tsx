@@ -3,9 +3,6 @@ export const RoutePath = {
     splash: "/splash",
     login: "/login",
     signUp: "/signup",
-    editLocation : "/edit-location",
-    postWrite : "/post-write",
-    cart : "/cart",
     mainPage: {
         postWrite: "/home/main/post-write",
         editLocation: "/home/main/edit-location",

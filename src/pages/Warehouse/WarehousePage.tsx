@@ -42,7 +42,7 @@ export const WarehousePage: FC = () => {
 
 
 const PaddedLayout = styled(PageLayout)`
-  padding: 2rem;
+  padding: 2.5rem;
 `;
 
 const HeaderWrapper = styled.div`

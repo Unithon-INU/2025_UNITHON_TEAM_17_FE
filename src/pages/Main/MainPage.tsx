@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
-import { PageBackground, PageLayout, LightGrayLayer } from "../../styles/PageLayout";
+import { PageBackground, MainPageLayout, WhiteBox } from "../../styles/PageLayout";
 import { BottomNavigation } from "../../components/BottomNavigation";
 import { MainHeader } from "../../components/main/MainHeader";
 import { mockOfferings } from "../../mocks/mockData";
@@ -31,29 +31,26 @@ export const MainPage: FC = () => {
 
   return (
     <PageBackground>
-      <PageLayout>
-        <MainHeader
+      <MainHeader
         searchKeyword={searchKeyword}
         onSearchChange={(e) => setSearchKeyword(e.target.value)}
         />
+        <WhiteBox>
         <OfferingTypeTab
           types={types}
           selectedType={selectedType}
           onSelectType={(type) => setSelectedType(type)}
         />
-
-        <LightGrayLayer>
-          <div>
-            <OfferingList>
-              {filteredOfferings.map((item) => (
-                <OfferingItem key={item.id} offering={item} />
-              ))}
-            </OfferingList>
-          </div>
-        </LightGrayLayer>
+        </WhiteBox>
+      <MainPageLayout>
+        <OfferingList>
+          {filteredOfferings.map((item) => (
+            <OfferingItem key={item.id} offering={item} />
+            ))}
+        </OfferingList>
 
         <BottomNavigation />
-      </PageLayout>
+      </MainPageLayout>
     </PageBackground>
   );
 };
