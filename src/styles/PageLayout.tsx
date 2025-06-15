@@ -21,7 +21,7 @@ export const LightGrayLayer = styled.div`
   & > div {
     width: 100%;
     height: 100%;
-    min-height: 150vh;
+    min-height: 120vh;
     max-width: 800px;
     padding: 0 2rem;
   }
