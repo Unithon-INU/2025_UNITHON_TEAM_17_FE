@@ -7,21 +7,29 @@ import {ChatPage} from "./pages/ChatPage";
 import {FavoritesPage} from "./pages/FavoritesPage";
 import {WarehousePage} from "./pages/Warehouse/WarehousePage";
 import {MyPage} from "./pages/MyPage";
+import {SplashPage} from "./pages/SplashPage";
+import {Resize} from "./components/Resize";
 import {EditLocation} from "./pages/Main/EditLocation";
 import { PostWrite } from "./pages/Main/PostWrite";
 import { Cart } from "./pages/Main/Cart";
 import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
 import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
 import { OfferingItemDetailPage } from "./pages/Main/OfferingItemDetailPage";
+import {LoginPage} from "./pages/LoginPage";
+import {SignUpPage} from "./pages/SignUpPage";
 
 function App() {
     return (
-        <div className="App">
+        <div className="App" style={{height: "calc(var(--vh) * 100)"}}>
             <GlobalStyle/>
+            <Resize/>
             <BrowserRouter>
                 <Routes>
                     <Route index element={<MainPage/>}/>
+                    <Route path={RoutePath.splash} element={<SplashPage/>}/>
                     <Route path={RoutePath.chat} element={<ChatPage/>}/>
+                    <Route path={RoutePath.login} element={<LoginPage/>}/>
+                    <Route path={RoutePath.signUp} element={<SignUpPage/>}/>
                     <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
                     <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>

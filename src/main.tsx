@@ -4,11 +4,18 @@ import App from './App.tsx'
 import {ThemeProvider} from "styled-components";
 import {Theme} from "./styles/Theme";
 import {BrowserRouter} from "react-router-dom";
+import {AuthProvider} from "./hooks/useAuth";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://keepbara.duckdns.org:8082"
+//todo : 나중에 언젠가 env로 base url 빼기
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <ThemeProvider theme={Theme}>
-            <App/>
+            <AuthProvider>
+                <App/>
+            </AuthProvider>
         </ThemeProvider>
     </StrictMode>,
 )
