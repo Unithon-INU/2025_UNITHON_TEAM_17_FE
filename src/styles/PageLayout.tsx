@@ -6,47 +6,40 @@ interface PageLayoutProps {
 
 export const PageBackground = styled.div<PageLayoutProps>`
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   background-color: #f3f4f4;
 `;
 
-export const LightGrayLayer = styled.div`
+export const WhiteBox = styled.div`
   width: 100%;
-  height: 100%;
-  background-color: #f6f7f8;
-  display: flex;
-  justify-content: center;
-  padding: 2rem 0;
-
-  & > div {
-    width: 100%;
-    height: 100%;
-    min-height: 120vh;
-    max-width: 800px;
-    padding: 0 2rem;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 1;
 `;
 
 export const MainPageLayout = styled.div<PageLayoutProps>`
   width: 100%;
   min-height: 100vh;
   max-width: 800px;
-  margin: 0rem auto 0;
-  background-color: #ffffff;
-  padding: 0rem;
+  margin: 0 auto;
+  background-color: #f6f7f8;
+  padding: 2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   font-family: 'Pretendard', sans-serif;
 
   ${(props) =>
     props.isBottomNavigation &&
     css`
-      padding-bottom: 9rem; /* 바텀 네비게이션 고려 */
+      padding-bottom: 10rem;
     `}
 `;
 
 export const PageLayout = styled.div<PageLayoutProps>`
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   max-width: 800px;
   margin: 0rem auto 0;
   background-color: #ffffff;
@@ -57,6 +50,6 @@ export const PageLayout = styled.div<PageLayoutProps>`
   ${(props) =>
     props.isBottomNavigation &&
     css`
-      padding-bottom: 9rem; /* 바텀 네비게이션 고려 */
+      padding-bottom: 4rem; /* 바텀 네비게이션 고려 */
     `}
 `;
