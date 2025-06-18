@@ -42,7 +42,7 @@ export const MainPage: FC = () => {
           onSelectType={(type) => setSelectedType(type)}
         />
         </WhiteBox>
-      <MainPageLayout>
+      <MainPageLayout isBottomNavigation>
         <OfferingList>
           {filteredOfferings.map((item) => (
             <OfferingItem key={item.id} offering={item} />

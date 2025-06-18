@@ -19,11 +19,12 @@ export const WhiteBox = styled.div`
   position: relative;
   z-index: 1;
 `;
+
 export const MainPageLayout = styled.div<PageLayoutProps>`
   width: 100%;
   min-height: 100vh;
   max-width: 800px;
-  margin: 0rem auto 0;
+  margin: 0 auto;
   background-color: #f6f7f8;
   padding: 2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -32,7 +33,7 @@ export const MainPageLayout = styled.div<PageLayoutProps>`
   ${(props) =>
     props.isBottomNavigation &&
     css`
-      padding-bottom: 90rem; /* 바텀 네비게이션 고려 */
+      padding-bottom: 10rem;
     `}
 `;
 

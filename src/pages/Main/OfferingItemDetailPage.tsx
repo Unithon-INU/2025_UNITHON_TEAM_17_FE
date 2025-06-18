@@ -2,10 +2,11 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { mockOfferings } from "../../mocks/mockData";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart, FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { NavHeader } from "../../components/NavHeader";
 import { Button } from "../../components/common/Button";
+import { useFavorites } from "../../hooks/useFavorites";
 
 export const OfferingItemDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,6 +19,8 @@ export const OfferingItemDetailPage = () => {
 
   if (!offering) return <p>존재하지 않는 상품입니다.</p>;
 
+  const { favorites, toggleFavorite } = useFavorites();
+  const isLiked = favorites.includes(offering.id);
   return (
     <PageBackground>
         <PageLayout>
@@ -54,7 +57,9 @@ export const OfferingItemDetailPage = () => {
           </Content>
 
             <BottomBar>
-            <Like>🤍</Like>
+            <Like onClick={() => toggleFavorite(offering.id)} style={{ cursor: "pointer" }}>
+              {isLiked ? <FaHeart color="red" size="1.5em" /> : <FaRegHeart size="1.5em" />}
+            </Like>
             <PriceBox>
                 <span>{offering.salePrice.toLocaleString()}원</span>
                 <small>지금 {offering.quantity}개가 남아있어요 !</small>
