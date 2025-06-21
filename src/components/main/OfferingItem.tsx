@@ -68,14 +68,6 @@ const SalePrice = styled.div`
   font-weight: 600;
 `;
 
-const Badge = styled.span`
-  background-color: #dff6df;
-  color: #2e8b57;
-  font-size: 0.75em;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 20px;
-`;
 
 export const OfferingItem: FC<OfferingItemProps> = ({ offering }) => {
   return (
@@ -95,7 +87,6 @@ export const OfferingItem: FC<OfferingItemProps> = ({ offering }) => {
           <InfoRow>
             <SellerName>
               {offering.sellerName}
-              {offering.hasBadge && <Badge>{offering.badgeText}</Badge>}
             </SellerName>
             <SalePrice>₩ {commaizeNumber(offering.salePrice)}</SalePrice>
           </InfoRow>

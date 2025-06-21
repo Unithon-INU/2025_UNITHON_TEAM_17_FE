@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import { NavHeader } from "../../components/NavHeader";
 import { FiCamera } from "react-icons/fi";
+import axios from 'axios';
 
 export const PostWrite: FC = () => {
   const [costPrice, setCostPrice] = useState("");
@@ -13,6 +14,8 @@ export const PostWrite: FC = () => {
   const [chatUrl, setChatUrl] = useState("");
   const [selectedType, setSelectedType] = useState("가게");
   const toggleOptions = ["가게", "직거래"];
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -30,13 +33,52 @@ export const PostWrite: FC = () => {
     setImageFiles(prev => prev.filter((_, i) => i !== index));
   };
 
+  const handleSubmit = async () => {
+    if (!title || !salePrice || !quantity) {
+      alert("필수 정보를 입력해주세요.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("originalPrice", costPrice);
+      formData.append("salePrice", salePrice);
+      formData.append("quantity", quantity);
+      formData.append("type", selectedType === "가게" ? "가게" : "직거래");
+      formData.append("location", place);
+      formData.append("openChatUrl", chatUrl);
+
+      imageFiles.forEach((file) => {
+        formData.append("images", file);
+      });
+
+      const res = await axios.post("/api/products", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+
+      console.log(res.data);
+      alert(res.data.message || "상품이 성공적으로 등록되었습니다.");
+    } catch (error) {
+      console.error("등록 실패", error);
+      alert("상품 등록 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <PageBackground>
       <PageLayout>
-        <NavHeader title="제품 판매" onRightClick={() => alert("작성 완료")} />
+        <NavHeader title="상품 판매" onRightClick={handleSubmit} />
         <PaddedLayout>
           <Form>
-          <TitleInput placeholder="제목을 입력하세요" />
+          <TitleInput 
+              placeholder="제목을 입력하세요" 
+              value={title}
+              onChange={e => setTitle(e.target.value)} 
+            />
 
           <FormRow>
             <FieldLabel>판매 종류</FieldLabel>
@@ -93,7 +135,11 @@ export const PostWrite: FC = () => {
 
           <Small>* 서울시 00동 까지만 작성해주세요</Small>
 
-          <Textarea placeholder="제품에 대한 설명을 작성해주세요." />
+          <Textarea 
+              placeholder="제품에 대한 설명을 작성해주세요." 
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+            />
 
           <ImageUploadBox>
             <input
@@ -116,7 +162,7 @@ export const PostWrite: FC = () => {
             </PreviewWrapper>
           </ImageUploadBox>
 
-          <SubmitButton>작성 완료</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>작성 완료</SubmitButton>
         </Form>
         </PaddedLayout>
       </PageLayout>

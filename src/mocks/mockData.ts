@@ -119,66 +119,62 @@ export const mockProducts: Product[] = [
 ];
 
 export interface Offering {
-    id: number;
-    name: string;          // 상품 이름
-    type: string;          // 상품 종류
-    sellerName: string;    // 판매자 이름
-    costPrice: number;     // 원가
-    salePrice: number;     // 판매가
-    createdAt: string;       // 작성 일시
-    imageUrls: string[];      // 썸네일
-    quantity : string;
-    place : string;
-    description: string;
-    hasBadge: boolean;
-    badgeText?: string;
-
+  id: number;
+  name: string;           // 제목
+  type: string;           // "가게" | "직거래"
+  sellerName: string;     // 판매자 이름
+  costPrice: number;      // 원가
+  salePrice: number;      // 판매금액
+  quantity: number;       // 수량
+  place: string;          // 거래장소
+  description: string;    // 설명
+  openChatUrl: string;    // 오픈채팅 URL
+  createdAt: string;      // 작성일시
+  imageUrls: string[];    // 이미지
 }
 
 export const mockOfferings: Offering[] = [
   {
     id: 1,
-    name: "먼치킨",
-    type: "카페",
+    name: "먼치킨 도넛",
+    type: "가게",
     sellerName: "김바보님",
     costPrice: 5000,
     salePrice: 2500,
+    quantity: 2,
+    place: "송도 5공학관 앞",
+    description: "갓 나온 먼치킨 도넛입니다. 배송불가, 직수령 부탁드립니다!",
+    openChatUrl: "https://open.kakao.com/o/abc123",
     createdAt: "1시간 전",
     imageUrls: [image1, image1, image1],
-    quantity: "2",
-    place: "",
-    description: "먼치킨 팝니다! 갓 나온 도넛이에요 🍩",
-    hasBadge: true,
-    badgeText: "던킨도너츠 인천대점 인증",
   },
   {
     id: 2,
-    name: "케이크",
-    type: "카페",
+    name: "맛있는 케이크",
+    type: "가게",
     sellerName: "제빵왕님",
     costPrice: 15000,
     salePrice: 5300,
+    quantity: 1,
+    place: "송도 3캠퍼스 정문",
+    description: "유통기한 임박! 맛있는 케이크 저렴하게 드립니다 🎂",
+    openChatUrl: "https://open.kakao.com/o/def456",
     createdAt: "2시간 전",
     imageUrls: [image1, image1],
-    quantity: "1",
-    place: "",
-    description: "맛있는 케이크 판매합니다 🎂 유통기한 임박!",
-    hasBadge: true,
-    badgeText: "맛있는 케이크 인천대점 인증",
   },
   {
     id: 3,
     name: "블루베리 요거트",
-    type: "카페",
+    type: "가게",
     sellerName: "헬씨마켓",
     costPrice: 3500,
     salePrice: 2200,
+    quantity: 5,
+    place: "송도 2캠퍼스",
+    description: "저당 요거트에 블루베리 가득! 당일 생산품입니다.",
+    openChatUrl: "https://open.kakao.com/o/ghi789",
     createdAt: "30분 전",
     imageUrls: [image1],
-    quantity: "5",
-    place: "",
-    description: "저당 요거트에 블루베리 가득! 당일 생산품입니다.",
-    hasBadge: false,
   },
   {
     id: 4,
@@ -187,13 +183,12 @@ export const mockOfferings: Offering[] = [
     sellerName: "건강팜",
     costPrice: 4500,
     salePrice: 3000,
+    quantity: 2,
+    place: "송도 중앙공원 입구",
+    description: "무항생제 인증 달걀입니다! 직접 수거한 상품이에요.",
+    openChatUrl: "https://open.kakao.com/o/jkl012",
     createdAt: "어제",
     imageUrls: [image1],
-    quantity: "2",
-    place: "",
-    description: "무항생제 인증 달걀입니다! 직접 수거한 상품이에요.",
-    hasBadge: true,
-    badgeText: "친환경 농가 인증",
   },
   {
     id: 5,
@@ -202,11 +197,11 @@ export const mockOfferings: Offering[] = [
     sellerName: "과일나라",
     costPrice: 3000,
     salePrice: 1800,
+    quantity: 1,
+    place: "송도 도서관 앞",
+    description: "제주산 유기농 사과, 아삭하고 달콤합니다 🍎",
+    openChatUrl: "https://open.kakao.com/o/mno345",
     createdAt: "2일 전",
     imageUrls: [image1],
-    quantity: "1",
-    place: "",
-    description: "제주산 유기농 사과, 아삭하고 달콤합니다 🍎",
-    hasBadge: false,
   }
 ];

@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import styled from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
-import { FaRegListAlt, FaShoppingCart } from 'react-icons/fa';
+import { FaRegListAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const HeaderWrapper = styled.div`
@@ -84,9 +84,6 @@ export const MainHeader: FC<MainHeaderProps> = ({ searchKeyword, onSearchChange 
             <Icons>
               <IconLink to="/home/main/post-write">
                 <FaRegListAlt />
-              </IconLink>
-              <IconLink to="/home/main/cart">
-                <FaShoppingCart />
               </IconLink>
             </Icons>
           </TopRow>
