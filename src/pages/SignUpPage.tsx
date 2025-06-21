@@ -14,7 +14,9 @@ function useSignUpInput(initialValue: string) {
     const [value, setValue] = useState<string>(initialValue);
     const [error, setError] = useState<string | null>(null)
 
-    return [value, setValue, error, setError];
+    const handleChange = (v: string) => setValue(v);
+
+    return [value, handleChange, error, setError];
 }
 
 export const SignUpPage: FC = () => {
