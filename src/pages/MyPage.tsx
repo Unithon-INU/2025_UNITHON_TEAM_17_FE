@@ -31,8 +31,6 @@ export const MyPage: FC = () => {
           판매 내역 <Arrow>〉</Arrow>
         </MenuItem>
 
-        <OwnerButton>+ 사장님 인증 버튼 추가</OwnerButton>
-
         <BottomNavigation />
         </PaddedLayout>
       </PageLayout>
@@ -105,11 +103,4 @@ const MenuItem = styled.div`
 const Arrow = styled.span`
   font-size: 1.2rem;
   color: #999;
-`;
-
-const OwnerButton = styled.div`
-  color: red;
-  text-align: center;
-  margin-top: 2rem;
-  font-size: 0.9rem;
 `;
