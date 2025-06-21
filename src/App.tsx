@@ -38,7 +38,7 @@ function App() {
                     <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
                     <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
                     <Route path={RoutePath.mainPage.cart} element={<Cart/>}/>
-                    <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
+                    <Route path={RoutePath.warehouseCreate} element={<AddLocationPage />} />
                 </Routes>
             </BrowserRouter>
         </div>

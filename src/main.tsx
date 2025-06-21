@@ -6,15 +6,19 @@ import {Theme} from "./styles/Theme";
 import {BrowserRouter} from "react-router-dom";
 import {AuthProvider} from "./hooks/useAuth";
 import axios from "axios";
+import {WarehouseProvider} from "./hooks/useWarehouse";
 
-axios.defaults.baseURL = "http://keepbara.duckdns.org:8082"
+axios.defaults.baseURL = "https://keepbara.duckdns.org"
 //todo : 나중에 언젠가 env로 base url 빼기
+axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <ThemeProvider theme={Theme}>
             <AuthProvider>
-                <App/>
+                <WarehouseProvider>
+                    <App/>
+                </WarehouseProvider>
             </AuthProvider>
         </ThemeProvider>
     </StrictMode>,

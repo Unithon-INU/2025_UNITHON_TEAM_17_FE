@@ -49,7 +49,11 @@ export const AuthProvider: React.FC = ({children}) => {
     const login = async (req: LoginReq): Promise<User> => {
         setIsLoading(true);
         try {
-            const res = await axios.post("/api/auth/login", req)
+            const res = await axios.post(
+                "/api/auth/login",
+                req,
+                {withCredentials: true}
+            )
             if (res.status !== 200) {
                 throw new Error("Login failed with status: " + res.status);
             }

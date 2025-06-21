@@ -14,6 +14,7 @@ export const RoutePath = {
     chat: "/home/chat",
     favorites: "/home/favorites",
     warehouse: "/home/warehouse",
+    warehouseCreate: "/home/warehouse/add-location",
     warehouseDetail: (id: string | null) =>{
         if(id == null)
             return "/home/warehouse/:locationName"
