@@ -11,33 +11,39 @@ export const WarehousePage: FC = () => {
   return (
     <PageBackground>
       <PageLayout isBottomNavigation>
-        <HeaderWrapper>
-          <Title>내 창고</Title>
-        </HeaderWrapper>
+        <PaddedLayout>
+          <HeaderWrapper>
+            <Title>내 창고</Title>
+          </HeaderWrapper>
 
-        <ExpiringProduct/>
+          <ExpiringProduct/>
 
-        {mockLocations.map((location) => {
-        const count = mockProducts.filter(p => p.locationId === location.id).length;
+          {mockLocations.map((location) => {
+          const count = mockProducts.filter(p => p.locationId === location.id).length;
 
-          return (
-            <LocationItem
-              id={location.id}
-              key={location.name}
-              name={location.name}
-              description={location.description}
-              productCount={count}  
-              imageUrl={location.imageUrl}
-            />
-          );
-        })}
-        <AddLocationButton />
-        <BottomNavigation />
+            return (
+              <LocationItem
+                id={location.id}
+                key={location.name}
+                name={location.name}
+                description={location.description}
+                productCount={count}  
+                imageUrl={location.imageUrl}
+              />
+            );
+          })}
+          <AddLocationButton />
+          <BottomNavigation />
+        </PaddedLayout>
       </PageLayout>
     </PageBackground>
   );
 };
 
+
+const PaddedLayout = styled(PageLayout)`
+  padding: 2.5rem;
+`;
 
 const HeaderWrapper = styled.div`
   display: flex;

@@ -4,14 +4,18 @@ import styled from "styled-components";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import { NavHeader } from "../../components/NavHeader";
 import { FiCamera } from "react-icons/fi";
+import axios from 'axios';
 
 export const PostWrite: FC = () => {
   const [costPrice, setCostPrice] = useState("");
   const [salePrice, setSalePrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [place, setPlace] = useState("");
+  const [chatUrl, setChatUrl] = useState("");
   const [selectedType, setSelectedType] = useState("가게");
-
   const toggleOptions = ["가게", "직거래"];
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -19,27 +23,67 @@ export const PostWrite: FC = () => {
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length + imageFiles.length > 5) {
-        alert("사진은 최대 5장까지 선택할 수 있습니다.");
-        return;
+      alert("사진은 최대 5장까지 선택할 수 있습니다.");
+      return;
     }
     setImageFiles(prev => [...prev, ...files]);
-    };
-    const removeImage = (index: number) => {
-  setImageFiles(prev => prev.filter((_, i) => i !== index));
-   };
+  };
+
+  const removeImage = (index: number) => {
+    setImageFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async () => {
+    if (!title || !salePrice || !quantity) {
+      alert("필수 정보를 입력해주세요.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("originalPrice", costPrice);
+      formData.append("salePrice", salePrice);
+      formData.append("quantity", quantity);
+      formData.append("type", selectedType === "가게" ? "가게" : "직거래");
+      formData.append("location", place);
+      formData.append("openChatUrl", chatUrl);
+
+      imageFiles.forEach((file) => {
+        formData.append("images", file);
+      });
+
+      const res = await axios.post("/api/products", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+
+      console.log(res.data);
+      alert(res.data.message || "상품이 성공적으로 등록되었습니다.");
+    } catch (error) {
+      console.error("등록 실패", error);
+      alert("상품 등록 중 오류가 발생했습니다.");
+    }
+  };
 
   return (
     <PageBackground>
       <PageLayout>
-        <NavHeader title="제품 판매"  onRightClick={() => alert("작성 완료")} />
-
-        <Form>
-          <TitleInput placeholder="제목을 입력하세요" />
+        <NavHeader title="상품 판매" onRightClick={handleSubmit} />
+        <PaddedLayout>
+          <Form>
+          <TitleInput 
+              placeholder="제목을 입력하세요" 
+              value={title}
+              onChange={e => setTitle(e.target.value)} 
+            />
 
           <FormRow>
             <FieldLabel>판매 종류</FieldLabel>
             <RightAlignBox>
-              {toggleOptions.map((option) => (
+              {toggleOptions.map(option => (
                 <ToggleButton
                   key={option}
                   selected={selectedType === option}
@@ -76,47 +120,65 @@ export const PostWrite: FC = () => {
           </FormRow>
 
           <FormRow>
-            <FieldLabel>거래장소</FieldLabel>
+            <FieldLabel>오픈채팅 URL</FieldLabel>
             <InputWrapper>
-              <Placeholder>장소를 선택하세요</Placeholder>
-              <Arrow>▶</Arrow>
+              <Input value={chatUrl} onChange={e => setChatUrl(e.target.value)} placeholder="URL을 입력하세요" />
             </InputWrapper>
           </FormRow>
 
-          <Small>* 필수 입력 항목이 아닙니다</Small>
+          <FormRow>
+            <FieldLabel>거래장소</FieldLabel>
+            <InputWrapper>
+              <Input value={place} onChange={e => setPlace(e.target.value)} placeholder="장소를 입력하세요" />
+            </InputWrapper>
+          </FormRow>
 
-          <Textarea placeholder="제품에 대한 설명을 작성해주세요." />
+          <Small>* 서울시 00동 까지만 작성해주세요</Small>
 
-        <ImageUploadBox>
-        <input
-            type="file"
-            accept="image/*"
-            multiple
-            style={{ display: "none" }}
-            ref={fileInputRef}
-            onChange={handleImageSelect}
-        />
-        <FiCamera size={24} onClick={() => fileInputRef.current?.click()} />
-        <ImageCount>{imageFiles.length}/5</ImageCount>
+          <Textarea 
+              placeholder="제품에 대한 설명을 작성해주세요." 
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+            />
+
+          <ImageUploadBox>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              style={{ display: "none" }}
+              ref={fileInputRef}
+              onChange={handleImageSelect}
+            />
+            <FiCamera size={24} onClick={() => fileInputRef.current?.click()} />
+            <ImageCount>{imageFiles.length}/5</ImageCount>
             <PreviewWrapper>
-                {imageFiles.map((file, idx) => (
+              {imageFiles.map((file, idx) => (
                 <Preview key={idx}>
-                    <img src={URL.createObjectURL(file)} alt={`preview-${idx}`} />
-                    <RemoveButton onClick={() => removeImage(idx)}>✕</RemoveButton>
+                  <img src={URL.createObjectURL(file)} alt={`preview-${idx}`} />
+                  <RemoveButton onClick={() => removeImage(idx)}>✕</RemoveButton>
                 </Preview>
-                ))}
+              ))}
             </PreviewWrapper>
-        </ImageUploadBox>
+          </ImageUploadBox>
 
-          <SubmitButton>작성 완료</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>작성 완료</SubmitButton>
         </Form>
+        </PaddedLayout>
       </PageLayout>
     </PageBackground>
   );
 };
 
+const PaddedLayout = styled(PageLayout)`
+  padding: 0.5rem;
+`;
+
 const Form = styled.div`
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;  // FormRow 간격!
 `;
 
 const TitleInput = styled.input`
@@ -125,7 +187,6 @@ const TitleInput = styled.input`
   border: none;
   border-bottom: 2px solid #000;
   padding: 1rem 0;
-  margin-bottom: 1.5rem;
   &:focus {
     outline: none;
   }
@@ -135,14 +196,14 @@ const FormRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
   border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
 `;
 
 const FieldLabel = styled.div`
   font-size: 1rem;
   font-weight: 500;
-  width: 80px;
+  width: 100px;
 `;
 
 const InputWrapper = styled.div`
@@ -150,6 +211,7 @@ const InputWrapper = styled.div`
   align-items: center;
   flex: 1;
   justify-content: flex-end;
+  gap: 0.5rem;
 `;
 
 const Input = styled.input`
@@ -157,36 +219,26 @@ const Input = styled.input`
   background: transparent;
   font-size: 1rem;
   text-align: right;
-  width: 100px;
+  width: 150px;
   &:focus {
     outline: none;
   }
 `;
 
 const Unit = styled.span`
-  margin-left: 0.5rem;
   font-size: 1rem;
   color: #888;
-`;
-
-const Placeholder = styled.span`
-  color: #aaa;
-  font-size: 1rem;
-`;
-
-const Arrow = styled.span`
-  font-size: 1rem;
-  margin-left: 0.5rem;
 `;
 
 const Small = styled.p`
   font-size: 0.8rem;
   color: #aaa;
-  margin: 0.5rem 0 1.5rem;
+  margin: 0.2rem 0 1rem;
+  margin-left: 0.5rem;
 `;
 
 const Textarea = styled.textarea`
-  width: 100%;
+  width: 95%;
   height: 180px;
   padding: 1rem;
   font-size: 1rem;
@@ -197,45 +249,16 @@ const Textarea = styled.textarea`
 
 const ImageUploadBox = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   padding: 1rem;
-  border-radius: 10px;
   border: 1px solid #ddd;
-  margin: 1.5rem 0;
+  border-radius: 10px;
 `;
 
 const ImageCount = styled.span`
   margin-top: 0.5rem;
   font-size: 0.9rem;
-`;
-
-const SubmitButton = styled.button`
-  width: 100%;
-  padding: 1rem;
-  background-color: #6fc667;
-  color: white;
-  font-weight: bold;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 10px;
-`;
-
-// 토글 오른쪽 정렬용 컨테이너
-const RightAlignBox = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-`;
-
-const ToggleButton = styled.button<{ selected: boolean }>`
-  border-radius: 20px;
-  padding: 8px 20px;
-  background-color: ${({ selected }) => (selected ? "#6FC667" : "#eee")};
-  color: ${({ selected }) => (selected ? "white" : "black")};
-  font-weight: bold;
-  border: none;
 `;
 
 const PreviewWrapper = styled.div`
@@ -267,4 +290,32 @@ const RemoveButton = styled.button`
   font-size: 0.8rem;
   padding: 0 5px;
   cursor: pointer;
+`;
+
+const SubmitButton = styled.button`
+  width: 80%;
+  padding: 1rem;
+  background-color: #6fc667;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+`;
+
+const RightAlignBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+`;
+
+const ToggleButton = styled.button<{ selected: boolean }>`
+  border-radius: 20px;
+  padding: 8px 20px;
+  background-color: ${({ selected }) => (selected ? "#6FC667" : "#eee")};
+  color: ${({ selected }) => (selected ? "white" : "black")};
+  font-weight: bold;
+  border: none;
 `;

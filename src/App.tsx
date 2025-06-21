@@ -11,9 +11,9 @@ import {SplashPage} from "./pages/SplashPage";
 import {Resize} from "./components/Resize";
 import {EditLocation} from "./pages/Main/EditLocation";
 import { PostWrite } from "./pages/Main/PostWrite";
-import { Cart } from "./pages/Main/Cart";
 import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
 import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
+import { OfferingItemDetailPage } from "./pages/Main/OfferingItemDetailPage";
 import {LoginPage} from "./pages/LoginPage";
 import {SignUpPage} from "./pages/SignUpPage";
 
@@ -31,8 +31,12 @@ function App() {
                     <Route path={RoutePath.signUp} element={<SignUpPage/>}/>
                     <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
+                    <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
+                    <Route path="/home/main/:id" element={<OfferingItemDetailPage/> } />
                     <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
                     <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />
+                    <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
+                    <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
                     <Route path={RoutePath.my} element={<MyPage/>}/>
                     <Route path={RoutePath.temp} element={<TempPage/>}/>
                     <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>

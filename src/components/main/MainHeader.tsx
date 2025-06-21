@@ -1,6 +1,7 @@
+import type { FC } from "react";
 import styled from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
-import { FaRegListAlt, FaShoppingCart } from 'react-icons/fa';
+import { FaRegListAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const HeaderWrapper = styled.div`
@@ -68,7 +69,12 @@ const Input = styled.input`
   font-size: 0.95rem;
 `;
 
-export const MainHeader = () => {
+interface MainHeaderProps {
+  searchKeyword: string;
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const MainHeader: FC<MainHeaderProps> = ({ searchKeyword, onSearchChange }) => {
   return (
     <HeaderWrapper>
       <HeaderContainer>
@@ -79,15 +85,17 @@ export const MainHeader = () => {
               <IconLink to="/home/main/post-write">
                 <FaRegListAlt />
               </IconLink>
-              <IconLink to="/home/main/cart">
-                <FaShoppingCart />
-              </IconLink>
             </Icons>
           </TopRow>
 
           <SearchBar>
             <FiSearch />
-            <Input type="text" placeholder="검색어를 입력하세요" />
+            <Input
+              type="text"
+              placeholder="검색어를 입력하세요"
+              value={searchKeyword}
+              onChange={onSearchChange}
+            />
           </SearchBar>
         </InnerContainer>
       </HeaderContainer>

@@ -3,7 +3,7 @@ import type {FC} from "react";
 
 export type InputProps = {
     value: string;
-    onChange: (string) => void;
+    onChange: (value: string) => void;
     label: string;
     placeholder: string;
     type: "text" | "email" | "password";

@@ -1,7 +1,12 @@
 import {createContext, useContext, useState} from 'react';
+import type { ReactNode } from 'react';
 import axios from "axios";
 import {LoginReq, LoginRes, SignUpReq, SignUpRes, User} from "../type/auth";
 
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
 interface AuthContextProps {
     isLoading: boolean;
@@ -14,13 +19,11 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const useAuth = (): AuthContextProps => {
-    const context = useContext(AuthContext);
-
-    if (!context) {
-        throw new Error("useAuth must be used within an AuthProvider");
-    }
-
-    return context
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 }
 
 export const AuthProvider: React.FC = ({children}) => {
@@ -71,10 +74,10 @@ export const AuthProvider: React.FC = ({children}) => {
     const loginByOAuth = async (provider: "google" | "kakao") => {
         setIsLoading(true);
         try {
-            const res = await axios.get(`/oauth2/authorization/${provider}`)
-            console.log(res)
+            const res = await axios.get(`/oauth2/authorization/${provider}`);
+            console.log(res);
         } catch (error) {
-            console.error("login by auth failed:", error);
+            console.error("login by OAuth failed:", error);
             throw error;
         } finally {
             setIsLoading(false);

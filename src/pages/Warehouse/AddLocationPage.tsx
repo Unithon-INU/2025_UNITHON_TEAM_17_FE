@@ -8,6 +8,11 @@ import {Route, useNavigate} from "react-router-dom";
 import {RoutePath} from "../../RoutePath";
 import {CreateLocationMakeReq, useWarehouse} from "../../hooks/useWarehouse";
 
+
+const PaddedLayout = styled(PageLayout)`
+  padding: 2rem;
+`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -82,11 +87,19 @@ export const AddLocationPage = () => {
         }
     };
 
+<<<<<<< HEAD
     const handleComplete = async () => {
         if (!name.trim()) {
             alert("장소 이름을 입력해주세요.");
             return;
         }
+=======
+  return (
+    <PageBackground>
+      <PageLayout>
+        <PaddedLayout>
+        <NavHeader title="장소 입력" rightIcon="완료" onRightClick={handleComplete} />
+>>>>>>> main
 
 
         try {
@@ -101,6 +114,7 @@ export const AddLocationPage = () => {
         }
     };
 
+<<<<<<< HEAD
     return (
         <PageBackground>
             <PageLayout>
@@ -137,4 +151,16 @@ export const AddLocationPage = () => {
             </PageLayout>
         </PageBackground>
     );
+=======
+          <TextArea
+            placeholder="장소에 대한 설명을 작성해주세요"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Wrapper>
+        </PaddedLayout>
+      </PageLayout>
+    </PageBackground>
+  );
+>>>>>>> main
 };
