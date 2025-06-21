@@ -59,7 +59,7 @@ export const LoginPage: FC = () => {
         }
     }
 
-    const onLoginOauth = async (providera: "google" | "kakao") => {
+    const onLoginOauth = async (provider: "google" | "kakao") => {
         window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/${provider}`;
     }
 
