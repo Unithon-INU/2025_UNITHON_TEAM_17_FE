@@ -5,7 +5,7 @@ type SpaceProps = {
     v?: number,
     isInlineBlock?: boolean
 }
-export const Space = styled.div`
+export const Space = styled.div<SpaceProps>`
   width: ${p => p.h}px;
   height: ${p => p.v}px;
   display: ${p => p.isInlineBlock && "inline-block"};

@@ -1,4 +1,4 @@
-import type {FC} from "react";
+import type {FC, FormEvent} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
 import {NavHeader} from "../components/common/NavHeader";
 import styled from "styled-components";
@@ -49,7 +49,7 @@ export const LoginPage: FC = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const onLogin = async (e) => {
+    const onLogin = async (e : FormEvent) => {
         e.preventDefault();
 
         try {
