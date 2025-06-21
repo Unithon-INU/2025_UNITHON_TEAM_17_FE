@@ -59,7 +59,7 @@ export const LoginPage: FC = () => {
         }
     }
 
-    const onLoginOauth = async (provider: "google" | "kakao") => {
+    const onLoginOauth = async (providera: "google" | "kakao") => {
         window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/${provider}`;
     }
 
@@ -72,7 +72,7 @@ export const LoginPage: FC = () => {
                 <LoginForm onSubmit={onLogin}>
                     <LoginInput
                         value={email}
-                        onChange={setEmail}
+                        onChange={s => setEmail(s)}
                         label={"이메일"}
                         placeholder={"이메일 주소 입력"}
                         type={"email"}
@@ -80,7 +80,7 @@ export const LoginPage: FC = () => {
 
                     <LoginInput
                         value={password}
-                        onChange={setPassword}
+                        onChange={s => setPassword(s)}
                         label={"비밀번호"}
                         placeholder={"8자리 이상 입력"}
                         type={"password"}

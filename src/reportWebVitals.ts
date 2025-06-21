@@ -1,3 +1,5 @@
+import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
+
 type ReportHandler = (metric: any) => void;
 
 const reportWebVitals = (onPerfEntry?: ReportHandler) => {
