@@ -9,13 +9,15 @@ function usePreviewImage(initialFile: File | null) {
     const [file, setFile] = useState<File | null>(initialFile);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-    useEffect(() => {
+    const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
         if (!file) return;
 
+        setFile(file);
         setPreviewUrl(URL.createObjectURL(file));
-    }, [file])
+    };
 
-    return[file, setFile, previewUrl];
+    return[file, onFileChange, previewUrl];
 }
 
 export const ItemAddPage: FC = () => {
@@ -23,23 +25,9 @@ export const ItemAddPage: FC = () => {
     const {shotBarcode, createItem, shotExpire} = useWarehouse();
     const {user} = useAuth()
 
-    const [barcodeImage, setBarcodeImage, barcodeImageUrl] = usePreviewImage(null);
-    const [expireDateImage, setExpireDateImage, expireDateImageUrl] = usePreviewImage(null);
+    const [barcodeImage, onChangeBarcodeImage, barcodeImageUrl] = usePreviewImage(null);
+    const [expireDateImage, onChangeExpireDateImage, expireDateImageUrl] = usePreviewImage(null);
     const [barcode, setBarcode] = useState<BarcodeRes | null>(null);
-
-    const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-
-        setBarcodeImage(file);
-    };
-
-    const onExpiteImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-
-        setExpireDateImage(file);
-    };
 
     const onShotBarcode = async () => {
         if (!barcodeImage) return;
@@ -90,8 +78,8 @@ export const ItemAddPage: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-                <input type="file" accept="image/*" onChange={onFileChange} />
-                <input type="file" accept="image/*" onChange={onExpiteImageChange} />
+                <input type="file" accept="image/*" onChange={onChangeBarcodeImage} />
+                <input type="file" accept="image/*" onChange={onChangeExpireDateImage} />
                 {barcodeImageUrl && (
                     <div style={{ marginTop: "10px" }}>
                         <img
