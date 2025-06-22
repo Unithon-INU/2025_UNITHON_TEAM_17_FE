@@ -19,13 +19,20 @@ export type BarcodeRes = {
     sessionId: string;
 }
 
+export type ExpireDateRes = {
+    productName: string;
+    imageUrl: string;
+    expireDate: string;
+    capturedDate: string;
+}
+
 interface WarehouseContextProps {
     isLoading: boolean;
     createLocation: (req: CreateLocationMakeReq) => Promise<Location>;
     getLocations: () => Promise<Location[]>;
     shotBarcode: (file: FormData) => Promise<BarcodeRes>;
     createItem: (req: CreateItemReq) => Promise<void>;
-    shotExpire: (file: File, sessionId: string) => Promise<any>;
+    shotExpire: (file: FormData) => Promise<ExpireDateRes>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -107,16 +114,12 @@ export const WarehouseProvider: React.FC = ({children}) => {
         }
     };
 
-    const shotExpire = async (file: File, sessionId: string): Promise<any> => {
+    const shotExpire = async (file: FormData): Promise<ExpireDateRes> => {
         setIsLoading(true);
         try {
-            const formData = new FormData();
-            formData.append('imageFile', file);
-            formData.append('sessionId', sessionId);
-
             const res = await axios.post(
                 '/api/box/items/shot-expire',
-                formData,
+                file,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',
