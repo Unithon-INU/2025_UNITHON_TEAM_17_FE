@@ -5,6 +5,7 @@ import { NavHeader } from "../../components/NavHeader";
 import { BiCamera, BiDotsHorizontalRounded } from "react-icons/bi";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import styled from "styled-components";
+import {useWarehouse} from "../../hooks/useWarehouse";
 
 const PaddedLayout = styled(PageLayout)`
   padding: 2rem;

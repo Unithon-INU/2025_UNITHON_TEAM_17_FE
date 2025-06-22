@@ -1,53 +1,53 @@
 import type {FC} from "react";
-import { PageBackground, PageLayout} from "../../styles/PageLayout";
+import {PageBackground, PageLayout} from "../../styles/PageLayout";
 import {BottomNavigation} from "../../components/BottomNavigation";
 import {AddLocationButton} from "./AddLocationButton"
 import {LocationItem} from "./LocationItem"
-import { mockLocations, mockProducts } from "../../mocks/mockData";
-import { ExpiringProduct } from "./ExpiringProduct";
+import {mockLocations, mockProducts} from "../../mocks/mockData";
+import {ExpiringProduct} from "./ExpiringProduct";
 import styled from "styled-components";
 import {useWarehouse} from "../../hooks/useWarehouse";
 import {useEffect, useState} from "react";
 import {Location} from "../../type/Warehouse";
 
 export const WarehousePage: FC = () => {
-  const {getLocations} = useWarehouse();
-  const [locations, setLocations] = useState<Location[]>([])
+    const {getLocations} = useWarehouse();
+    const [locations, setLocations] = useState<Location[]>([])
 
-  useEffect(() => {
-    getLocations().then(setLocations)
-  }, [])
+    useEffect(() => {
+        getLocations().then(setLocations)
+    }, [])
 
-  return (
-    <PageBackground>
-      <PageLayout isBottomNavigation>
-        <PaddedLayout>
-          <HeaderWrapper>
-            <Title>내 창고</Title>
-          </HeaderWrapper>
+    return (
+        <PageBackground>
+            <PageLayout isBottomNavigation>
+                <PaddedLayout>
+                    <HeaderWrapper>
+                        <Title>내 창고</Title>
+                    </HeaderWrapper>
 
-          <ExpiringProduct/>
+                    <ExpiringProduct/>
 
-          {locations.map((location) => {
-          const count = locations.length;
+                    {locations.map((location) => {
+                        const count = locations.length;
 
-            return (
-              <LocationItem
-                id={location.id}
-                key={location.name}
-                name={location.name}
-                description={""}
-                productCount={count}  
-                imageUrl={"https://picsum.photos/200/200?random=" + location.id}
-              />
-            );
-          })}
-          <AddLocationButton />
-          <BottomNavigation />
-        </PaddedLayout>
-      </PageLayout>
-    </PageBackground>
-  );
+                        return (
+                            <LocationItem
+                                id={location.id}
+                                key={location.name}
+                                name={location.name}
+                                description={""}
+                                productCount={count}
+                                imageUrl={"https://picsum.photos/200/200?random=" + location.id}
+                            />
+                        );
+                    })}
+                    <AddLocationButton/>
+                    <BottomNavigation/>
+                </PaddedLayout>
+            </PageLayout>
+        </PageBackground>
+    );
 };
 
 
