@@ -1,21 +1,11 @@
 import {createContext, useContext, useState} from 'react';
-import {Warehouse} from "../type/Warehouse";
+import {CreateLocationMakeReq, Location} from "../type/Warehouse";
 import axios from "axios";
-import {User} from "../type/auth";
-
-export type CreateLocationMakeReq = {
-    name: string
-}
-
-export type CreateLocationMakeRes = {
-    id: number;
-    name: string;
-    memberId: User["id"];
-}
 
 interface WarehouseContextProps {
     isLoading: boolean;
-    createLocation: (req: CreateLocationMakeReq) => Promise<CreateLocationMakeRes>;
+    createLocation: (req: CreateLocationMakeReq) => Promise<Location>;
+    getLocations: () => Promise<Location[]>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -33,7 +23,7 @@ export const useWarehouse = (): WarehouseContextProps => {
 export const WarehouseProvider: React.FC = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
 
-    const createLocation = async (req: CreateLocationMakeReq): Promise<CreateLocationMakeRes> => {
+    const createLocation = async (req: CreateLocationMakeReq): Promise<Location> => {
         setIsLoading(true);
         try {
             const res = await axios.post(
@@ -55,8 +45,29 @@ export const WarehouseProvider: React.FC = ({children}) => {
         }
     }
 
+    const getLocations = async (): Promise<Location[]> => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(
+                `/aapi/box/locations`,
+                { withCredentials: true }
+            );
+            if (res.status !== 200) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+
+            return res.data;
+        } catch (error) {
+            console.error("Error fetching locations:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
-        <WarehouseContext.Provider value={{isLoading, createLocation}}>
+        <WarehouseContext.Provider value={{isLoading, createLocation, getLocations}}>
             {children}
         </WarehouseContext.Provider>
     )

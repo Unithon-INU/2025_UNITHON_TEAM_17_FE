@@ -6,8 +6,18 @@ import {LocationItem} from "./LocationItem"
 import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { ExpiringProduct } from "./ExpiringProduct";
 import styled from "styled-components";
+import {useWarehouse} from "../../hooks/useWarehouse";
+import {useEffect} from "react";
 
 export const WarehousePage: FC = () => {
+  const {getLocations} = useWarehouse();
+
+  useEffect(() => {
+    getLocations().then((locations) => {
+      console.log("Locations fetched:", locations);
+    })
+  }, [])
+
   return (
     <PageBackground>
       <PageLayout isBottomNavigation>

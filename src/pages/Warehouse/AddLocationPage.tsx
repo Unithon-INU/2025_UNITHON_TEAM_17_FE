@@ -6,7 +6,8 @@ import {FiImage} from "react-icons/fi";
 import {mockLocations, mockProducts} from "../../mocks/mockData";
 import {Route, useNavigate} from "react-router-dom";
 import {RoutePath} from "../../RoutePath";
-import {CreateLocationMakeReq, useWarehouse} from "../../hooks/useWarehouse";
+import {useWarehouse} from "../../hooks/useWarehouse";
+import {CreateLocationMakeReq} from "../../type/Warehouse";
 
 
 const PaddedLayout = styled(PageLayout)`
