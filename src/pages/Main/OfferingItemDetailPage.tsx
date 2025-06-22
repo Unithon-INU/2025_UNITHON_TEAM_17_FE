@@ -79,7 +79,16 @@ export const OfferingItemDetailPage = () => {
           ) : offering ? (
             <>
               <ImageWrapper>
-                <ProductImage src={offering.imageUrls[0]} alt={offering.title} />
+                <ProductImage
+                  src={
+                    offering.imageUrls[0]
+                      ? (offering.imageUrls[0].startsWith("http")
+                          ? offering.imageUrls[0]
+                          : `https://keepbara.duckdns.org${offering.imageUrls[0]}`)
+                      : "/default-image.png"
+                  }
+                  alt={offering.title}
+                />
               </ImageWrapper>
 
               <SellerInfo>
