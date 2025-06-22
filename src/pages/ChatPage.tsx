@@ -6,7 +6,7 @@ export const ChatPage: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-               채팅 페이지
+               튜토리얼 페이지
             <BottomNavigation/>
             </PageLayout>
         </PageBackground>

@@ -41,23 +41,26 @@ export const PostWrite: FC = () => {
 
     try {
       const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("originalPrice", costPrice);
-      formData.append("salePrice", salePrice);
-      formData.append("quantity", quantity);
-      formData.append("type", selectedType === "가게" ? "가게" : "직거래");
-      formData.append("location", place);
-      formData.append("openChatUrl", chatUrl);
+
+      const dto = {
+        title,
+        description,
+        originalPrice: Number(costPrice),
+        salePrice: Number(salePrice),
+        quantity: Number(quantity),
+        type: selectedType === "가게" ? "가게" : "직거래",
+        location: place,
+        openChatUrl: chatUrl
+      };
+
+      formData.append("requestDto", JSON.stringify(dto));
 
       imageFiles.forEach((file) => {
-        formData.append("images", file);
+        formData.append("image", file); // 'image' 이름으로 파일 추가
       });
 
       const res = await axios.post("/api/products", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
+        withCredentials: true // 세션 쿠키 인증 필요 시
       });
 
       console.log(res.data);
@@ -74,101 +77,102 @@ export const PostWrite: FC = () => {
         <NavHeader title="상품 판매" onRightClick={handleSubmit} />
         <PaddedLayout>
           <Form>
-          <TitleInput 
+            <TitleInput 
               placeholder="제목을 입력하세요" 
               value={title}
               onChange={e => setTitle(e.target.value)} 
             />
 
-          <FormRow>
-            <FieldLabel>판매 종류</FieldLabel>
-            <RightAlignBox>
-              {toggleOptions.map(option => (
-                <ToggleButton
-                  key={option}
-                  selected={selectedType === option}
-                  onClick={() => setSelectedType(option)}
-                >
-                  {option}
-                </ToggleButton>
-              ))}
-            </RightAlignBox>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>판매 종류</FieldLabel>
+              <RightAlignBox>
+                {toggleOptions.map(option => (
+                  <ToggleButton
+                    key={option}
+                    selected={selectedType === option}
+                    onClick={() => setSelectedType(option)}
+                  >
+                    {option}
+                  </ToggleButton>
+                ))}
+              </RightAlignBox>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>원가</FieldLabel>
-            <InputWrapper>
-              <Input value={costPrice} onChange={e => setCostPrice(e.target.value)} />
-              <Unit>원</Unit>
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>원가</FieldLabel>
+              <InputWrapper>
+                <Input value={costPrice} onChange={e => setCostPrice(e.target.value)} />
+                <Unit>원</Unit>
+              </InputWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>판매금액</FieldLabel>
-            <InputWrapper>
-              <Input value={salePrice} onChange={e => setSalePrice(e.target.value)} />
-              <Unit>원</Unit>
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>판매금액</FieldLabel>
+              <InputWrapper>
+                <Input value={salePrice} onChange={e => setSalePrice(e.target.value)} />
+                <Unit>원</Unit>
+              </InputWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>수량</FieldLabel>
-            <InputWrapper>
-              <Input value={quantity} onChange={e => setQuantity(e.target.value)} />
-              <Unit>개</Unit>
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>수량</FieldLabel>
+              <InputWrapper>
+                <Input value={quantity} onChange={e => setQuantity(e.target.value)} />
+                <Unit>개</Unit>
+              </InputWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>오픈채팅 URL</FieldLabel>
-            <InputWrapper>
-              <Input value={chatUrl} onChange={e => setChatUrl(e.target.value)} placeholder="URL을 입력하세요" />
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>오픈채팅 URL</FieldLabel>
+              <InputWrapper>
+                <Input value={chatUrl} onChange={e => setChatUrl(e.target.value)} placeholder="URL을 입력하세요" />
+              </InputWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>거래장소</FieldLabel>
-            <InputWrapper>
-              <Input value={place} onChange={e => setPlace(e.target.value)} placeholder="장소를 입력하세요" />
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>거래장소</FieldLabel>
+              <InputWrapper>
+                <Input value={place} onChange={e => setPlace(e.target.value)} placeholder="장소를 입력하세요" />
+              </InputWrapper>
+            </FormRow>
 
-          <Small>* 서울시 00동 까지만 작성해주세요</Small>
+            <Small>* 서울시 00동 까지만 작성해주세요</Small>
 
-          <Textarea 
+            <Textarea 
               placeholder="제품에 대한 설명을 작성해주세요." 
               value={description}
               onChange={e => setDescription(e.target.value)}
             />
 
-          <ImageUploadBox>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              style={{ display: "none" }}
-              ref={fileInputRef}
-              onChange={handleImageSelect}
-            />
-            <FiCamera size={24} onClick={() => fileInputRef.current?.click()} />
-            <ImageCount>{imageFiles.length}/5</ImageCount>
-            <PreviewWrapper>
-              {imageFiles.map((file, idx) => (
-                <Preview key={idx}>
-                  <img src={URL.createObjectURL(file)} alt={`preview-${idx}`} />
-                  <RemoveButton onClick={() => removeImage(idx)}>✕</RemoveButton>
-                </Preview>
-              ))}
-            </PreviewWrapper>
-          </ImageUploadBox>
+            <ImageUploadBox>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                style={{ display: "none" }}
+                ref={fileInputRef}
+                onChange={handleImageSelect}
+              />
+              <FiCamera size={24} onClick={() => fileInputRef.current?.click()} />
+              <ImageCount>{imageFiles.length}/5</ImageCount>
+              <PreviewWrapper>
+                {imageFiles.map((file, idx) => (
+                  <Preview key={idx}>
+                    <img src={URL.createObjectURL(file)} alt={`preview-${idx}`} />
+                    <RemoveButton onClick={() => removeImage(idx)}>✕</RemoveButton>
+                  </Preview>
+                ))}
+              </PreviewWrapper>
+            </ImageUploadBox>
 
-          <SubmitButton onClick={handleSubmit}>작성 완료</SubmitButton>
-        </Form>
+            <SubmitButton onClick={handleSubmit}>작성 완료</SubmitButton>
+          </Form>
         </PaddedLayout>
       </PageLayout>
     </PageBackground>
   );
 };
+
 
 const PaddedLayout = styled(PageLayout)`
   padding: 0.5rem;
