@@ -104,9 +104,7 @@ export const WarehouseProvider: React.FC = ({children}) => {
                     },
                 }
             );
-            const {sessionId} = res.data;
-
-            return {...res.data, sessionId}
+            return res.data
         } catch (error) {
             console.error('업로드 실패:', error);
         } finally {

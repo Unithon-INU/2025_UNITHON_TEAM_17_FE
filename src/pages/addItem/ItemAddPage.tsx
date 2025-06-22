@@ -9,6 +9,7 @@ import {ItemAddStepBarcode} from "./ItemAddStepBarcode";
 import {ItemAddStepExpireDate} from "./ItemAddStepExpireDate";
 import {ItemAddStepEdit} from "./ItemAddStepEdit";
 import {ItemAddStepSuccess} from "./ItemAddStepSuccess";
+import curriedDarken from "polished/lib/color/darken";
 
 type ItemAddStep = "mascot" | "barcode" | "expireDate" | "edit" | "success";
 
@@ -23,50 +24,13 @@ export const ItemAddPage: FC = () => {
     const {user} = useAuth()
 
     const [step, setStep] = useState<ItemAddStep>("mascot");
-    const [barcodeImage, onChangeBarcodeImage, barcodeImageUrl] = usePreviewImage(null);
-    const [expireDateImage, onChangeExpireDateImage, expireDateImageUrl] = usePreviewImage(null);
-    const barcode = useRef<BarcodeRes | null>(null);
-    const expireDate = useRef<ExpireDateRes | null>(null);
+    const createItemReq = useRef({
+        memberId: user!!.id,
+        locationId: location!!.id
+    } as CreateItemReq);
 
-    const onShotBarcode = async () => {
-        if (!barcodeImage) return;
-
-        const formData = new FormData();
-        formData.append("file", barcodeImage);
-
+    const onCreateItem = async (req : CreateItemReq) => {
         try {
-            const res = await shotBarcode(formData);
-            barcode.current = res
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
-    };
-
-    const onShotExpire = async () => {
-        if (!expireDateImage) return;
-
-        const formData = new FormData();
-        formData.append("imageFile", expireDateImage);
-
-        try {
-            const res = await shotExpire(formData);
-            expireDate.current = res
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
-    }
-
-    const onCreateItem = async () => {
-        try {
-            const req: CreateItemReq = {
-                memberId: user!!.id,
-                locationId: location!!.id,
-                name: barcode.current!!.productName,
-                imageUrl: barcode.current!!.imageUrl,
-                registerDate: expireDate.current!!.capturedDate,
-                expireDate: expireDate.current!!.expireDate,
-                alarmEnabled: false
-            };
             const newItem = await createItem(req);
             console.log("Item created:", newItem);
         } catch (error) {
@@ -78,25 +42,37 @@ export const ItemAddPage: FC = () => {
     if (step === "mascot") {
         stepTemplate = (
             <ItemAddStepMascot
-                onNext={() => setStep("barcode")}
+                onNext={(data) => {
+                    createItemReq.current = {...createItemReq.current, ...data}
+                    setStep("barcode")
+                }}
             />
         )
     } else if (step === "barcode") {
         stepTemplate = (
             <ItemAddStepBarcode
-                onNext={() => setStep("expireDate")}
+                onNext={(data) => {
+                    createItemReq.current = {...createItemReq.current, ...data}
+                    setStep("expireDate")
+                }}
             />
         )
     } else if (step === "expireDate") {
         stepTemplate = (
             <ItemAddStepExpireDate
-                onNext={() => setStep("edit")}
+                onNext={(data) => {
+                    createItemReq.current = {...createItemReq.current, ...data}
+                    setStep("edit")
+                }}
             />
         )
     } else if (step === "edit") {
         stepTemplate = (
             <ItemAddStepEdit
-                onNext={onCreateItem}
+                onNext={(data) => {
+                    const req = {...createItemReq.current, ...data};
+                    onCreateItem(req)
+                }}
             />
         )
     } else if (step === "success") {
@@ -110,32 +86,8 @@ export const ItemAddPage: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
+                {location!!.locationId}
                 {stepTemplate}
-
-                {/*<input type="file" accept="image/*" onChange={onChangeBarcodeImage}/>*/}
-                {/*<input type="file" accept="image/*" onChange={onChangeExpireDateImage}/>*/}
-                {/*{barcodeImageUrl && (*/}
-                {/*    <div style={{marginTop: "10px"}}>*/}
-                {/*        <img*/}
-                {/*            src={barcodeImageUrl}*/}
-                {/*            alt="미리보기"*/}
-                {/*            style={{maxWidth: "200px", border: "1px solid #ccc", borderRadius: "8px"}}*/}
-                {/*        />*/}
-                {/*    </div>*/}
-                {/*)}*/}
-
-                {/*{expireDateImage && (*/}
-                {/*    <div style={{marginTop: "10px"}}>*/}
-                {/*        <img*/}
-                {/*            src={expireDateImageUrl}*/}
-                {/*            alt="미리보기"*/}
-                {/*            style={{maxWidth: "200px", border: "1px solid #ccc", borderRadius: "8px"}}*/}
-                {/*        />*/}
-                {/*    </div>*/}
-                {/*)}*/}
-                {/*<Button onClick={onShotBarcode}>추가</Button>*/}
-                {/*<Button onClick={onShotExpire}>유통기한</Button>*/}
-                {/*<Button onClick={onCreateItem}>저장</Button>*/}
             </PageLayout>
         </PageBackground>
     );
