@@ -3,7 +3,7 @@ import {PageBackground, PageLayout} from "../styles/PageLayout";
 import {NavHeader} from "../components/common/NavHeader";
 import styled from "styled-components";
 import {LoginInput} from "../components/login/LoginInput";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button} from "../components/common/Button";
 import {useAuth} from "../hooks/useAuth";
 import GoogleIcon from "./../assets/google.webp";
@@ -47,10 +47,14 @@ const OauthLoginIcon = styled.img`
 `
 
 export const LoginPage: FC = () => {
-    const {login, loginByOAuth} = useAuth();
+    const {login, loginByOAuth, setRedirectUrl} = useAuth();
     const navigate = useNavigate()
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    useEffect(() => {
+        setRedirectUrl(window.location.href)
+    }, [])
 
     const onLogin = async (e) => {
         e.preventDefault();

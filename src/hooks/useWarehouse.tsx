@@ -27,7 +27,7 @@ export const WarehouseProvider: React.FC = ({children}) => {
         setIsLoading(true);
         try {
             const res = await axios.post(
-                `/aapi/box/locations`,
+                `/api/box/locations`,
                 req,
                 { withCredentials: true }
             );
@@ -49,7 +49,7 @@ export const WarehouseProvider: React.FC = ({children}) => {
         setIsLoading(true);
         try {
             const res = await axios.get(
-                `/aapi/box/locations`,
+                `/api/box/locations`,
                 { withCredentials: true }
             );
             if (res.status !== 200) {

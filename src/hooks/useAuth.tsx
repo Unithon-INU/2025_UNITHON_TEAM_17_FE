@@ -1,29 +1,32 @@
 import {createContext, useContext, useState} from 'react';
-import type { ReactNode } from 'react';
+import type {ReactNode} from 'react';
 import axios from "axios";
 import {LoginReq, LoginRes, SignUpReq, SignUpRes, User} from "../type/auth";
+import {c} from "vite/dist/node/moduleRunnerTransport.d-DJ_mE5sf";
 
 
 interface AuthProviderProps {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 interface AuthContextProps {
     isLoading: boolean;
     user: User | null;
+
     signUp: (req: SignUpReq) => Promise<User>;
     login: (req: LoginReq) => Promise<User>;
     loginByOAuth: (provider: "google" | "kakao") => Promise<void>;
+    setRedirectUrl: (url: string) => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const useAuth = (): AuthContextProps => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
 }
 
 export const AuthProvider: React.FC = ({children}) => {
@@ -84,8 +87,29 @@ export const AuthProvider: React.FC = ({children}) => {
         }
     }
 
+    const setRedirectUrl = async (url: string) => {
+        setIsLoading(true)
+        try {
+            const res = await axios.post(
+                "/api/auth/set-redirect",
+                null,
+                {
+                    params: {
+                        redirectUrl: url
+                    },
+                    withCredentials: true
+                }
+            );
+        } catch (error) {
+            console.error("login by OAuth failed:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{isLoading, user, signUp, login, loginByOAuth}}>
+        <AuthContext.Provider value={{isLoading, user, signUp, login, loginByOAuth, setRedirectUrl}}>
             {children}
         </AuthContext.Provider>
     )

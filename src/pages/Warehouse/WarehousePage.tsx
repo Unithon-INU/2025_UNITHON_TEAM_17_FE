@@ -7,15 +7,15 @@ import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { ExpiringProduct } from "./ExpiringProduct";
 import styled from "styled-components";
 import {useWarehouse} from "../../hooks/useWarehouse";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {Location} from "../../type/Warehouse";
 
 export const WarehousePage: FC = () => {
   const {getLocations} = useWarehouse();
+  const [locations, setLocations] = useState<Location[]>([])
 
   useEffect(() => {
-    getLocations().then((locations) => {
-      console.log("Locations fetched:", locations);
-    })
+    getLocations().then(setLocations)
   }, [])
 
   return (
@@ -28,17 +28,17 @@ export const WarehousePage: FC = () => {
 
           <ExpiringProduct/>
 
-          {mockLocations.map((location) => {
-          const count = mockProducts.filter(p => p.locationId === location.id).length;
+          {locations.map((location) => {
+          const count = locations.length;
 
             return (
               <LocationItem
                 id={location.id}
                 key={location.name}
                 name={location.name}
-                description={location.description}
+                description={""}
                 productCount={count}  
-                imageUrl={location.imageUrl}
+                imageUrl={"https://picsum.photos/200/200?random=" + location.id}
               />
             );
           })}
