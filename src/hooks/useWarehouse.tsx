@@ -16,6 +16,7 @@ export type CreateItemReq = {
 export type BarcodeRes = {
     productName: string;
     imageUrl: string;
+    sessionId: string;
 }
 
 interface WarehouseContextProps {
@@ -24,6 +25,7 @@ interface WarehouseContextProps {
     getLocations: () => Promise<Location[]>;
     shotBarcode: (file: FormData) => Promise<BarcodeRes>;
     createItem: (req: CreateItemReq) => Promise<void>;
+    shotExpire: (file: File, sessionId: string) => Promise<any>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -74,7 +76,6 @@ export const WarehouseProvider: React.FC = ({children}) => {
                 console.log(res)
                 throw new Error(res.statusText);
             }
-
             return res.data;
         } catch (error) {
             console.error("Error fetching locations:", error);
@@ -96,10 +97,38 @@ export const WarehouseProvider: React.FC = ({children}) => {
                     },
                 }
             );
+            const {sessionId} = res.data;
 
-            return res.data
+            return {...res.data, sessionId}
         } catch (error) {
             console.error('업로드 실패:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const shotExpire = async (file: File, sessionId: string): Promise<any> => {
+        setIsLoading(true);
+        try {
+            const formData = new FormData();
+            formData.append('imageFile', file);
+            formData.append('sessionId', sessionId);
+
+            const res = await axios.post(
+                '/api/box/items/shot-expire',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    withCredentials: true
+                }
+            );
+
+            return res.data;
+        } catch (error) {
+            console.error('만료일자 추론 실패:', error);
+            throw error;
         } finally {
             setIsLoading(false);
         }
@@ -119,14 +148,14 @@ export const WarehouseProvider: React.FC = ({children}) => {
             }
         } catch (error) {
             console.error("Error creating item:", error);
-            throw error; // Re-throw the error for further handling
+            throw error;
         } finally {
             setIsLoading(false);
         }
     }
 
     return (
-        <WarehouseContext.Provider value={{isLoading, createLocation, getLocations, shotBarcode, createItem}}>
+        <WarehouseContext.Provider value={{isLoading, createLocation, getLocations, shotBarcode, createItem, shotExpire}}>
             {children}
         </WarehouseContext.Provider>
     )

@@ -1,38 +1,47 @@
-import {FC, use, useState} from "react";
+import {ChangeEvent, FC, use, useEffect, useState} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
 import {BarcodeRes, CreateItemReq, useWarehouse} from "../hooks/useWarehouse";
 import {Button} from "../components/common/Button";
 import {useAuth} from "../hooks/useAuth";
 import {Location} from "../type/Warehouse";
 
+function usePreviewImage(initialFile: File | null) {
+    const [file, setFile] = useState<File | null>(initialFile);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (!file) return;
+
+        setPreviewUrl(URL.createObjectURL(file));
+    }, [file])
+
+    return[file, setFile, previewUrl];
+}
+
 export const ItemAddPage: FC = () => {
     const locationId : Location["id"] = 1;
     const {shotBarcode, createItem} = useWarehouse();
     const {user} = useAuth()
 
-    //todo: 언젠가 시간이 남는다면 hook으로 빼기
-    const [file, setFile] = useState<File | null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
+    const [barcodeImage, setBarcodeImage, barcodeImageUrl] = usePreviewImage(null);
     const [barcode, setBarcode] = useState<BarcodeRes | null>(null);
 
-    const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = event.target.files?.[0];
-        if (!selectedFile) return;
+    const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
 
-        setFile(selectedFile);
-        setPreviewUrl(URL.createObjectURL(selectedFile));
+        setBarcodeImage(file);
     };
 
     const onShotBarcode = async () => {
-        if (!file) return;
+        if (!barcodeImage) return;
 
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", barcodeImage);
 
         try {
-            const response = await shotBarcode(formData);
-            console.log("Barcode scanned:", response);
+            const res = await shotBarcode(formData);
+            console.log("Barcode scanned:", res);
         } catch (error) {
             console.error("Error uploading file:", error);
         }
@@ -60,10 +69,10 @@ export const ItemAddPage: FC = () => {
         <PageBackground>
             <PageLayout>
                 <input type="file" accept="image/*" onChange={onFileChange} />
-                {previewUrl && (
+                {barcodeImageUrl && (
                     <div style={{ marginTop: "10px" }}>
                         <img
-                            src={previewUrl}
+                            src={barcodeImageUrl}
                             alt="미리보기"
                             style={{ maxWidth: "200px", border: "1px solid #ccc", borderRadius: "8px" }}
                         />
