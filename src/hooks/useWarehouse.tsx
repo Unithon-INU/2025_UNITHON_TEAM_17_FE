@@ -3,17 +3,17 @@ import {CreateLocationMakeReq, Location} from "../type/Warehouse";
 import axios from "axios";
 import {User} from "../type/auth";
 
-// type CreateItemReq = {
-//     memberId : User["id"];
-//     locationId : Location["id"];
-//     name: string;
-//     imageUrl: string;
-//     registerDate: string; // ISO date string
-//     expireDate: string; // ISO date string
-//     alarmEnabled: boolean;
-// }
+export type CreateItemReq = {
+    memberId: User["id"];
+    locationId: Location["id"];
+    name: string;
+    imageUrl: string;
+    registerDate: string;
+    expireDate: string;
+    alarmEnabled: boolean;
+}
 
-type BarcodeRes = {
+export type BarcodeRes = {
     productName: string;
     imageUrl: string;
 }
@@ -23,7 +23,7 @@ interface WarehouseContextProps {
     createLocation: (req: CreateLocationMakeReq) => Promise<Location>;
     getLocations: () => Promise<Location[]>;
     shotBarcode: (file: FormData) => Promise<BarcodeRes>;
-    // createItem: (req : CreateItemReq) => Promise<void>;
+    createItem: (req: CreateItemReq) => Promise<void>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -100,34 +100,34 @@ export const WarehouseProvider: React.FC = ({children}) => {
             return res.data
         } catch (error) {
             console.error('업로드 실패:', error);
-        }
-        finally {
+        } finally {
             setIsLoading(false);
         }
     };
-// const createItem = async (req: CreateItemReq): Promise<void> => {
-//     setIsLoading(true);
-//     try {
-//         const res = await axios.post(
-//             `/api/box/items`,
-//             req,
-//             { withCredentials: true }
-//         );
-//         if (res.status !== 201) {
-//             console.log(res)
-//             throw new Error(res.statusText);
-//         }
-//     } catch (error) {
-//         console.error("Error creating item:", error);
-//         throw error; // Re-throw the error for further handling
-//     } finally {
-//         setIsLoading(false);
-//     }
-// }
 
-return (
-    <WarehouseContext.Provider value={{isLoading, createLocation, getLocations, shotBarcode}}>
-        {children}
-    </WarehouseContext.Provider>
-)
+    const createItem = async (req: CreateItemReq): Promise<void> => {
+        setIsLoading(true);
+        try {
+            const res = await axios.post(
+                `/api/box/items`,
+                req,
+                {withCredentials: true}
+            );
+            if (res.status !== 201) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+        } catch (error) {
+            console.error("Error creating item:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    return (
+        <WarehouseContext.Provider value={{isLoading, createLocation, getLocations, shotBarcode, createItem}}>
+            {children}
+        </WarehouseContext.Provider>
+    )
 }
