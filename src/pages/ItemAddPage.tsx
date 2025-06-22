@@ -1,24 +1,10 @@
-import {ChangeEvent, FC, use, useEffect, useState} from "react";
+import {FC, useState} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
 import {BarcodeRes, CreateItemReq, useWarehouse} from "../hooks/useWarehouse";
 import {Button} from "../components/common/Button";
 import {useAuth} from "../hooks/useAuth";
 import {Location} from "../type/Warehouse";
-
-function usePreviewImage(initialFile: File | null) {
-    const [file, setFile] = useState<File | null>(initialFile);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-    const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-
-        setFile(file);
-        setPreviewUrl(URL.createObjectURL(file));
-    };
-
-    return[file, onFileChange, previewUrl];
-}
+import {usePreviewImage} from "../hooks/UsePreviewImage";
 
 export const ItemAddPage: FC = () => {
     const locationId : Location["id"] = 1;
