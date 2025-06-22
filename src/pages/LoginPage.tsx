@@ -12,9 +12,15 @@ import { Space } from "../components/common/Space";
 import axios from "axios";
 import { RoutePath } from "../RoutePath";
 
+const PaddedLayout = styled(PageLayout)`
+  padding: 2rem;
+`;
+
 const Title = styled.h1`
-    font-size: 22px;
+    margin-top: 50px;
+    font-size: 25px;
     font-weight: 600;
+    margin-bottom: 60px;
 `;
 
 const LoginForm = styled.form`
@@ -76,39 +82,42 @@ export const LoginPage: FC = () => {
     };
 
     const onLoginOauth = (provider: "google" | "kakao") => {
-        window.location.href = `https://keepbara.duckdns.org/oauth2/authorization/${provider}`;
+        const redirectUrl = encodeURIComponent(`${window.location.origin}${RoutePath.main}`);
+        window.location.href = `https://keepbara.duckdns.org/oauth2/authorization/${provider}?redirectUrl=${redirectUrl}`;
     };
 
     return (
         <PageBackground>
-            <NavHeader />
             <PageLayout>
-                <Title>이메일과 비밀번호를<br />입력하세요</Title>
+                <NavHeader />
+                <PaddedLayout>
+                    <Title>이메일과 비밀번호를<br />입력하세요</Title>
 
-                <LoginForm onSubmit={onLogin}>
-                    <LoginInput
-                        value={email}
-                        onChange={(value) => setEmail(value)}
-                        label="이메일"
-                        placeholder="이메일 주소 입력"
-                        type="email"
-                    />
-                    <LoginInput
-                        value={password}
-                        onChange={(value) => setPassword(value)}
-                        label="비밀번호"
-                        placeholder="8자리 이상 입력"
-                        type="password"
-                    />
-                    <Button type="submit">로그인</Button>
+                    <LoginForm onSubmit={onLogin}>
+                        <LoginInput
+                            value={email}
+                            onChange={(value) => setEmail(value)}
+                            label="이메일"
+                            placeholder="이메일 주소 입력"
+                            type="email"
+                        />
+                        <LoginInput
+                            value={password}
+                            onChange={(value) => setPassword(value)}
+                            label="비밀번호"
+                            placeholder="8자리 이상 입력"
+                            type="password"
+                        />
+                        <Button type="submit">로그인</Button>
 
-                    <Space style={{ height: 65 }} />
-                    <SubLoginMessage>다른 로그인 방식 선택</SubLoginMessage>
-                    <OauthLoginIconWrap>
-                        <OauthLoginIcon src={GoogleIcon} onClick={() => onLoginOauth("google")} />
-                        <OauthLoginIcon src={KakaoIcon} onClick={() => onLoginOauth("kakao")} />
-                    </OauthLoginIconWrap>
-                </LoginForm>
+                        <Space style={{ height: 65 }} />
+                        <SubLoginMessage>다른 로그인 방식 선택</SubLoginMessage>
+                        <OauthLoginIconWrap>
+                            <OauthLoginIcon src={GoogleIcon} onClick={() => onLoginOauth("google")} />
+                            <OauthLoginIcon src={KakaoIcon} onClick={() => onLoginOauth("kakao")} />
+                        </OauthLoginIconWrap>
+                    </LoginForm>
+                </PaddedLayout>
             </PageLayout>
         </PageBackground>
     );
