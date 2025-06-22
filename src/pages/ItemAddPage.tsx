@@ -1,19 +1,22 @@
-import {FC, useState} from "react";
+import {FC, useRef, useState} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
-import {BarcodeRes, CreateItemReq, useWarehouse} from "../hooks/useWarehouse";
+import {BarcodeRes, CreateItemReq, ExpireDateRes, useWarehouse} from "../hooks/useWarehouse";
 import {Button} from "../components/common/Button";
 import {useAuth} from "../hooks/useAuth";
 import {Location} from "../type/Warehouse";
 import {usePreviewImage} from "../hooks/UsePreviewImage";
+import {useLocation} from "react-router-dom";
 
 export const ItemAddPage: FC = () => {
-    const locationId : Location["id"] = 1;
+    const locationFunction = useLocation();
+    const { location } = locationFunction.state || {};
     const {shotBarcode, createItem, shotExpire} = useWarehouse();
     const {user} = useAuth()
 
     const [barcodeImage, onChangeBarcodeImage, barcodeImageUrl] = usePreviewImage(null);
     const [expireDateImage, onChangeExpireDateImage, expireDateImageUrl] = usePreviewImage(null);
-    const [barcode, setBarcode] = useState<BarcodeRes | null>(null);
+    const  barcode= useRef<BarcodeRes | null>(null);
+    const  expireDate= useRef<ExpireDateRes | null>(null);
 
     const onShotBarcode = async () => {
         if (!barcodeImage) return;
@@ -23,7 +26,7 @@ export const ItemAddPage: FC = () => {
 
         try {
             const res = await shotBarcode(formData);
-            console.log("Barcode scanned:", res);
+            barcode.current = res
         } catch (error) {
             console.error("Error uploading file:", error);
         }
@@ -37,7 +40,8 @@ export const ItemAddPage: FC = () => {
 
         try {
             const res = await shotExpire(formData);
-            console.log("Expire date scanned:", res);
+            console.log(res)
+            expireDate.current = res
         } catch (error) {
             console.error("Error uploading file:", error);
         }
@@ -47,11 +51,11 @@ export const ItemAddPage: FC = () => {
         try {
             const req : CreateItemReq = {
                 memberId : user!!.id,
-                locationId: locationId,
-                name: barcode!!.productName,
-                imageUrl: barcode!!.imageUrl,
-                registerDate: "",
-                expireDate: "",
+                locationId: location!!.id,
+                name: barcode.current!!.productName,
+                imageUrl: barcode.current!!.imageUrl,
+                registerDate: expireDate.current!!.capturedDate,
+                expireDate: expireDate.current!!.expireDate,
                 alarmEnabled: false
             };
             const newItem = await createItem(req);
@@ -87,6 +91,7 @@ export const ItemAddPage: FC = () => {
                 )}
                 <Button onClick={onShotBarcode}>추가</Button>
                 <Button onClick={onShotExpire}>유통기한</Button>
+                <Button onClick={onCreateItem}>저장</Button>
             </PageLayout>
         </PageBackground>
     );

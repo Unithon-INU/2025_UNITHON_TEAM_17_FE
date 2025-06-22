@@ -85,7 +85,7 @@ export const LocationDetailPage = () => {
         >
           <img src={product.imageUrl || "https://via.placeholder.com/60"} alt={product.name} style={{ width: 60, height: 60 }} />
         </div>
-  
+
         <div>
           <div style={{ fontSize: "1.3rem", fontWeight: "bold", marginBottom: "0.2rem" }}>
             {product.name}
@@ -96,7 +96,7 @@ export const LocationDetailPage = () => {
           <div style={{ fontWeight: "500" }}>수정하기 &gt;</div>
         </div>
       </div>
-  
+
       <span
         style={{
           backgroundColor:
@@ -126,7 +126,7 @@ export const LocationDetailPage = () => {
           title={location.name}
           rightIcon={
             <>
-                <Link to={RoutePath.itemCreate}>
+                <Link to={RoutePath.itemCreate} state={{location}}>
                     <BiCamera style={{ fontSize: '1.5em', marginRight: '1rem' }} />
                 </Link>
               <BiDotsHorizontalRounded style={{ fontSize: '1.5em' }} />
