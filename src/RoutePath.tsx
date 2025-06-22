@@ -17,6 +17,8 @@ export const RoutePath = {
         else
             return`/home/warehouse/${id}`
         },
+
+    itemCreate: "/item/add-item",
     my: "/home/my",
     temp: "/temp"
 }

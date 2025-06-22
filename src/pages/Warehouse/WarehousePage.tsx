@@ -1,13 +1,12 @@
 import type {FC} from "react";
+import {useEffect, useState} from "react";
 import {PageBackground, PageLayout} from "../../styles/PageLayout";
 import {BottomNavigation} from "../../components/BottomNavigation";
 import {AddLocationButton} from "./AddLocationButton"
 import {LocationItem} from "./LocationItem"
-import {mockLocations, mockProducts} from "../../mocks/mockData";
 import {ExpiringProduct} from "./ExpiringProduct";
 import styled from "styled-components";
 import {useWarehouse} from "../../hooks/useWarehouse";
-import {useEffect, useState} from "react";
 import {Location} from "../../type/Warehouse";
 
 export const WarehousePage: FC = () => {

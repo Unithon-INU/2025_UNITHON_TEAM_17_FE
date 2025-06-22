@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { differenceInDays } from "date-fns";
 import { NavHeader } from "../../components/NavHeader";
@@ -6,6 +6,7 @@ import { BiCamera, BiDotsHorizontalRounded } from "react-icons/bi";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import styled from "styled-components";
 import {useWarehouse} from "../../hooks/useWarehouse";
+import {RoutePath} from "../../RoutePath";
 
 const PaddedLayout = styled(PageLayout)`
   padding: 2rem;
@@ -125,7 +126,9 @@ export const LocationDetailPage = () => {
           title={location.name}
           rightIcon={
             <>
-              <BiCamera style={{ fontSize: '1.5em', marginRight: '1rem' }} />
+                <Link to={RoutePath.itemCreate}>
+                    <BiCamera style={{ fontSize: '1.5em', marginRight: '1rem' }} />
+                </Link>
               <BiDotsHorizontalRounded style={{ fontSize: '1.5em' }} />
             </>
           }
