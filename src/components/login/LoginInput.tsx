@@ -1,6 +1,6 @@
-import {FC} from "react";
+import type {FC} from "react";
 import styled from "styled-components";
-import {InputProps} from "../common/Input";
+import type {InputProps} from "../common/Input";
 
 export type LoginInputProps = InputProps & {}
 const LoginInputStyle = styled.div`

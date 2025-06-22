@@ -5,9 +5,9 @@ import { ThemeProvider } from 'styled-components';
 import { Theme } from './styles/Theme';
 import { AuthProvider } from './hooks/useAuth';
 import { FavoriteProvider } from './hooks/useFavorites.tsx';
-import axios from 'axios';
+//import axios from 'axios';
 
-axios.defaults.baseURL = "http://keepbara.duckdns.org:8082";
+//axios.defaults.baseURL = "http://keepbara.duckdns.org";
 // todo : 나중에 언젠가 env로 base url 빼기
 
 createRoot(document.getElementById('root')!).render(

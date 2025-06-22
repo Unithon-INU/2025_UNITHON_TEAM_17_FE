@@ -1,24 +1,29 @@
-import styled, {css, type CSSProperties} from "styled-components";
-import type {FC, ReactNode} from "react";
-import {darken, lighten} from "polished";
+import styled, { css, type CSSProperties } from "styled-components";
+import type { FC, ReactNode } from "react";
+import { darken, lighten } from "polished";
 
 export type ButtonProps = {
-    onClick?: () => void;
-    color?: string;
-    background?: string;
-    isFullWidth?: boolean;
-    isDisable?: boolean;
-    children: ReactNode;
-    style?: CSSProperties;
-}
+  onClick?: () => void;
+  color?: string;
+  background?: string;
+  isFullWidth?: boolean;
+  isDisable?: boolean;
+  type?: "button" | "submit" | "reset";
+  children: ReactNode;
+  style?: CSSProperties;
+};
 
-const ButtonColorStyle = css<ButtonProps>`
-  ${({background, color, isDisable, theme}) => {
-    let textColor = color ? color : theme.color.White;
-    let bgColor = background ? background : theme.color.Primary;
+const ButtonColorStyle = css<{
+  $color?: string;
+  $background?: string;
+  $isDisable?: boolean;
+}>`
+  ${({ $background, $color, $isDisable, theme }) => {
+    let textColor = $color ? $color : theme.color.White;
+    let bgColor = $background ? $background : theme.color.Primary;
 
-    if (isDisable) {
-        bgColor = theme.color.Gray3
+    if ($isDisable) {
+      bgColor = theme.color.Gray3;
     }
 
     return css`
@@ -31,13 +36,18 @@ const ButtonColorStyle = css<ButtonProps>`
       &:active {
         background: ${darken(0.05, bgColor)};
       }
-    `
-}}
-`
+    `;
+  }}
+`;
 
-const ButtonStyle = styled.button<ButtonProps>`
+const ButtonStyle = styled.button<{
+  $color?: string;
+  $background?: string;
+  $isDisable?: boolean;
+  $isFullWidth?: boolean;
+}>`
   ${ButtonColorStyle};
-  width: ${p => p.isFullWidth && '100%'};
+  width: ${({ $isFullWidth }) => ($isFullWidth ? "100%" : "auto")};
 
   font-size: 20px;
   padding: 16px;
@@ -51,14 +61,33 @@ const ButtonStyle = styled.button<ButtonProps>`
   justify-content: center;
 
   cursor: pointer;
-  
-  pointer-events: ${p => p.isDisable && 'none'};
-`
 
-export const Button: FC<ButtonProps> = ({onClick, isDisable, children, ...rest}) => {
-    return (
-        <ButtonStyle onClick={() => {
-            if (!isDisable && onClick) onClick()
-        }} isDisable={!!isDisable} {...rest}>{children}</ButtonStyle>
-    )
-}
+  pointer-events: ${({ $isDisable }) => ($isDisable ? "none" : "auto")};
+`;
+
+export const Button: FC<ButtonProps> = ({
+  onClick,
+  isDisable,
+  isFullWidth,
+  color,
+  type,
+  background,
+  children,
+  ...rest
+}) => {
+  return (
+    <ButtonStyle
+      type={type}
+      onClick={() => {
+        if (!isDisable && onClick) onClick();
+      }}
+      $isDisable={!!isDisable}
+      $isFullWidth={!!isFullWidth}
+      $color={color}
+      $background={background}
+      {...rest}
+    >
+      {children}
+    </ButtonStyle>
+  );
+};
