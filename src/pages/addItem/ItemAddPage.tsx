@@ -1,66 +1,19 @@
 import {FC, useRef, useState} from "react";
-import {PageBackground, PageLayout} from "../styles/PageLayout";
-import {BarcodeRes, CreateItemReq, ExpireDateRes, useWarehouse} from "../hooks/useWarehouse";
-import {Button} from "../components/common/Button";
-import {useAuth} from "../hooks/useAuth";
-import {Location} from "../type/Warehouse";
-import {usePreviewImage} from "../hooks/UsePreviewImage";
+import {PageBackground, PageLayout} from "../../styles/PageLayout";
+import {BarcodeRes, CreateItemReq, ExpireDateRes, useWarehouse} from "../../hooks/useWarehouse";
+import {useAuth} from "../../hooks/useAuth";
+import {usePreviewImage} from "../../hooks/UsePreviewImage";
 import {useLocation} from "react-router-dom";
+import {ItemAddStepMascot} from "./ItemAddStepMascot";
+import {ItemAddStepBarcode} from "./ItemAddStepBarcode";
+import {ItemAddStepExpireDate} from "./ItemAddStepExpireDate";
+import {ItemAddStepEdit} from "./ItemAddStepEdit";
+import {ItemAddStepSuccess} from "./ItemAddStepSuccess";
 
 type ItemAddStep = "mascot" | "barcode" | "expireDate" | "edit" | "success";
 
-type ItemAddStepProps = {
+export type ItemAddStepProps = {
     onNext: (data: any | null) => void;
-}
-
-const ItemAddStepMascot: FC<ItemAddStepProps> = ({onNext}) => {
-    return (
-        <div>
-            <h2>아이템 추가</h2>
-            <p>아이템을 추가하려면 바코드와 유통기한 사진을 찍어주세요.</p>
-            <Button onClick={() => onNext(null)}>바코드 촬영하기</Button>
-        </div>
-    );
-}
-
-const ItemAddStepBarcode: FC<ItemAddStepProps> = ({onNext}) => {
-    return (
-        <div>
-            <h2>바코드 찍기</h2>
-            <p>아이템을 추가하려면 바코드와 유통기한 사진을 찍어주세요.</p>
-            <Button onClick={() => onNext(null)}>업로드</Button>
-        </div>
-    );
-}
-
-const ItemAddStepExpiredata: FC<ItemAddStepProps> = ({onNext}) => {
-    return (
-        <div>
-            <h2>유통기한 찍기</h2>
-            <p>아이템을 추가하려면 바코드와 유통기한 사진을 찍어주세요.</p>
-            <Button onClick={() => onNext(null)}>업로드</Button>
-        </div>
-    );
-}
-
-const ItemAddStepEdit: FC<ItemAddStepProps> = ({onNext}) => {
-    return (
-        <div>
-            <h2>수정</h2>
-            <p>아이템을 추가하려면 바코드와 유통기한 사진을 찍어주세요.</p>
-            <Button onClick={() => onNext(null)}>만들기</Button>
-        </div>
-    );
-}
-
-const ItemAddStepComplate: FC<ItemAddStepProps> = ({onNext}) => {
-    return (
-        <div>
-            <h2>완료</h2>
-            <p>아이템을 추가하려면 바코드와 유통기한 사진을 찍어주세요.</p>
-            <Button onClick={() => onNext(null)}>원래화면 돌아가기</Button>
-        </div>
-    );
 }
 
 export const ItemAddPage: FC = () => {
@@ -136,7 +89,7 @@ export const ItemAddPage: FC = () => {
         )
     } else if (step === "expireDate") {
         stepTemplate = (
-            <ItemAddStepExpiredata
+            <ItemAddStepExpireDate
                 onNext={() => setStep("edit")}
             />
         )
@@ -148,7 +101,7 @@ export const ItemAddPage: FC = () => {
         )
     } else if (step === "success") {
         stepTemplate = (
-            <ItemAddStepComplate
+            <ItemAddStepSuccess
                 onNext={() => setStep("mascot")}
             />
         )

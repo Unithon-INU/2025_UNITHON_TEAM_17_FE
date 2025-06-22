@@ -16,7 +16,7 @@ import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
 import { OfferingItemDetailPage } from "./pages/Main/OfferingItemDetailPage";
 import {LoginPage} from "./pages/LoginPage";
 import {SignUpPage} from "./pages/SignUpPage";
-import {ItemAddPage} from "./pages/ItemAddPage";
+import {ItemAddPage} from "./pages/addItem/ItemAddPage";
 
 function App() {
     return (
