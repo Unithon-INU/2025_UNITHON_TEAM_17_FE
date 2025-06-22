@@ -55,12 +55,15 @@ export const OfferingItemDetailPage = () => {
   const isLiked = offering ? favorites.includes(offering.id) : false;
 
   const handleOpenChat = () => {
-    if (offering?.openChatUrl) {
-      window.open(offering.openChatUrl, "_blank");
-    } else {
-      alert("오픈채팅 URL이 없습니다.");
-    }
-  };
+  if (offering?.openChatUrl) {
+    const url = offering.openChatUrl.startsWith("http")
+      ? offering.openChatUrl
+      : `https://${offering.openChatUrl}`;
+    window.open(url, "_blank");
+  } else {
+    alert("오픈채팅 URL이 없습니다.");
+  }
+};
 
   const discountPercent =
     offering && offering.originalPrice
