@@ -8,6 +8,10 @@ export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({onNext}) => {
     const {shotExpire} = useWarehouse();
     const [expireDateImage, onChangeExpireDateImage, expireDateImageUrl] = usePreviewImage(null);
 
+    function convertDateFormat(dateStr) {
+        return dateStr.replace(/\./g, '-');
+    }
+
     const onShotExpire = async () => {
         if (!expireDateImage) return;
 
@@ -15,7 +19,8 @@ export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({onNext}) => {
         formData.append("imageFile", expireDateImage);
 
         try {
-            const res = await shotExpire(formData);
+            let res = await shotExpire(formData);
+            res["expireDate"] = convertDateFormat(res["expireDate"]);
             onNext(res)
         } catch (error) {
             console.error("Error uploading file:", error);

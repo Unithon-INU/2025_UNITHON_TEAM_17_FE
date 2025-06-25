@@ -143,7 +143,7 @@ export const WarehouseProvider: React.FC = ({children}) => {
                 req,
                 {withCredentials: true}
             );
-            if (res.status !== 201) {
+            if (res.status !== 200) {
                 console.log(res)
                 throw new Error(res.statusText);
             }

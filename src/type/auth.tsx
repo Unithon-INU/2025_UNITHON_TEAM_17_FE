@@ -1,6 +1,6 @@
 export type User = {
     email: string;
-    name: string;
+    name: number;
     id: number;
 }
 export type SignUpReq = {

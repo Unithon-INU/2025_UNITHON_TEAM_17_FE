@@ -31,8 +31,8 @@ export const ItemAddPage: FC = () => {
 
     const onCreateItem = async (req : CreateItemReq) => {
         try {
-            const newItem = await createItem(req);
-            console.log("Item created:", newItem);
+            await createItem(req);
+            setStep("success");
         } catch (error) {
             console.error("Error creating item:", error);
         }
