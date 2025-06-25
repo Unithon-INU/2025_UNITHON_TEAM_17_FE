@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {TempPage} from "./pages/TempPage";
 import {RoutePath} from "./RoutePath";
 import {MainPage} from "./pages/Main/MainPage";
+import {ChatPage} from "./pages/ChatPage";
 import {FavoritesPage} from "./pages/FavoritesPage";
 import {WarehousePage} from "./pages/Warehouse/WarehousePage";
 import {MyPage} from "./pages/MyPage";
@@ -15,8 +16,6 @@ import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
 import { OfferingItemDetailPage } from "./pages/Main/OfferingItemDetailPage";
 import {LoginPage} from "./pages/LoginPage";
 import {SignUpPage} from "./pages/SignUpPage";
-import { GuidePage } from "./pages/Guide/GuidePage";
-import { GuideDetailPage } from "./pages/Guide/GuideDetailPage";
 
 function App() {
     return (
@@ -27,12 +26,12 @@ function App() {
                 <Routes>
                     <Route index element={<MainPage/>}/>
                     <Route path={RoutePath.splash} element={<SplashPage/>}/>
+                    <Route path={RoutePath.chat} element={<ChatPage/>}/>
                     <Route path={RoutePath.login} element={<LoginPage/>}/>
                     <Route path={RoutePath.signUp} element={<SignUpPage/>}/>
                     <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
                     <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
-                    <Route path={RoutePath.guide} element={<GuidePage/>}/>
                     <Route path="/home/main/:id" element={<OfferingItemDetailPage/> } />
                     <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
                     <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />
@@ -40,8 +39,6 @@ function App() {
                     <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
                     <Route path={RoutePath.my} element={<MyPage/>}/>
                     <Route path={RoutePath.temp} element={<TempPage/>}/>
-                    <Route path="/home/guide" element={<GuidePage />} />
-                    <Route path="/home/guide/:topic" element={<GuideDetailPage />} />
                 </Routes>
             </BrowserRouter>
         </div>

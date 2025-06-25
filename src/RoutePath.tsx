@@ -7,7 +7,7 @@ export const RoutePath = {
         postWrite: "/home/main/post-write",
         editLocation: "/home/main/edit-location",
       },
-    guide: "/home/guide",
+    chat: "/home/chat",
     favorites: "/home/favorites",
     warehouse: "/home/warehouse",
     warehouseDetail: (id: string | null) =>{
