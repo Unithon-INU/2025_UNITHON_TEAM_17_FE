@@ -30,8 +30,6 @@ export const ItemAddPage: FC = () => {
     const createItemReq = useRef({
         memberId: user!!.id,
         locationId: location!!.id,
-        name: "바나나킥",
-        imageUrl: "http://gs1.koreannet.or.kr/product/info/detail/photoView.do?fileNm=8801043000017_8801043036634_1.jpg&filePath=8801043000017/8801043036634",
     } as CreateItemReq);
 
     const onCreateItem = async (req: CreateItemReq) => {
