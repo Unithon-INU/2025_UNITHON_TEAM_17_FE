@@ -3,7 +3,7 @@ import {PageBackground, PageLayout} from "../../styles/PageLayout";
 import {useWarehouse} from "../../hooks/useWarehouse";
 import {useAuth} from "../../hooks/useAuth";
 import {usePreviewImage} from "../../hooks/UsePreviewImage";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {ItemAddStepMascot} from "./ItemAddStepMascot";
 import {ItemAddStepBarcode} from "./ItemAddStepBarcode";
 import {ItemAddStepExpireDate} from "./ItemAddStepExpireDate";
@@ -11,6 +11,7 @@ import {ItemAddStepEdit} from "./ItemAddStepEdit";
 import {ItemAddStepSuccess} from "./ItemAddStepSuccess";
 import curriedDarken from "polished/lib/color/darken";
 import {BarcodeRes, CreateItemReq, ExpireDateRes} from "../../type/item";
+import {NavHeader} from "../../components/NavHeader";
 
 type ItemAddStep = "mascot" | "barcode" | "expireDate" | "edit" | "success";
 
@@ -19,6 +20,7 @@ export type ItemAddStepProps = {
 }
 
 export const ItemAddPage: FC = () => {
+    const navigate = useNavigate()
     const locationFunction = useLocation();
     const {location} = locationFunction.state || {};
     const {shotBarcode, createItem, shotExpire} = useWarehouse();
@@ -95,7 +97,9 @@ export const ItemAddPage: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-                {location!!.locationId}
+                <NavHeader
+                    onLeftClick={() => {navigate(-1)}}
+                />
                 {stepTemplate}
             </PageLayout>
         </PageBackground>
