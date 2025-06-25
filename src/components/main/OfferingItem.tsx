@@ -78,10 +78,17 @@ const SalePrice = styled.div`
 `;
 
 export const OfferingItem: FC<OfferingItemProps> = ({ offering }) => {
+  const fullThumbnailUrl =
+  offering.thumbnail && offering.thumbnail.startsWith("http")
+    ? offering.thumbnail
+    : offering.thumbnail
+    ? `https://keepbara.duckdns.org${offering.thumbnail}`
+    : "/default-image.png" 
+
   return (
     <Link to={`/home/main/${offering.id}`} style={{ textDecoration: "none", color: "inherit" }}>
       <OfferingItemStyle>
-        <Thumbnail style={{ backgroundImage: `url(${offering.thumbnail})` }} />
+        <Thumbnail style={{ backgroundImage: `url(${fullThumbnailUrl})` }} />
         <InfoWrap>
           <InfoRow>
             <Name>{offering.title}</Name>

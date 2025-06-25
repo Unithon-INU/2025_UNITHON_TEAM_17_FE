@@ -10,7 +10,7 @@ import styled from "styled-components";
 export const WarehousePage: FC = () => {
   return (
     <PageBackground>
-      <PageLayout isBottomNavigation>
+      <PageLayout $isBottomNavigation>
         <PaddedLayout>
           <HeaderWrapper>
             <Title>내 창고</Title>

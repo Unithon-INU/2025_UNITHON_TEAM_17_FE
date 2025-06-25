@@ -33,8 +33,8 @@ const IconWrap = styled.div`
 `;
 
 const MainIcon = styled.div<{ $active?: boolean }>`
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   background-color: ${({ $active }) => ($active ? "#6FC667" : "#999999")};
   border-radius: 100%;
   display: flex;
@@ -43,7 +43,7 @@ const MainIcon = styled.div<{ $active?: boolean }>`
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
   position: absolute;
   left: 50%;
-  transform: translate(-50%, -60%);
+  transform: translate(-50%, -50%);
   color: white;
   font-size: 28px;
 `;

@@ -13,7 +13,8 @@ const InputStyle = styled.div`
 
 `
 const LabelWrap = styled.div`
-  font-size: 18px;
+  margin-top: 60px;
+  font-size: 25px;
   font-weight: 400;
 `
 const InputContent = styled.input<{isError : boolean}>`
@@ -21,9 +22,8 @@ const InputContent = styled.input<{isError : boolean}>`
   font-size: 20px;
   font-weight: 400;
 
-  padding: 12px;
-  margin-top: 15px;
-
+  margin-top: 30px;
+  margin-bottom: 60px;
   outline: none;
   background: none;
   border: none;

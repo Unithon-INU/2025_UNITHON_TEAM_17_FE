@@ -6,7 +6,7 @@ import { BottomNavigation } from "../components/BottomNavigation";
 export const MyPage: FC = () => {
   return (
     <PageBackground>
-      <PageLayout isBottomNavigation>
+      <PageLayout $isBottomNavigation>
         <PaddedLayout>
         <Header>
           <UserName>김키피님</UserName>

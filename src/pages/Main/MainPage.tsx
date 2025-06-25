@@ -14,6 +14,12 @@ const OfferingList = styled.ul`
   gap: 25px;
 `;
 
+const CenterText = styled.p`
+  text-align: center;
+  color: #666;
+  padding: 2rem 0;
+`;
+
 interface Product {
   id: number;
   title: string;
@@ -30,15 +36,19 @@ export const MainPage: FC = () => {
   const [selectedType, setSelectedType] = useState<string>(all);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchProducts = async (type?: string) => {
     try {
+      setLoading(true);
       const url = type && type !== all ? `/api/products?type=${type === "가게" ? "CAFE" : "DIRECT"}` : "/api/products";
       const response = await axios.get(url, { withCredentials: true });
       setProducts(response.data);
     } catch (err) {
       console.error("상품 목록 불러오기 실패:", err);
       alert("상품 목록 불러오기 실패");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,10 +75,12 @@ export const MainPage: FC = () => {
           onSelectType={(type) => setSelectedType(type)}
         />
       </WhiteBox>
-      <MainPageLayout isBottomNavigation>
+      <MainPageLayout $isBottomNavigation>
         <OfferingList>
-          {filteredProducts.length === 0 ? (
-            <p>조회된 상품이 없습니다.</p>
+          {loading ? (
+            <CenterText>상품을 불러오는 중입니다...</CenterText>
+          ) : filteredProducts.length === 0 ? (
+            <CenterText>조회된 상품이 없습니다.</CenterText>
           ) : (
             filteredProducts.map((item) => (
               <OfferingItem key={item.id} offering={item} />

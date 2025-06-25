@@ -6,9 +6,7 @@ import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { NavHeader } from "../../components/NavHeader";
 import { Button } from "../../components/common/Button";
-import { useFavorites } from "../../hooks/useFavorites";
 
-// ✅ 서버 응답 타입
 interface Product {
   id: number;
   title: string;
@@ -22,20 +20,24 @@ interface Product {
   imageUrls: string[];
   sellerName: string;
   timeAgo: string;
+  favorited: boolean; 
 }
 
 export const OfferingItemDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { favorites, toggleFavorite } = useFavorites();
   const [offering, setOffering] = useState<Product | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const response = await axios.get(`/api/products/${id}`, { withCredentials: true });
+        const response = await axios.get(`/api/products/${id}`, {
+          withCredentials: true
+        });
         setOffering(response.data);
+        setIsLiked(response.data.favorited); 
         setNotFound(false);
       } catch (err: any) {
         console.error("상세 정보 불러오기 실패:", err);
@@ -52,11 +54,31 @@ export const OfferingItemDetailPage = () => {
     fetchDetail();
   }, [id]);
 
-  const isLiked = offering ? favorites.includes(offering.id) : false;
+  const toggleFavorite = async () => {
+  if (!offering) return;
+  try {
+    const response = await axios.post(`/api/products/${offering.id}/favorite`, null, {
+      withCredentials: true
+    });
+
+    setIsLiked(response.data === true);
+
+  } catch (err: any) {
+    console.error("즐겨찾기 토글 실패:", err);
+    if (err.response?.status === 401) {
+      alert("로그인이 필요합니다.");
+    } else {
+      alert("즐겨찾기 처리 중 오류가 발생했습니다.");
+    }
+  }
+};
 
   const handleOpenChat = () => {
     if (offering?.openChatUrl) {
-      window.open(offering.openChatUrl, "_blank");
+      const url = offering.openChatUrl.startsWith("http")
+        ? offering.openChatUrl
+        : `https://${offering.openChatUrl}`;
+      window.open(url, "_blank");
     } else {
       alert("오픈채팅 URL이 없습니다.");
     }
@@ -64,7 +86,9 @@ export const OfferingItemDetailPage = () => {
 
   const discountPercent =
     offering && offering.originalPrice
-      ? Math.round(((offering.originalPrice - offering.salePrice) / offering.originalPrice) * 100)
+      ? Math.round(
+          ((offering.originalPrice - offering.salePrice) / offering.originalPrice) * 100
+        )
       : 0;
 
   return (
@@ -79,7 +103,16 @@ export const OfferingItemDetailPage = () => {
           ) : offering ? (
             <>
               <ImageWrapper>
-                <ProductImage src={offering.imageUrls[0]} alt={offering.title} />
+                <ProductImage
+                  src={
+                    offering.imageUrls[0]
+                      ? offering.imageUrls[0].startsWith("http")
+                        ? offering.imageUrls[0]
+                        : `https://keepbara.duckdns.org${offering.imageUrls[0]}`
+                      : "/default-image.png"
+                  }
+                  alt={offering.title}
+                />
               </ImageWrapper>
 
               <SellerInfo>
@@ -104,7 +137,7 @@ export const OfferingItemDetailPage = () => {
               </Content>
 
               <BottomBar>
-                <Like onClick={() => toggleFavorite(offering.id)} style={{ cursor: "pointer" }}>
+                <Like onClick={toggleFavorite} style={{ cursor: "pointer" }}>
                   {isLiked ? <FaHeart color="red" size="1.5em" /> : <FaRegHeart size="1.5em" />}
                 </Like>
                 <PriceBox>
@@ -114,7 +147,12 @@ export const OfferingItemDetailPage = () => {
                 <Button
                   onClick={handleOpenChat}
                   background="#6fc667"
-                  style={{ width: "120px", padding: "14px 20px", fontWeight: "bold", fontSize: "18px" }}
+                  style={{
+                    width: "120px",
+                    padding: "14px 20px",
+                    fontWeight: "bold",
+                    fontSize: "18px"
+                  }}
                 >
                   문의하기
                 </Button>
@@ -127,7 +165,8 @@ export const OfferingItemDetailPage = () => {
   );
 };
 
-// ✅ 스타일 컴포넌트
+// 스타일 컴포넌트
+
 const Wrapper = styled.div`
   padding-bottom: 100px;
 `;

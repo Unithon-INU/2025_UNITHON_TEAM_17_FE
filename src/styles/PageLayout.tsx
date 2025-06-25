@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface PageLayoutProps {
-  isBottomNavigation?: boolean;
+  $isBottomNavigation?: boolean;
 }
 
 export const PageBackground = styled.div<PageLayoutProps>`
@@ -31,7 +31,7 @@ export const MainPageLayout = styled.div<PageLayoutProps>`
   font-family: 'Pretendard', sans-serif;
 
   ${(props) =>
-    props.isBottomNavigation &&
+    props.$isBottomNavigation &&
     css`
       padding-bottom: 10rem;
     `}
@@ -48,7 +48,7 @@ export const PageLayout = styled.div<PageLayoutProps>`
   box-sizing: border-box;
 
   ${(props) =>
-    props.isBottomNavigation &&
+    props.$isBottomNavigation &&
     css`
       padding-bottom: 4rem; /* 바텀 네비게이션 고려 */
     `}
