@@ -1,8 +1,9 @@
 import {FC, useRef} from "react";
 import {Button} from "../../components/common/Button";
 import {ItemAddStepProps} from "./ItemAddPage";
-import {ExpireDateRes, useWarehouse} from "../../hooks/useWarehouse";
+import {useWarehouse} from "../../hooks/useWarehouse";
 import {usePreviewImage} from "../../hooks/UsePreviewImage";
+import {ExpireDateRes} from "../../type/item";
 
 export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({onNext}) => {
     const {shotExpire} = useWarehouse();

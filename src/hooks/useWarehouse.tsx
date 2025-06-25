@@ -1,30 +1,7 @@
 import {createContext, useContext, useState} from 'react';
 import {CreateLocationMakeReq, Location} from "../type/Warehouse";
 import axios from "axios";
-import {User} from "../type/auth";
-
-export type CreateItemReq = {
-    memberId: User["id"];
-    locationId: Location["id"];
-    name: string;
-    imageUrl: string;
-    registerDate: string;
-    expireDate: string;
-    alarmEnabled: boolean;
-}
-
-export type BarcodeRes = {
-    productName: string;
-    imageUrl: string;
-    sessionId: string;
-}
-
-export type ExpireDateRes = {
-    productName: string;
-    imageUrl: string;
-    expireDate: string;
-    capturedDate: string;
-}
+import {BarcodeRes, CreateItemReq, ExpireDateRes} from "../type/item";
 
 interface WarehouseContextProps {
     isLoading: boolean;

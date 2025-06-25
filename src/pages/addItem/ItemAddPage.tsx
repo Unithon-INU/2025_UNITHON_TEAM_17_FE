@@ -1,6 +1,6 @@
 import {FC, useRef, useState} from "react";
 import {PageBackground, PageLayout} from "../../styles/PageLayout";
-import {BarcodeRes, CreateItemReq, ExpireDateRes, useWarehouse} from "../../hooks/useWarehouse";
+import {useWarehouse} from "../../hooks/useWarehouse";
 import {useAuth} from "../../hooks/useAuth";
 import {usePreviewImage} from "../../hooks/UsePreviewImage";
 import {useLocation} from "react-router-dom";
@@ -10,6 +10,7 @@ import {ItemAddStepExpireDate} from "./ItemAddStepExpireDate";
 import {ItemAddStepEdit} from "./ItemAddStepEdit";
 import {ItemAddStepSuccess} from "./ItemAddStepSuccess";
 import curriedDarken from "polished/lib/color/darken";
+import {BarcodeRes, CreateItemReq, ExpireDateRes} from "../../type/item";
 
 type ItemAddStep = "mascot" | "barcode" | "expireDate" | "edit" | "success";
 
