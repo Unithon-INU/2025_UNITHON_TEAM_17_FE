@@ -26,10 +26,12 @@ export const ItemAddPage: FC = () => {
     const {shotBarcode, createItem, shotExpire} = useWarehouse();
     const {user} = useAuth()
 
-    const [step, setStep] = useState<ItemAddStep>("mascot");
+    const [step, setStep] = useState<ItemAddStep>("edit");
     const createItemReq = useRef({
         memberId: user!!.id,
-        locationId: location!!.id
+        locationId: location!!.id,
+        name: "바나나킥",
+        imageUrl: "http://gs1.koreannet.or.kr/product/info/detail/photoView.do?fileNm=8801043000017_8801043036634_1.jpg&filePath=8801043000017/8801043036634",
     } as CreateItemReq);
 
     const onCreateItem = async (req: CreateItemReq) => {
@@ -80,9 +82,13 @@ export const ItemAddPage: FC = () => {
     } else if (step === "edit") {
         stepTemplate = (
             <ItemAddStepEdit
+                initialData={createItemReq.current}
                 onNext={(data) => {
                     const req = {...createItemReq.current, ...data};
                     onCreateItem(req)
+                }}
+                onPrev={() => {
+                    setStep("barcode");
                 }}
             />
         )

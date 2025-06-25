@@ -36,7 +36,7 @@ export const AuthProvider: React.FC = ({children}) => {
     const signUp = async (req: SignUpReq): Promise<User> => {
         setIsLoading(true);
         try {
-            const res = await axios.post("/api/auth/signup", req)
+            const res = await axios.post("/api/auth/signup", req,)
             if (res.status !== 200) {
                 throw new Error("Sign up failed with status: " + res.status);
             }

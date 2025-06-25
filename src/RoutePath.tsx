@@ -18,7 +18,7 @@ export const RoutePath = {
             return`/home/warehouse/${id}`
         },
 
-    itemCreate: "/item/add-item",
+    itemCreate: "/item/add",
     my: "/home/my",
     temp: "/temp"
 }
