@@ -69,9 +69,9 @@ export const BottomNavigation: FC<BottomNavigationProps> = () => {
   return (
     <BottomNavigationStyle>
       <IconWrap>
-        <NavItem to={RoutePath.chat} $active={path === RoutePath.chat}>
+        <NavItem to={RoutePath.guide} $active={path === RoutePath.guide}>
           <FiMessageSquare />
-          채팅
+          가이드
         </NavItem>
         <NavItem to={RoutePath.favorites} $active={path === RoutePath.favorites}>
           <FiHeart />
