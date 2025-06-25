@@ -1,10 +1,12 @@
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { differenceInDays } from "date-fns";
 import { NavHeader } from "../../components/NavHeader";
 import { BiCamera, BiDotsHorizontalRounded } from "react-icons/bi";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import styled from "styled-components";
+import {useWarehouse} from "../../hooks/useWarehouse";
+import {RoutePath} from "../../RoutePath";
 
 const PaddedLayout = styled(PageLayout)`
   padding: 2rem;
@@ -83,7 +85,7 @@ export const LocationDetailPage = () => {
         >
           <img src={product.imageUrl || "https://via.placeholder.com/60"} alt={product.name} style={{ width: 60, height: 60 }} />
         </div>
-  
+
         <div>
           <div style={{ fontSize: "1.3rem", fontWeight: "bold", marginBottom: "0.2rem" }}>
             {product.name}
@@ -94,7 +96,7 @@ export const LocationDetailPage = () => {
           <div style={{ fontWeight: "500" }}>수정하기 &gt;</div>
         </div>
       </div>
-  
+
       <span
         style={{
           backgroundColor:
@@ -124,7 +126,9 @@ export const LocationDetailPage = () => {
           title={location.name}
           rightIcon={
             <>
-              <BiCamera style={{ fontSize: '1.5em', marginRight: '1rem' }} />
+                <Link to={RoutePath.itemCreate} state={{location}}>
+                    <BiCamera style={{ fontSize: '1.5em', marginRight: '1rem' }} />
+                </Link>
               <BiDotsHorizontalRounded style={{ fontSize: '1.5em' }} />
             </>
           }

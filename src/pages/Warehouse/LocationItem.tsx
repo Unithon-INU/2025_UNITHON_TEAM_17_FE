@@ -1,9 +1,11 @@
 import type { FC } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import {Debugger} from "inspector";
+import {Location} from "../../type/Warehouse";
 
 interface LocationItemProps {
-  id: string;
+  id: Location["id"];
   name: string;
   description?: string;
   productCount?: number;

@@ -2,14 +2,20 @@ import type { FC } from "react";
 import { PageBackground, PageLayout } from "../styles/PageLayout";
 import styled from "styled-components";
 import { BottomNavigation } from "../components/BottomNavigation";
+import {useAuth} from "../hooks/useAuth";
+import {use} from "react";
 
 export const MyPage: FC = () => {
+  const {user} = useAuth();
+
+  if(!user) return
+
   return (
     <PageBackground>
       <PageLayout $isBottomNavigation>
         <PaddedLayout>
         <Header>
-          <UserName>김키피님</UserName>
+          <UserName>{user.name}님</UserName>
           <LogoutButton>로그아웃</LogoutButton>
         </Header>
 

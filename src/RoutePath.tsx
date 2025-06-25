@@ -10,12 +10,15 @@ export const RoutePath = {
     guide: "/home/guide",
     favorites: "/home/favorites",
     warehouse: "/home/warehouse",
+    warehouseCreate: "/home/warehouse/add-location",
     warehouseDetail: (id: string | null) =>{
         if(id == null)
             return "/home/warehouse/:locationName"
         else
             return`/home/warehouse/${id}`
         },
+
+    itemCreate: "/item/add",
     my: "/home/my",
     temp: "/temp"
 }
