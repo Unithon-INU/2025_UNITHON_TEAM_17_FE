@@ -34,42 +34,44 @@ export const PostWrite: FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!title || !salePrice || !quantity) {
-      alert("필수 정보를 입력해주세요.");
-      return;
-    }
+  if (!title || !salePrice || !quantity) {
+    alert("필수 정보를 입력해주세요.");
+    return;
+  }
 
-    try {
-      const formData = new FormData();
+  try {
+    const formData = new FormData();
 
-      const dto = {
-        title,
-        description,
-        originalPrice: Number(costPrice),
-        salePrice: Number(salePrice),
-        quantity: Number(quantity),
-        type: selectedType === "가게" ? "가게" : "직거래",
-        location: place,
-        openChatUrl: chatUrl
-      };
+    const dto = {
+      title,
+      description,
+      originalPrice: Number(costPrice),
+      salePrice: Number(salePrice),
+      quantity: Number(quantity),
+      type: selectedType === "가게" ? "CAFE" : "DIRECT",
+      location: place,
+      openChatUrl: chatUrl
+    };
+    formData.append(
+      "requestDto",
+      new Blob([JSON.stringify(dto)], { type: "application/json" })
+    );
 
-      formData.append("requestDto", JSON.stringify(dto));
+    imageFiles.forEach((file) => {
+      formData.append("image", file); // 또는 'images' 백엔드 명세 확인
+    });
 
-      imageFiles.forEach((file) => {
-        formData.append("image", file); // 'image' 이름으로 파일 추가
-      });
+    const res = await axios.post("/api/products", formData, {
+      withCredentials: true
+    });
 
-      const res = await axios.post("/api/products", formData, {
-        withCredentials: true // 세션 쿠키 인증 필요 시
-      });
-
-      console.log(res.data);
-      alert(res.data.message || "상품이 성공적으로 등록되었습니다.");
-    } catch (error) {
-      console.error("등록 실패", error);
-      alert("상품 등록 중 오류가 발생했습니다.");
-    }
-  };
+    console.log(res.data);
+    alert(res.data.message || "상품이 성공적으로 등록되었습니다.");
+  } catch (error: any) {
+    console.error("등록 실패", error);
+    alert("상품 등록 중 오류가 발생했습니다.");
+  }
+};
 
   return (
     <PageBackground>
