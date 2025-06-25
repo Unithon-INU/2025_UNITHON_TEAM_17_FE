@@ -6,7 +6,6 @@ import {useWarehouse} from "../../hooks/useWarehouse";
 import styled from "styled-components";
 
 const Container = styled.div`
-  flex : 1;
   min-height: 100%;
   padding: 24px 32px;
 
