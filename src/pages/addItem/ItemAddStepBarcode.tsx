@@ -78,7 +78,7 @@ export const ItemAddStepBarcode: FC<ItemAddStepProps> = ({onNext}) => {
 
             <ImageWrap>
                 <label
-                    for={"barcodeImageInput"}>
+                    htmlFor={"barcodeImageInput"}>
                     <PreviewImage src={barcodeImageUrl}/>
                 </label>
             </ImageWrap>

@@ -1,4 +1,4 @@
-import {createContext, useContext, useState} from 'react';
+import {createContext, FC, useContext, useState} from 'react';
 import type {ReactNode} from 'react';
 import axios from "axios";
 import {LoginReq, LoginRes, SignUpReq, SignUpRes, User} from "../type/auth";
@@ -29,7 +29,7 @@ export const useAuth = (): AuthContextProps => {
     return context;
 }
 
-export const AuthProvider: React.FC = ({children}) => {
+export const AuthProvider: FC = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState<User | null>(null);
 

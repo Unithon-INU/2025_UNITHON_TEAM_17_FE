@@ -83,7 +83,7 @@ export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({onNext}) => {
 
             <ImageWrap>
                 <label
-                    for={"barcodeImageInput"}>
+                    htmlFor={"barcodeImageInput"}>
                     <PreviewImage src={expireDateImageUrl}/>
                 </label>
             </ImageWrap>

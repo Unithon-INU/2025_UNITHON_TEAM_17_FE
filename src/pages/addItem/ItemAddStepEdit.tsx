@@ -67,7 +67,7 @@ export const ItemAddStepEdit: FC<ItemAddStepEditProps> = ({initialData, onPrev, 
             <Space v={58}/>
             <InputWrap>
                 <InputRow label={"제품 이름"} value={data.name} onChange={v => setData({...data, name: v})} type={"text"}/>
-                <InputRow label={"촬영 날짜"} value={data.registerDate} onChange={v => setData({...data, registerDate: v})} type={"date"} readonly/>
+                <InputRow label={"촬영 날짜"} value={data.registerDate} onChange={v => setData({...data, registerDate: v})} type={"date"} readOnly/>
                 <InputRow label={"유통 기한"} value={data.expireDate} onChange={v => setData({...data, expireDate: v})} type={"date"}/>
             </InputWrap>
             <Space v={40}/>
