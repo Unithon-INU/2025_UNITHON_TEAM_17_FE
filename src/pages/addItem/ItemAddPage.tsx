@@ -30,7 +30,7 @@ export const ItemAddPage: FC = () => {
         locationId: location!!.id
     } as CreateItemReq);
 
-    const onCreateItem = async (req : CreateItemReq) => {
+    const onCreateItem = async (req: CreateItemReq) => {
         try {
             await createItem(req);
             setStep("success");
@@ -44,7 +44,6 @@ export const ItemAddPage: FC = () => {
         stepTemplate = (
             <ItemAddStepMascot
                 onNext={(data) => {
-                    createItemReq.current = {...createItemReq.current, ...data}
                     setStep("barcode")
                 }}
             />
@@ -53,7 +52,11 @@ export const ItemAddPage: FC = () => {
         stepTemplate = (
             <ItemAddStepBarcode
                 onNext={(data) => {
-                    createItemReq.current = {...createItemReq.current, ...data}
+                    createItemReq.current = {
+                        ...createItemReq.current,
+                        name: data.productName,
+                        imageUrl: data.imageUrl,
+                    }
                     setStep("expireDate")
                 }}
             />
@@ -62,7 +65,12 @@ export const ItemAddPage: FC = () => {
         stepTemplate = (
             <ItemAddStepExpireDate
                 onNext={(data) => {
-                    createItemReq.current = {...createItemReq.current, ...data}
+                    createItemReq.current = {
+                        ...createItemReq.current,
+                        expireDate: data.expireDate,
+                        registerDate: data.capturedDate,
+                        alarmEnabled: true
+                    }
                     setStep("edit")
                 }}
             />
