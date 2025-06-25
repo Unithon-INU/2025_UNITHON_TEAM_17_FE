@@ -3,7 +3,7 @@ import {PageBackground, PageLayout} from "../../styles/PageLayout";
 import {useWarehouse} from "../../hooks/useWarehouse";
 import {useAuth} from "../../hooks/useAuth";
 import {usePreviewImage} from "../../hooks/UsePreviewImage";
-import {useLocation, useNavigate} from "react-router-dom";
+import {Route, useLocation, useNavigate} from "react-router-dom";
 import {ItemAddStepMascot} from "./ItemAddStepMascot";
 import {ItemAddStepBarcode} from "./ItemAddStepBarcode";
 import {ItemAddStepExpireDate} from "./ItemAddStepExpireDate";
@@ -13,6 +13,7 @@ import curriedDarken from "polished/lib/color/darken";
 import {BarcodeRes, CreateItemReq, ExpireDateRes} from "../../type/item";
 import {NavHeader} from "../../components/NavHeader";
 import styled from "styled-components";
+import {RoutePath} from "../../RoutePath";
 
 type ItemAddStep = "mascot" | "barcode" | "expireDate" | "edit" | "success";
 
@@ -94,7 +95,9 @@ export const ItemAddPage: FC = () => {
     } else if (step === "success") {
         stepTemplate = (
             <ItemAddStepSuccess
-                onNext={() => setStep("mascot")}
+                onNext={() => {
+                    navigate(RoutePath.main);
+                }}
             />
         )
     }

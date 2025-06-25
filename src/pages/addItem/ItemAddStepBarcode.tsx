@@ -44,6 +44,7 @@ const PreviewImage = styled.div<{ src: string | null }>`
   cursor: pointer;
 `
 
+
 export const ItemAddStepBarcode: FC<ItemAddStepProps> = ({onNext}) => {
     const {shotBarcode} = useWarehouse()
     const [barcodeImage, onChangeBarcodeImage, barcodeImageUrl] = usePreviewImage(null);

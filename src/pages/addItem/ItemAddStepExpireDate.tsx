@@ -24,6 +24,7 @@ const Message = styled.p`
   font-size: 16px;
   font-weight: 500;
 `
+
 const ImageWrap = styled.div`
   flex: 1;
   padding: 60px;
