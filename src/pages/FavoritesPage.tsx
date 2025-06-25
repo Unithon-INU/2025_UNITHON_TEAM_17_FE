@@ -1,11 +1,11 @@
-import type {FC} from "react";
-import {PageBackground, PageLayout} from "../styles/PageLayout";
-import {BottomNavigation} from "../components/BottomNavigation";
-import { useFavorites } from "../hooks/useFavorites";
-import { mockOfferings } from "../mocks/mockData";
+import type { FC } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { PageBackground, PageLayout } from "../styles/PageLayout";
+import { BottomNavigation } from "../components/BottomNavigation";
 import { OfferingItem } from "../components/main/OfferingItem";
 import styled from "styled-components";
-import EmptyBearImg from "../assets/empty_bear.png";  // 이미지 경로에 맞게 수정하세요!
+import EmptyBearImg from "../assets/empty_bear.png";
 
 const OfferingList = styled.ul`
   display: flex;
@@ -14,8 +14,24 @@ const OfferingList = styled.ul`
 `;
 
 export const FavoritesPage: FC = () => {
-  const { favorites } = useFavorites();
-  const likedOfferings = mockOfferings.filter(o => favorites.includes(o.id));
+  const [favorites, setFavorites] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchFavorites = async () => {
+    try {
+      const response = await axios.get("/api/products/favorites", { withCredentials: true });
+      setFavorites(response.data);  // 서버 응답에 맞게 data 가공 필요할 수도
+    } catch (err) {
+      console.error("즐겨찾기 목록 불러오기 실패:", err);
+      alert("즐겨찾기 목록을 불러오지 못했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFavorites();
+  }, []);
 
   return (
     <PageBackground>
@@ -25,14 +41,16 @@ export const FavoritesPage: FC = () => {
             <Title>즐겨찾기</Title>
           </HeaderWrapper>
 
-          {likedOfferings.length === 0 ? (
+          {loading ? (
+            <EmptyText>즐겨찾기 목록을 불러오는 중입니다...</EmptyText>
+          ) : favorites.length === 0 ? (
             <EmptyWrapper>
               <EmptyImage src={EmptyBearImg} alt="empty favorites" />
               <EmptyText>현재 즐겨찾기 누른 상품이 없어요</EmptyText>
             </EmptyWrapper>
           ) : (
             <OfferingList>
-              {likedOfferings.map(o => (
+              {favorites.map((o) => (
                 <OfferingItem key={o.id} offering={o} />
               ))}
             </OfferingList>
@@ -44,6 +62,7 @@ export const FavoritesPage: FC = () => {
     </PageBackground>
   );
 };
+
 
 const PaddedLayout = styled(PageLayout)`
   padding: 2.5rem;
@@ -73,7 +92,7 @@ const EmptyWrapper = styled.div`
 `;
 
 const EmptyImage = styled.img`
-  width: 300px;   // 크기를 키웠습니다!
+  width: 300px; 
   height: auto;
   margin-top: 2.5rem;
   margin-bottom: 1.5rem;

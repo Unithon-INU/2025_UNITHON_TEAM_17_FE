@@ -1,11 +1,20 @@
 import styled from "styled-components";
-import type { Offering } from "../../mocks/mockData";
 import type { FC } from "react";
 import { commaizeNumber } from "@toss/utils";
 import { Link } from "react-router-dom";
 
 export type OfferingItemProps = {
-  offering: Offering;
+  offering: {
+    id: number;
+    title: string;
+    salePrice: number;
+    originalPrice?: number;
+    sellerName: string;
+    timeAgo: string;
+    location: string;
+    type: string;  // "CAFE" | "DIRECT"
+    thumbnail: string;
+  };
 };
 
 const OfferingItemStyle = styled.li`
@@ -68,26 +77,32 @@ const SalePrice = styled.div`
   font-weight: 600;
 `;
 
-
 export const OfferingItem: FC<OfferingItemProps> = ({ offering }) => {
+  const fullThumbnailUrl =
+  offering.thumbnail && offering.thumbnail.startsWith("http")
+    ? offering.thumbnail
+    : offering.thumbnail
+    ? `https://keepbara.duckdns.org${offering.thumbnail}`
+    : "/default-image.png" 
+
   return (
     <Link to={`/home/main/${offering.id}`} style={{ textDecoration: "none", color: "inherit" }}>
       <OfferingItemStyle>
-        <Thumbnail style={{ backgroundImage: `url(${offering.imageUrls[0]})` }} />
+        <Thumbnail style={{ backgroundImage: `url(${fullThumbnailUrl})` }} />
         <InfoWrap>
           <InfoRow>
-            <Name>{offering.name}</Name>
+            <Name>{offering.title}</Name>
           </InfoRow>
           <InfoRow>
             <Date>
-              {offering.type} / {offering.createdAt}
+              {offering.type === "CAFE" ? "가게" : "직거래"} / {offering.timeAgo}
             </Date>
-            <CostPrice>₩ {commaizeNumber(offering.costPrice)}</CostPrice>
+            {offering.originalPrice && (
+              <CostPrice>₩ {commaizeNumber(offering.originalPrice)}</CostPrice>
+            )}
           </InfoRow>
           <InfoRow>
-            <SellerName>
-              {offering.sellerName}
-            </SellerName>
+            <SellerName>{offering.sellerName}</SellerName>
             <SalePrice>₩ {commaizeNumber(offering.salePrice)}</SalePrice>
           </InfoRow>
         </InfoWrap>

@@ -34,39 +34,44 @@ export const PostWrite: FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!title || !salePrice || !quantity) {
-      alert("필수 정보를 입력해주세요.");
-      return;
-    }
+  if (!title || !salePrice || !quantity) {
+    alert("필수 정보를 입력해주세요.");
+    return;
+  }
 
-    try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("originalPrice", costPrice);
-      formData.append("salePrice", salePrice);
-      formData.append("quantity", quantity);
-      formData.append("type", selectedType === "가게" ? "가게" : "직거래");
-      formData.append("location", place);
-      formData.append("openChatUrl", chatUrl);
+  try {
+    const formData = new FormData();
 
-      imageFiles.forEach((file) => {
-        formData.append("images", file);
-      });
+    const dto = {
+      title,
+      description,
+      originalPrice: Number(costPrice),
+      salePrice: Number(salePrice),
+      quantity: Number(quantity),
+      type: selectedType === "가게" ? "CAFE" : "DIRECT",
+      location: place,
+      openChatUrl: chatUrl
+    };
+    formData.append(
+      "requestDto",
+      new Blob([JSON.stringify(dto)], { type: "application/json" })
+    );
 
-      const res = await axios.post("/api/products", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      });
+    imageFiles.forEach((file) => {
+      formData.append("image", file); // 또는 'images' 백엔드 명세 확인
+    });
 
-      console.log(res.data);
-      alert(res.data.message || "상품이 성공적으로 등록되었습니다.");
-    } catch (error) {
-      console.error("등록 실패", error);
-      alert("상품 등록 중 오류가 발생했습니다.");
-    }
-  };
+    const res = await axios.post("/api/products", formData, {
+      withCredentials: true
+    });
+
+    console.log(res.data);
+    alert(res.data.message || "상품이 성공적으로 등록되었습니다.");
+  } catch (error: any) {
+    console.error("등록 실패", error);
+    alert("상품 등록 중 오류가 발생했습니다.");
+  }
+};
 
   return (
     <PageBackground>
@@ -74,101 +79,102 @@ export const PostWrite: FC = () => {
         <NavHeader title="상품 판매" onRightClick={handleSubmit} />
         <PaddedLayout>
           <Form>
-          <TitleInput 
+            <TitleInput 
               placeholder="제목을 입력하세요" 
               value={title}
               onChange={e => setTitle(e.target.value)} 
             />
 
-          <FormRow>
-            <FieldLabel>판매 종류</FieldLabel>
-            <RightAlignBox>
-              {toggleOptions.map(option => (
-                <ToggleButton
-                  key={option}
-                  selected={selectedType === option}
-                  onClick={() => setSelectedType(option)}
-                >
-                  {option}
-                </ToggleButton>
-              ))}
-            </RightAlignBox>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>판매 종류</FieldLabel>
+              <RightAlignBox>
+                {toggleOptions.map(option => (
+                  <ToggleButton
+                    key={option}
+                    selected={selectedType === option}
+                    onClick={() => setSelectedType(option)}
+                  >
+                    {option}
+                  </ToggleButton>
+                ))}
+              </RightAlignBox>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>원가</FieldLabel>
-            <InputWrapper>
-              <Input value={costPrice} onChange={e => setCostPrice(e.target.value)} />
-              <Unit>원</Unit>
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>원가</FieldLabel>
+              <InputWrapper>
+                <Input value={costPrice} onChange={e => setCostPrice(e.target.value)} />
+                <Unit>원</Unit>
+              </InputWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>판매금액</FieldLabel>
-            <InputWrapper>
-              <Input value={salePrice} onChange={e => setSalePrice(e.target.value)} />
-              <Unit>원</Unit>
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>판매금액</FieldLabel>
+              <InputWrapper>
+                <Input value={salePrice} onChange={e => setSalePrice(e.target.value)} />
+                <Unit>원</Unit>
+              </InputWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>수량</FieldLabel>
-            <InputWrapper>
-              <Input value={quantity} onChange={e => setQuantity(e.target.value)} />
-              <Unit>개</Unit>
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>수량</FieldLabel>
+              <InputWrapper>
+                <Input value={quantity} onChange={e => setQuantity(e.target.value)} />
+                <Unit>개</Unit>
+              </InputWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>오픈채팅 URL</FieldLabel>
-            <InputWrapper>
-              <Input value={chatUrl} onChange={e => setChatUrl(e.target.value)} placeholder="URL을 입력하세요" />
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>오픈채팅 URL</FieldLabel>
+              <InputWrapper>
+                <Input value={chatUrl} onChange={e => setChatUrl(e.target.value)} placeholder="URL을 입력하세요" />
+              </InputWrapper>
+            </FormRow>
 
-          <FormRow>
-            <FieldLabel>거래장소</FieldLabel>
-            <InputWrapper>
-              <Input value={place} onChange={e => setPlace(e.target.value)} placeholder="장소를 입력하세요" />
-            </InputWrapper>
-          </FormRow>
+            <FormRow>
+              <FieldLabel>거래장소</FieldLabel>
+              <InputWrapper>
+                <Input value={place} onChange={e => setPlace(e.target.value)} placeholder="장소를 입력하세요" />
+              </InputWrapper>
+            </FormRow>
 
-          <Small>* 서울시 00동 까지만 작성해주세요</Small>
+            <Small>* 서울시 00동 까지만 작성해주세요</Small>
 
-          <Textarea 
+            <Textarea 
               placeholder="제품에 대한 설명을 작성해주세요." 
               value={description}
               onChange={e => setDescription(e.target.value)}
             />
 
-          <ImageUploadBox>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              style={{ display: "none" }}
-              ref={fileInputRef}
-              onChange={handleImageSelect}
-            />
-            <FiCamera size={24} onClick={() => fileInputRef.current?.click()} />
-            <ImageCount>{imageFiles.length}/5</ImageCount>
-            <PreviewWrapper>
-              {imageFiles.map((file, idx) => (
-                <Preview key={idx}>
-                  <img src={URL.createObjectURL(file)} alt={`preview-${idx}`} />
-                  <RemoveButton onClick={() => removeImage(idx)}>✕</RemoveButton>
-                </Preview>
-              ))}
-            </PreviewWrapper>
-          </ImageUploadBox>
+            <ImageUploadBox>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                style={{ display: "none" }}
+                ref={fileInputRef}
+                onChange={handleImageSelect}
+              />
+              <FiCamera size={24} onClick={() => fileInputRef.current?.click()} />
+              <ImageCount>{imageFiles.length}/5</ImageCount>
+              <PreviewWrapper>
+                {imageFiles.map((file, idx) => (
+                  <Preview key={idx}>
+                    <img src={URL.createObjectURL(file)} alt={`preview-${idx}`} />
+                    <RemoveButton onClick={() => removeImage(idx)}>✕</RemoveButton>
+                  </Preview>
+                ))}
+              </PreviewWrapper>
+            </ImageUploadBox>
 
-          <SubmitButton onClick={handleSubmit}>작성 완료</SubmitButton>
-        </Form>
+            <SubmitButton onClick={handleSubmit}>작성 완료</SubmitButton>
+          </Form>
         </PaddedLayout>
       </PageLayout>
     </PageBackground>
   );
 };
+
 
 const PaddedLayout = styled(PageLayout)`
   padding: 0.5rem;

@@ -12,7 +12,7 @@ export const MyPage: FC = () => {
 
   return (
     <PageBackground>
-      <PageLayout isBottomNavigation>
+      <PageLayout $isBottomNavigation>
         <PaddedLayout>
         <Header>
           <UserName>{user.name}님</UserName>

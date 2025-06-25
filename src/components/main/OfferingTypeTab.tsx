@@ -12,8 +12,8 @@ const OfferingTypeTabStyle = styled.nav`
     gap: 20px;
     overflow-x: auto;
 `
-const TabItem = styled.li<{ isSelected: boolean }>`
-    color : ${({isSelected}) => isSelected ? "#1970FD" : "#999999"};
+const TabItem = styled.li<{ $isSelected: boolean }>`
+    color : ${({$isSelected}) => $isSelected ? "#1970FD" : "#999999"};
     padding: 25px 8px;
     font-size: 16px;
     font-weight: 500;
@@ -27,7 +27,7 @@ export const OfferingTypeTab: FC<OfferingTypeTabProps> = ({types, selectedType, 
             {types.map((type) => (
                 <TabItem
                     key={type}
-                    isSelected={selectedType === type}
+                    $isSelected={selectedType === type}
                     onClick={() => onSelectType(type)}>
                     {type}
                 </TabItem>
