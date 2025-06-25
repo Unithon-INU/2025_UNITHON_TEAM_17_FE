@@ -12,6 +12,7 @@ import {ItemAddStepSuccess} from "./ItemAddStepSuccess";
 import curriedDarken from "polished/lib/color/darken";
 import {BarcodeRes, CreateItemReq, ExpireDateRes} from "../../type/item";
 import {NavHeader} from "../../components/NavHeader";
+import styled from "styled-components";
 
 type ItemAddStep = "mascot" | "barcode" | "expireDate" | "edit" | "success";
 
@@ -26,7 +27,7 @@ export const ItemAddPage: FC = () => {
     const {shotBarcode, createItem, shotExpire} = useWarehouse();
     const {user} = useAuth()
 
-    const [step, setStep] = useState<ItemAddStep>("edit");
+    const [step, setStep] = useState<ItemAddStep>("mascot");
     const createItemReq = useRef({
         memberId: user!!.id,
         locationId: location!!.id,
@@ -102,7 +103,9 @@ export const ItemAddPage: FC = () => {
         <PageBackground>
             <PageLayout>
                 <NavHeader
-                    onLeftClick={() => {navigate(-1)}}
+                    onLeftClick={() => {
+                        navigate(-1)
+                    }}
                 />
                 {stepTemplate}
             </PageLayout>

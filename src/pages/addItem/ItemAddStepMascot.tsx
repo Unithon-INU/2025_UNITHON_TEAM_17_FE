@@ -6,6 +6,7 @@ import {Space} from "../../components/common/Space";
 import mascotImage from "../../assets/empty_bear.png";
 
 const Container = styled.div`
+  flex : 1;
   height: 100%;
   padding: 24px 32px;
 
