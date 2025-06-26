@@ -13,3 +13,6 @@ export type Location = {
     name: string;
     memberId: User["id"];
 }
+export type EditLocationReq = {
+    name: Location["name"]
+}

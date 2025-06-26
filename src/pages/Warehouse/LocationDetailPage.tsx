@@ -124,7 +124,9 @@ export const LocationDetailPage = () => {
                     <div style={{color: "#999", fontSize: "1rem", marginBottom: "0.6rem"}}>
                         {product.takenAt} ~ {product.expirationDate}
                     </div>
-                    <div style={{fontWeight: "500"}}>수정하기 &gt;</div>
+                    <div style={{fontWeight: "500"}}>
+                        <Link to={RoutePath.itemUpdate(product.id)}>수정하기 &gt;</Link>
+                    </div>
                 </div>
             </div>
 

@@ -1,17 +1,28 @@
 import {createContext, FC, useContext, useState} from 'react';
-import {CreateLocationMakeReq, Location} from "../type/Warehouse";
+import {CreateLocationMakeReq, EditLocationReq, Location} from "../type/Warehouse";
 import axios from "axios";
 import {BarcodeRes, CreateItemReq, ExpireDateRes, Item} from "../type/item";
+
+type UpdateItemReq = {
+    name: string;
+    expireDate: string;
+    locationId: number;
+    alarmEnabled: boolean;
+}
 
 interface WarehouseContextProps {
     isLoading: boolean;
     createLocation: (req: CreateLocationMakeReq) => Promise<Location>;
     getLocations: () => Promise<Location[]>;
-    getLocation: (id : Location["id"]) => Promise<Location>;
+    getLocation: (id: Location["id"]) => Promise<Location>;
+    updateLocation: (id: Location["id"], req: EditLocationReq) => Promise<Location[]>;
+    deleteLocation: (id: Location["id"]) => Promise<void>;
+
     shotBarcode: (file: FormData) => Promise<BarcodeRes>;
     createItem: (req: CreateItemReq) => Promise<void>;
     shotExpire: (file: FormData) => Promise<ExpireDateRes>;
     getItems: () => Promise<Item[]>
+    updateItem : (id: Item["id"], req: UpdateItemReq) => Promise<void>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -71,7 +82,7 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
-    const getLocation = async (id : Location["id"]) => {
+    const getLocation = async (id: Location["id"]) => {
         setIsLoading(true)
         try {
             const locations = await getLocations();
@@ -80,8 +91,47 @@ export const WarehouseProvider: FC = ({children}) => {
         } catch (error) {
             console.error("Error fetching location:", error);
             throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
         }
-        finally {
+    }
+
+    const updateLocation = async (id: Location["id"], req: EditLocationReq) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.patch(
+                `/api/box/locations/${id}`,
+                req,
+                {withCredentials: true}
+            );
+            if (res.status !== 200) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+            return res.data;
+        } catch (error) {
+            console.error("Error updating location:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    const deleteLocation = async (id: Location["id"]) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.delete(
+                `/api/box/locations/${id}`,
+                {withCredentials: true}
+            );
+            if (res.status !== 204) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+        } catch (error) {
+            console.error("Error deleting location:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
             setIsLoading(false);
         }
     }
@@ -167,11 +217,43 @@ export const WarehouseProvider: FC = ({children}) => {
         } finally {
             setIsLoading(false);
         }
+    }
 
+    const updateItem  = async (id: Item["id"], req: UpdateItemReq) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.patch(
+                `/api/box/items/${id}`,
+                req,
+                {withCredentials: true}
+            );
+            if (res.status !== 200) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+        } catch (error) {
+            console.error("Error updating item:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
-        <WarehouseContext.Provider value={{isLoading, createLocation, getLocations, getLocation, shotBarcode, createItem, shotExpire, getItems}}>
+        <WarehouseContext.Provider value={{
+            isLoading,
+            createLocation,
+            getLocations,
+            getLocation,
+            updateLocation,
+            deleteLocation,
+
+            shotBarcode,
+            createItem,
+            shotExpire,
+            getItems,
+            updateItem
+        }}>
             {children}
         </WarehouseContext.Provider>
     )
