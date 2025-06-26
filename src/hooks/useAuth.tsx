@@ -2,7 +2,6 @@ import {createContext, FC, useContext, useState} from 'react';
 import type {ReactNode} from 'react';
 import axios from "axios";
 import {LoginReq, LoginRes, SignUpReq, SignUpRes, User} from "../type/auth";
-import {c} from "vite/dist/node/moduleRunnerTransport.d-DJ_mE5sf";
 
 
 interface AuthProviderProps {

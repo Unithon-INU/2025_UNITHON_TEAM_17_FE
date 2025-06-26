@@ -34,11 +34,21 @@ export const SignUpPage: FC = () => {
   const [passwordCheck, setPasswordCheck, passwordCheckError, setPasswordCheckError] = useSignUpInput("");
   const [name, setName, nameError, setNameError] = useSignUpInput("");
 
+  const onEmailNext = () => {
+    if (!email.includes("@")) {
+      setEmailError("올바른 이메일 주소를 입력해주세요.");
+      return;
+    }
+    setEmailError(null);
+    setStep("password");
+  };
+
   const onPasswordCheckNext = () => {
     if (password !== passwordCheck) {
       setPasswordCheckError("비밀번호가 일치하지 않습니다.");
       return;
     }
+    setPasswordCheckError(null);
     setStep("name");
   };
 
@@ -54,9 +64,10 @@ export const SignUpPage: FC = () => {
 
       const response = await signUp({email, password, name})
       navigate(RoutePath.login); // 회원가입 후 로그인 화면으로 이동
+
     } catch (error: any) {
       if (error.response?.data?.error) {
-        alert(error.response.data.error); // "이미 가입된 이메일입니다." 등의 메시지
+        alert(error.response.data.error);
       } else {
         alert("회원가입 중 오류가 발생했습니다.");
       }
@@ -66,10 +77,13 @@ export const SignUpPage: FC = () => {
   let stepTemplate: ReactNode;
   if (step === "email") {
     stepTemplate = (
-      <SignUpStepComponent onNext={() => setStep("password")}>
+      <SignUpStepComponent onNext={onEmailNext}>
         <Input
           value={email}
-          onChange={setEmail}
+          onChange={(value) => {
+            setEmail(value);
+            if (emailError) setEmailError(null);
+          }}
           label={"이메일"}
           placeholder={"이메일 주소를 입력하세요."}
           type={"email"}
@@ -82,7 +96,10 @@ export const SignUpPage: FC = () => {
       <SignUpStepComponent onNext={() => setStep("passwordCheck")}>
         <Input
           value={password}
-          onChange={setPassword}
+          onChange={(value) => {
+            setPassword(value);
+            if (passwordError) setPasswordError(null);
+          }}
           label={"비밀번호"}
           placeholder={"비밀번호를 입력하세요."}
           type={"password"}
@@ -92,10 +109,13 @@ export const SignUpPage: FC = () => {
     );
   } else if (step === "passwordCheck") {
     stepTemplate = (
-      <SignUpStepComponent onNext={() => onPasswordCheckNext()}>
+      <SignUpStepComponent onNext={onPasswordCheckNext}>
         <Input
           value={passwordCheck}
-          onChange={setPasswordCheck}
+          onChange={(value) => {
+            setPasswordCheck(value);
+            if (passwordCheckError) setPasswordCheckError(null);
+          }}
           label={"비밀번호 확인"}
           placeholder={"비밀번호를 다시 입력하세요."}
           type={"password"}
@@ -105,10 +125,13 @@ export const SignUpPage: FC = () => {
     );
   } else if (step === "name") {
     stepTemplate = (
-      <SignUpStepComponent onNext={() => onSignUp()} buttonText={"회원가입"}>
+      <SignUpStepComponent onNext={onSignUp} buttonText={"회원가입"}>
         <Input
           value={name}
-          onChange={setName}
+          onChange={(value) => {
+            setName(value);
+            if (nameError) setNameError(null);
+          }}
           label={"이름"}
           placeholder={"이름을 입력하세요."}
           type={"text"}
@@ -119,31 +142,28 @@ export const SignUpPage: FC = () => {
   }
 
   return (
-  <PageBackground>
-    <PageLayout>
+    <PageBackground>
+      <PageLayout>
         <NavHeader />
         <FormWrapper>
-            <FormInner>
-            {stepTemplate}
-            </FormInner>
+          <FormInner>{stepTemplate}</FormInner>
         </FormWrapper>
-    </PageLayout>
-  </PageBackground>
-);
+      </PageLayout>
+    </PageBackground>
+  );
 };
 
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;            /* 화면 높이 전체 */
-  padding: 0 40px;          /* 좌우 여백 */
+  height: 100vh;
+  padding: 0 40px;
   box-sizing: border-box;
 `;
 
 const FormInner = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: stretch;     /* 왼쪽 정렬 + width: 100% */
+  align-items: stretch;
   gap: 24px;
 `;
-
