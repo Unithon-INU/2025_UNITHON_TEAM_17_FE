@@ -41,7 +41,6 @@ export const InputRow: FC<InputRowProps> = ({label, value, onChange, ...rest}) =
         <InputRowStyle>
             <Label>{label}</Label>
             <Input
-                type="text"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 {...rest}
