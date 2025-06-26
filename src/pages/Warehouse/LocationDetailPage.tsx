@@ -42,11 +42,9 @@ export const LocationDetailPage = () => {
           }
 
           const allItems = await getItems();
-          console.log(allItems)
           const foundItems = allItems.filter(item => item.locationId === foundLocation.id);
-          console.log(foundItems)
-          setItems(foundItems)
 
+          setItems(foundItems)
           setLocation(foundLocation)
       }
       catch (e) {
