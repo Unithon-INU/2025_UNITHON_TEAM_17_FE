@@ -1,7 +1,7 @@
-import {createContext, useContext, useState} from 'react';
+import {createContext, FC, useContext, useState} from 'react';
 import {CreateLocationMakeReq, Location} from "../type/Warehouse";
 import axios from "axios";
-import {BarcodeRes, CreateItemReq, ExpireDateRes} from "../type/item";
+import {BarcodeRes, CreateItemReq, ExpireDateRes, Item} from "../type/item";
 
 interface WarehouseContextProps {
     isLoading: boolean;
@@ -10,6 +10,7 @@ interface WarehouseContextProps {
     shotBarcode: (file: FormData) => Promise<BarcodeRes>;
     createItem: (req: CreateItemReq) => Promise<void>;
     shotExpire: (file: FormData) => Promise<ExpireDateRes>;
+    getItems: () => Promise<Item[]>
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -24,7 +25,7 @@ export const useWarehouse = (): WarehouseContextProps => {
     return context
 }
 
-export const WarehouseProvider: React.FC = ({children}) => {
+export const WarehouseProvider: FC = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const createLocation = async (req: CreateLocationMakeReq): Promise<Location> => {
@@ -132,8 +133,29 @@ export const WarehouseProvider: React.FC = ({children}) => {
         }
     }
 
+    const getItems = async (): Promise<Item[]> => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(
+                `/api/box/items`,
+                {withCredentials: true}
+            );
+            if (res.status !== 200) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+            return res.data;
+        } catch (error) {
+            console.error("Error fetching items:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+
+    }
+
     return (
-        <WarehouseContext.Provider value={{isLoading, createLocation, getLocations, shotBarcode, createItem, shotExpire}}>
+        <WarehouseContext.Provider value={{isLoading, createLocation, getLocations, shotBarcode, createItem, shotExpire, getItems}}>
             {children}
         </WarehouseContext.Provider>
     )

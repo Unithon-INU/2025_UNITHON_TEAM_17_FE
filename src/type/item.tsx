@@ -21,3 +21,12 @@ export type ExpireDateRes = {
     expireDate: string;
     capturedDate: string;
 }
+export type Item = {
+    id: number;
+    name: string;
+    imageUrl: string;
+    registerDate: string;
+    expireDate: string;
+    locationName: string;
+    locationId: number;
+}

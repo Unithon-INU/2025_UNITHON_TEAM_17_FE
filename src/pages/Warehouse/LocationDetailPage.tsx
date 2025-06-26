@@ -1,14 +1,14 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import { mockLocations, mockProducts } from "../../mocks/mockData";
-import { differenceInDays } from "date-fns";
-import { NavHeader } from "../../components/NavHeader";
-import { BiCamera, BiDotsHorizontalRounded } from "react-icons/bi";
-import { PageBackground, PageLayout } from "../../styles/PageLayout";
+import {differenceInDays} from "date-fns";
+import {NavHeader} from "../../components/NavHeader";
+import {BiCamera, BiDotsHorizontalRounded} from "react-icons/bi";
+import {PageBackground, PageLayout} from "../../styles/PageLayout";
 import styled from "styled-components";
 import {useWarehouse} from "../../hooks/useWarehouse";
 import {RoutePath} from "../../RoutePath";
 import {Location} from "../../type/Warehouse";
 import {useEffect, useState} from "react";
+import {Item} from "../../type/item";
 
 const PaddedLayout = styled(PageLayout)`
   padding: 2rem;
@@ -29,9 +29,9 @@ const EmptyBox = styled.div`
 export const LocationDetailPage = () => {
   const  navigate = useNavigate();
   const { locationName : locationId } = useParams();
-  const {getLocations} = useWarehouse();
+  const {getLocations, getItems} = useWarehouse();
   const [location, setLocation] = useState<Location>(null);
-
+  const [items, setItems] = useState<Item[]>([]);
 
   const onLoadLocation = async () => {
       try {
@@ -40,6 +40,12 @@ export const LocationDetailPage = () => {
           if(!foundLocation) {
               throw new Error("존재하지 않는 장소입니다.");
           }
+
+          const allItems = await getItems();
+          console.log(allItems)
+          const foundItems = allItems.filter(item => item.locationId === foundLocation.id);
+          console.log(foundItems)
+          setItems(foundItems)
 
           setLocation(foundLocation)
       }
@@ -60,10 +66,9 @@ export const LocationDetailPage = () => {
 
   const today = new Date();
 
-  const filteredProducts = mockProducts
-    .filter(p => p.locationId === location.id)
+  const filteredProducts = items
     .map(product => {
-      const daysLeft = differenceInDays(new Date(product.expirationDate), today);
+      const daysLeft = differenceInDays(new Date(product.expireDate), today);
       return { ...product, daysLeft };
     })
     .sort((a, b) => a.daysLeft - b.daysLeft);
