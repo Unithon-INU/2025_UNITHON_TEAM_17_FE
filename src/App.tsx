@@ -27,9 +27,17 @@ import {ItemUpdatePage} from "./pages/ItemUpdatePage";
 
 const LoginGuard : FC = () => {
     const navigate = useNavigate();
-    const {user} = useAuth();
+    const {user, sessionCheck} = useAuth();
 
     if(!user) {
+        sessionCheck().then(res => {
+            if (!res.loginStatus) {
+                navigate(RoutePath.main, {replace: true});
+            }
+        }).catch(err => {
+            navigate(RoutePath.main, {replace: true});
+        });
+
         return <Navigate to={RoutePath.login} replace={true} />
     }
 
