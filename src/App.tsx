@@ -42,11 +42,10 @@ function App() {
             <Resize/>
             <BrowserRouter>
                 <Routes>
-                    <Route index element={<MainPage/>}/>
-                    <Route path={RoutePath.splash} element={<SplashPage/>}/>
+                    <Route index element={<SplashPage/>}/>
+                    <Route path={RoutePath.main} element={<MainPage/>}/>
                     <Route path={RoutePath.login} element={<LoginPage/>}/>
                     <Route path={RoutePath.signUp} element={<SignUpPage/>}/>
-                    <Route path={RoutePath.main} element={<MainPage/>}/>
                     <Route path={RoutePath.guide} element={<GuidePage/>}/>
                     <Route path="/home/guide" element={<GuidePage />} />
                     <Route path="/home/guide/:topic" element={<GuideDetailPage />} />
