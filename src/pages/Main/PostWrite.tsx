@@ -5,8 +5,11 @@ import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import { NavHeader } from "../../components/NavHeader";
 import { FiCamera } from "react-icons/fi";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export const PostWrite: FC = () => {
+  const navigate = useNavigate();
+
   const [costPrice, setCostPrice] = useState("");
   const [salePrice, setSalePrice] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -34,49 +37,49 @@ export const PostWrite: FC = () => {
   };
 
   const handleSubmit = async () => {
-  if (!title || !salePrice || !quantity) {
-    alert("필수 정보를 입력해주세요.");
-    return;
-  }
+    if (!title || !salePrice || !quantity) {
+      alert("필수 정보를 입력해주세요.");
+      return;
+    }
 
-  try {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
+      const dto = {
+        title,
+        description,
+        originalPrice: Number(costPrice),
+        salePrice: Number(salePrice),
+        quantity: Number(quantity),
+        type: selectedType === "가게" ? "CAFE" : "DIRECT",
+        location: place,
+        openChatUrl: chatUrl
+      };
+      formData.append(
+        "requestDto",
+        new Blob([JSON.stringify(dto)], { type: "application/json" })
+      );
 
-    const dto = {
-      title,
-      description,
-      originalPrice: Number(costPrice),
-      salePrice: Number(salePrice),
-      quantity: Number(quantity),
-      type: selectedType === "가게" ? "CAFE" : "DIRECT",
-      location: place,
-      openChatUrl: chatUrl
-    };
-    formData.append(
-      "requestDto",
-      new Blob([JSON.stringify(dto)], { type: "application/json" })
-    );
+      imageFiles.forEach((file) => {
+        formData.append("images", file);
+      });
 
-    imageFiles.forEach((file) => {
-      formData.append("image", file); // 또는 'images' 백엔드 명세 확인
-    });
+      const res = await axios.post("/api/products", formData, {
+        withCredentials: true
+      });
 
-    const res = await axios.post("/api/products", formData, {
-      withCredentials: true
-    });
-
-    console.log(res.data);
-    alert(res.data.message || "상품이 성공적으로 등록되었습니다.");
-  } catch (error: any) {
-    console.error("등록 실패", error);
-    alert("상품 등록 중 오류가 발생했습니다.");
-  }
-};
+      console.log(res.data);
+      alert(res.data.message || "상품이 성공적으로 등록되었습니다.");
+      navigate("/home/main");
+    } catch (error: any) {
+      console.error("등록 실패", error);
+      alert("상품 등록 중 오류가 발생했습니다.");
+    }
+  };
 
   return (
     <PageBackground>
       <PageLayout>
-        <NavHeader title="상품 판매" onRightClick={handleSubmit} />
+        <NavHeader title="상품 판매글 작성" onRightClick={handleSubmit} />
         <PaddedLayout>
           <Form>
             <TitleInput 
@@ -175,7 +178,6 @@ export const PostWrite: FC = () => {
   );
 };
 
-
 const PaddedLayout = styled(PageLayout)`
   padding: 0.5rem;
 `;
@@ -184,7 +186,7 @@ const Form = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;  // FormRow 간격!
+  gap: 1rem;
 `;
 
 const TitleInput = styled.input`

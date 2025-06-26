@@ -12,14 +12,14 @@ export type OfferingItemProps = {
     sellerName: string;
     timeAgo: string;
     location: string;
-    type: string;  // "CAFE" | "DIRECT"
+    type: string; // "CAFE" | "DIRECT"
     thumbnail: string;
   };
 };
 
 const OfferingItemStyle = styled.li`
   font-size: 18px;
-  border-radius: 16px;
+  border-radius: 30px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   background-color: white;
   overflow: hidden;
@@ -28,14 +28,14 @@ const OfferingItemStyle = styled.li`
 
 const Thumbnail = styled.div`
   width: 100%;
-  height: 100px;
-  border-radius: 16px 16px 0 0;
+  height: 180px;
+  border-radius: 30px 30px 0 0;
   background-position: center;
   background-size: cover;
 `;
 
 const InfoWrap = styled.div`
-  padding: 16px 15px;
+  padding: 16px 25px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -44,6 +44,7 @@ const InfoWrap = styled.div`
 const InfoRow = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
 `;
 
 const Name = styled.h4`
@@ -57,19 +58,22 @@ const Date = styled.div`
   font-weight: 500;
 `;
 
+const SellerName = styled.div`
+  font-size: 0.85em;
+  font-weight: 600;
+`;
+
+const PriceWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
 const CostPrice = styled.div`
   color: #999999;
   font-size: 0.85em;
   font-weight: 600;
   text-decoration: line-through;
-`;
-
-const SellerName = styled.div`
-  font-size: 0.85em;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 `;
 
 const SalePrice = styled.div`
@@ -79,11 +83,11 @@ const SalePrice = styled.div`
 
 export const OfferingItem: FC<OfferingItemProps> = ({ offering }) => {
   const fullThumbnailUrl =
-  offering.thumbnail && offering.thumbnail.startsWith("http")
-    ? offering.thumbnail
-    : offering.thumbnail
-    ? `https://keepbara.duckdns.org${offering.thumbnail}`
-    : "/default-image.png" 
+    offering.thumbnail && offering.thumbnail.startsWith("http")
+      ? offering.thumbnail
+      : offering.thumbnail
+      ? `https://keepbara.duckdns.org${offering.thumbnail}`
+      : "/default-image.png";
 
   return (
     <Link to={`/home/main/${offering.id}`} style={{ textDecoration: "none", color: "inherit" }}>
@@ -95,15 +99,17 @@ export const OfferingItem: FC<OfferingItemProps> = ({ offering }) => {
           </InfoRow>
           <InfoRow>
             <Date>
-              {offering.type === "CAFE" ? "가게" : "직거래"} / {offering.timeAgo}
+              {offering.type === "CAFE" ? "카페" : "직거래"} / {offering.timeAgo}
             </Date>
-            {offering.originalPrice && (
-              <CostPrice>₩ {commaizeNumber(offering.originalPrice)}</CostPrice>
-            )}
           </InfoRow>
           <InfoRow>
-            <SellerName>{offering.sellerName}</SellerName>
-            <SalePrice>₩ {commaizeNumber(offering.salePrice)}</SalePrice>
+            <SellerName>{offering.sellerName+'님'}</SellerName>
+            <PriceWrap>
+              {offering.originalPrice && (
+                <CostPrice>₩ {commaizeNumber(offering.originalPrice)}</CostPrice>
+              )}
+              <SalePrice>₩ {commaizeNumber(offering.salePrice)}</SalePrice>
+            </PriceWrap>
           </InfoRow>
         </InfoWrap>
       </OfferingItemStyle>

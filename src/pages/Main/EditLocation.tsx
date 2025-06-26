@@ -19,39 +19,40 @@ const Form = styled.form`
 `;
 
 export const EditLocation: FC = () => {
-    const navigate = useNavigate();
-    const {id} = useParams()
-    const {getLocation, updateLocation} = useWarehouse()
-    const [location, setLocation] = useState<Location | null>(null);
+    // const navigate = useNavigate();
+    // const {id} = useParams()
+    // const {getLocation, updateLocation} = useWarehouse()
+    // const [location, setLocation] = useState<Location | null>(null);
 
-    const onLoadLocation = async () => {
-        const foundLocation = await getLocation(Number(id));
-        setLocation(foundLocation);
-    }
+    // const onLoadLocation = async () => {
+    //     const foundLocation = await getLocation(Number(id));
+    //     setLocation(foundLocation);
+    // }
 
-    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    // const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault();
 
-        try {
-            const updatedLocations = await updateLocation(location!!.id, location!!);
-            navigate(RoutePath.warehouseDetail(id), {replace: true})
-        } catch (e) {
-            console.error("장소 수정 중 오류 발생:", e)
-        }
-    }
+    //     try {
+    //         const updatedLocations = await updateLocation(location!!.id, location!!);
+    //         navigate(RoutePath.warehouseDetail(id), {replace: true})
+    //     } catch (e) {
+    //         console.error("장소 수정 중 오류 발생:", e)
+    //     }
+    // }
 
-    useEffect(() => {
-        onLoadLocation()
-    }, [])
+    // useEffect(() => {
+    //     onLoadLocation()
+    // }, [])
 
-    if (!location) {
-        return "장소를 불러오는 중입니다..."
-    }
+    // if (!location) {
+    //     return "장소를 불러오는 중입니다..."
+    // }
 
     return (
         <PageBackground>
             <PageLayout>
-                <NavHeader title={"장소 수정"} backButton={true}/>
+                장소수정
+                {/* <NavHeader title={"장소 수정"} backButton={true}/>
 
                 <Form onSubmit={(e) => onSubmit(e)}>
                     <InputRow
@@ -61,7 +62,7 @@ export const EditLocation: FC = () => {
                     />
 
                     <Button onClick={() => onSubmit(e)}>수정</Button>
-                </Form>
+                </Form> */}
 
             </PageLayout>
         </PageBackground>
