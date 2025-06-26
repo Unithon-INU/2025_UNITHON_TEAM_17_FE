@@ -27,18 +27,23 @@ import {ItemUpdatePage} from "./pages/ItemUpdatePage";
 
 const LoginGuard : FC = () => {
     const navigate = useNavigate();
-    const {user, sessionCheck} = useAuth();
+    const {user} = useAuth();
 
     if(!user) {
-        sessionCheck().then(res => {
-            if (!res.loginStatus) {
-                navigate(RoutePath.main, {replace: true});
-            }
-        }).catch(err => {
-            navigate(RoutePath.main, {replace: true});
-        });
-
         return <Navigate to={RoutePath.login} replace={true} />
+    }
+
+    return (
+        <Outlet/>
+    )
+}
+
+const NotLoginGuard : FC = () => {
+    const navigate = useNavigate();
+    const {user} = useAuth();
+
+    if(user) {
+        return <Navigate to={RoutePath.main} replace={true} />
     }
 
     return (
@@ -55,12 +60,16 @@ function App() {
                 <Routes>
                     <Route index element={<SplashPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
-                    <Route path={RoutePath.login} element={<LoginPage/>}/>
-                    <Route path={RoutePath.signUp} element={<SignUpPage/>}/>
                     <Route path={RoutePath.guide} element={<GuidePage/>}/>
                     <Route path={"/home/guide"} element={<GuidePage />} />
                     <Route path={"/home/guide/:topic"} element={<GuideDetailPage />} />
                     <Route path={RoutePath.temp} element={<TempPage/>}/>
+
+                    <Route element={<NotLoginGuard/>}>
+                        <Route path={RoutePath.login} element={<LoginPage/>}/>
+                        <Route path={RoutePath.signUp} element={<SignUpPage/>}/>
+                    </Route>
+
 
                     <Route element={<LoginGuard/>}>
                         <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
