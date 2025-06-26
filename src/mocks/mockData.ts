@@ -27,7 +27,7 @@ export const mockLocations: Location[] = [
     id: "1",
     name: "냉장고",
     description: "우리집 냉장고 & 냉동실",
-    imageUrl: "",
+    imageUrl: image1,
   },
   {
     id: "2",

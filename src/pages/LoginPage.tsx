@@ -1,16 +1,17 @@
 import type { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { PageBackground, PageLayout } from "../styles/PageLayout";
 import { NavHeader } from "../components/common/NavHeader";
 import styled from "styled-components";
-import { LoginInput } from "../components/login/LoginInput";
-import { useState } from "react";
-import { Button } from "../components/common/Button";
+import {LoginInput} from "../components/login/LoginInput";
+import {useEffect, useState} from "react";
+import {Button} from "../components/common/Button";
+import {useAuth} from "../hooks/useAuth";
 import GoogleIcon from "./../assets/google.webp";
 import KakaoIcon from "./../assets/kakao.png";
 import { Space } from "../components/common/Space";
 import axios from "axios";
-import { RoutePath } from "../RoutePath";
+import {RoutePath} from "../RoutePath";
 
 const PaddedLayout = styled(PageLayout)`
   padding: 2rem;
@@ -51,6 +52,7 @@ const OauthLoginIcon = styled.img`
 `;
 
 export const LoginPage: FC = () => {
+    const {login} = useAuth();
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const navigate = useNavigate();
@@ -64,18 +66,8 @@ export const LoginPage: FC = () => {
         }
 
         try {
-            const response = await axios.post("/api/auth/login", {
-                email,
-                password
-            }, {
-                withCredentials: true  // 세션 기반 로그인 시 필요
-            });
-
-            if (response.status === 200) {
-                navigate(RoutePath.main);
-            } else {
-                alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
-            }
+            const response = await login({email, password});
+            navigate(RoutePath.main);
         } catch (error) {
             alert("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
         }
@@ -109,6 +101,12 @@ export const LoginPage: FC = () => {
                             type="password"
                         />
                         <Button type="submit">로그인</Button>
+                        <Button
+                            type="button"
+                            background={"#ECECEC"}
+                            color={"#979797"}
+                            onClick={() => navigate(RoutePath.signUp)}
+                        >회원가입</Button>
 
                         <Space style={{ height: 65 }} />
                         <SubLoginMessage>다른 로그인 방식 선택</SubLoginMessage>

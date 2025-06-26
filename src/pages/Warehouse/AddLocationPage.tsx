@@ -1,10 +1,13 @@
-import { useState } from "react";
-import { PageBackground, PageLayout } from "../../styles/PageLayout";
-import { NavHeader } from "../../components/NavHeader";
+import {useState} from "react";
+import {PageBackground, PageLayout} from "../../styles/PageLayout";
+import {NavHeader} from "../../components/NavHeader";
 import styled from "styled-components";
-import { FiImage } from "react-icons/fi";
-import { mockLocations, mockProducts } from "../../mocks/mockData";
-import { useNavigate } from "react-router-dom";
+import {FiImage} from "react-icons/fi";
+import {mockLocations, mockProducts} from "../../mocks/mockData";
+import {Route, useNavigate} from "react-router-dom";
+import {RoutePath} from "../../RoutePath";
+import {useWarehouse} from "../../hooks/useWarehouse";
+import {CreateLocationMakeReq} from "../../type/Warehouse";
 
 
 const PaddedLayout = styled(PageLayout)`
@@ -70,73 +73,73 @@ const TextArea = styled.textarea`
 `;
 
 export const AddLocationPage = () => {
-  const [imageUrl, setImageUrl] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const maxId = Math.max(...mockLocations.map(loc => Number(loc.id)), 0);
-  const newId = String(maxId + 1);
+    const navigate = useNavigate();
+    const {createLocation} = useWarehouse();
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const localUrl = URL.createObjectURL(file);
-      setImageUrl(localUrl);
-    }
-  };
-  const navigate = useNavigate();
+    const [imageUrl, setImageUrl] = useState("");
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
 
-  const handleComplete = () => {
-    if (!name.trim()) {
-      alert("장소 이름을 입력해주세요.");
-      return;
-    }
-  
-    mockLocations.push({
-      id: newId,
-      name,
-      description,
-      imageUrl,
-    });
-  
-    navigate("/home/warehouse"); 
-  };
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const localUrl = URL.createObjectURL(file);
+            setImageUrl(localUrl);
+        }
+    };
 
-  return (
-    <PageBackground>
-      <PageLayout>
-        <PaddedLayout>
-        <NavHeader title="장소 입력" rightIcon="완료" onRightClick={handleComplete} />
+    const handleComplete = async () => {
+        if (!name.trim()) {
+            alert("장소 이름을 입력해주세요.");
+            return;
+        }
 
-        <Wrapper>
-          <ImageCircle htmlFor="image-upload">
-            {imageUrl ? <PreviewImage src={imageUrl} alt="preview" /> : <FiImage size={40} color="#aaa" />}
-          </ImageCircle>
-          <input
-            type="file"
-            id="image-upload"
-            accept="image/*"
-            onChange={handleImageUpload}
-            style={{ display: "none" }}
-          />
-          <Label htmlFor="image-upload" as="label" style={{ cursor: "pointer" }}>
-            사진 추가
-          </Label>
+        try {
+            const req : CreateLocationMakeReq = {name};
+            const res = await createLocation(req);
+            console.log(res)
+            navigate(RoutePath.warehouse)
+        }
+        catch (error) {
+            alert("장소 생성에 실패했습니다. 다시 시도해주세요.");
+            return;
+        }
+    };
 
-          <FieldLabel>장소 이름</FieldLabel>
-          <Input
-            placeholder="예: 냉장고, 거실..."
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+    return (
+        <PageBackground>
+            <PageLayout>
+                <NavHeader title="장소 입력" rightIcon="완료" onRightClick={handleComplete}/>
 
-          <TextArea
-            placeholder="장소에 대한 설명을 작성해주세요"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </Wrapper>
-        </PaddedLayout>
-      </PageLayout>
-    </PageBackground>
-  );
+                <Wrapper>
+                    <ImageCircle htmlFor="image-upload">
+                        {imageUrl ? <PreviewImage src={imageUrl} alt="preview"/> : <FiImage size={40} color="#aaa"/>}
+                    </ImageCircle>
+                    <input
+                        type="file"
+                        id="image-upload"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        style={{display: "none"}}
+                    />
+                    <Label htmlFor="image-upload" as="label" style={{cursor: "pointer"}}>
+                        사진 추가
+                    </Label>
+
+                    <FieldLabel>장소 이름</FieldLabel>
+                    <Input
+                        placeholder="예: 냉장고, 거실..."
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+
+                    <TextArea
+                        placeholder="장소에 대한 설명을 작성해주세요"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                </Wrapper>
+            </PageLayout>
+        </PageBackground>
+    );
 };

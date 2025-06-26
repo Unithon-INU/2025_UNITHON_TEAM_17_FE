@@ -1,3 +1,5 @@
+import {Location} from "./type/Warehouse";
+
 export const RoutePath = {
     main: "/home/main",
     splash: "/splash",
@@ -5,17 +7,31 @@ export const RoutePath = {
     signUp: "/signup",
     mainPage: {
         postWrite: "/home/main/post-write",
-        editLocation: "/home/main/edit-location",
+        editLocation: (id : Location["id"] | null) => {
+            if (id == null)
+                return "/home/main/edit-location/:id"
+            else
+                return `/home/main/edit-location/${id}`
+        },
       },
     guide: "/home/guide",
     favorites: "/home/favorites",
     warehouse: "/home/warehouse",
+    warehouseCreate: "/home/warehouse/add-location",
     warehouseDetail: (id: string | null) =>{
         if(id == null)
             return "/home/warehouse/:locationName"
         else
             return`/home/warehouse/${id}`
         },
+
+    itemCreate: "/item/add",
+    itemUpdate: (id: string | null) => {
+        if (id == null)
+            return "/item/update/:id"
+        else
+            return `/item/update/${id}`
+    },
     my: "/home/my",
     temp: "/temp"
 }
