@@ -39,7 +39,6 @@ const LoginGuard : FC = () => {
 }
 
 const NotLoginGuard : FC = () => {
-    const navigate = useNavigate();
     const {user} = useAuth();
 
     if(user) {
@@ -58,7 +57,6 @@ function App() {
             <Resize/>
             <BrowserRouter>
                 <Routes>
-                    <Route index element={<SplashPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
                     <Route path={RoutePath.guide} element={<GuidePage/>}/>
                     <Route path={"/home/guide"} element={<GuidePage />} />
@@ -66,6 +64,7 @@ function App() {
                     <Route path={RoutePath.temp} element={<TempPage/>}/>
 
                     <Route element={<NotLoginGuard/>}>
+                        <Route index element={<SplashPage/>}/>
                         <Route path={RoutePath.login} element={<LoginPage/>}/>
                         <Route path={RoutePath.signUp} element={<SignUpPage/>}/>
                     </Route>
