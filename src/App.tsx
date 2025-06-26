@@ -1,5 +1,5 @@
 import {GlobalStyle} from "./styles/GlobalStyle";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Link, Navigate, Outlet, Route, Routes, useNavigate} from "react-router-dom";
 import {TempPage} from "./pages/TempPage";
 import {RoutePath} from "./RoutePath";
 import {MainPage} from "./pages/Main/MainPage";
@@ -18,6 +18,21 @@ import {SignUpPage} from "./pages/SignUpPage";
 import {ItemAddPage} from "./pages/addItem/ItemAddPage";
 import { GuidePage } from "./pages/Guide/GuidePage";
 import { GuideDetailPage } from "./pages/Guide/GuideDetailPage";
+import {FC} from "react";
+import {useAuth} from "./hooks/useAuth";
+
+const LoginGuard : FC = () => {
+    const navigate = useNavigate();
+    const {user} = useAuth();
+
+    if(!user) {
+        return <Navigate to={RoutePath.login} replace={true} />
+    }
+
+    return (
+        <Outlet/>
+    )
+}
 
 function App() {
     return (
@@ -30,24 +45,27 @@ function App() {
                     <Route path={RoutePath.splash} element={<SplashPage/>}/>
                     <Route path={RoutePath.login} element={<LoginPage/>}/>
                     <Route path={RoutePath.signUp} element={<SignUpPage/>}/>
-                    <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
-                    <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
                     <Route path={RoutePath.guide} element={<GuidePage/>}/>
-                    <Route path="/home/main/:id" element={<OfferingItemDetailPage/> } />
-                    <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
-                    <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />
-                    <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
-                    <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
-                    <Route path={RoutePath.itemCreate} element={<ItemAddPage />} />
-                    <Route path={RoutePath.my} element={<MyPage/>}/>
-                    <Route path={RoutePath.temp} element={<TempPage/>}/>
-                    <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
-                    <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
-                    {/*<Route path={RoutePath.mainPage.cart} element={<Cart/>}/>*/}
-                    <Route path={RoutePath.warehouseCreate} element={<AddLocationPage />} />
                     <Route path="/home/guide" element={<GuidePage />} />
                     <Route path="/home/guide/:topic" element={<GuideDetailPage />} />
+                    <Route path={RoutePath.temp} element={<TempPage/>}/>
+
+                    <Route element={<LoginGuard/>}>
+                        <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
+                        <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
+                        <Route path="/home/main/:id" element={<OfferingItemDetailPage/> } />
+                        <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
+                        <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />
+                        <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
+                        <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
+                        <Route path={RoutePath.itemCreate} element={<ItemAddPage />} />
+                        <Route path={RoutePath.my} element={<MyPage/>}/>
+                        <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
+                        <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
+                        {/*<Route path={RoutePath.mainPage.cart} element={<Cart/>}/>*/}
+                        <Route path={RoutePath.warehouseCreate} element={<AddLocationPage />} />
+                    </Route>
                 </Routes>
             </BrowserRouter>
         </div>
