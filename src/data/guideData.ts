@@ -11,7 +11,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
       title: "키피바라는 무슨 앱인가요?",
       image: "/src/assets/empty_bear.png",
       description: [
-        "키피바라는 'Keep'과 'Capybara'의 합성어로,",
+        "키피바라는 'Keep'과 'Capybara'의 합성어로",
         "소비자들이 유통기한이 임박한 제품을 놓치지 않도록 도와주는 앱이에요.",
       ],
     },
@@ -20,17 +20,16 @@ export const guideSlides: Record<string, SlideContent[]> = {
       image: "/src/assets/empty_bear.png",
       description: [
         "키피바라에서는 물건 관리와 거래를 할 수 있어요.",
-        "[거래 기능] - 유통기한 임박 상품을 저렴하게 등록하고 직접 거래",
-        "[물건 관리] - 장소별 정리 + 바코드 촬영으로 유통기한 관리",
+        "[거래 기능] : 유통기한 임박 상품을 저렴하게 등록하고 직접 거래할 수 있어요.",
+        "[물건 관리] : 장소별 정리 + 바코드 촬영으로 유통기한 관리할 수 있어요.",
       ],
     },
     {
       title: "키피바라는 무슨 앱인가요?",
       image: "/src/assets/empty_bear.png",
       description: [
-        "오늘 당신의 작은 실천이,",
-        "내일 지구의 큰 변화를 만듭니다.",
-        "키피바라와 함께 유통기한 임박 상품을 똑똑하게 관리하고 절약도 환경 보호도 시작해보세요!",
+        "키피바라와 함께 유통기한 임박 상품을 똑똑하게 관리하고",
+        "지구 자원 절약도, 환경 보호도 시작해보세요!",
       ],
     },
   ],

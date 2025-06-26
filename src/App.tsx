@@ -32,7 +32,6 @@ function App() {
                     <Route path={RoutePath.favorites} element={<FavoritesPage/>}/>
                     <Route path={RoutePath.main} element={<MainPage/>}/>
                     <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
-                    <Route path={RoutePath.guide} element={<GuidePage/>}/>
                     <Route path="/home/main/:id" element={<OfferingItemDetailPage/> } />
                     <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
                     <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />

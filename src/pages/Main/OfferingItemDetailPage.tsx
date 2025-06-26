@@ -3,9 +3,13 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { NavHeader } from "../../components/NavHeader";
 import { Button } from "../../components/common/Button";
+
+interface ProductImage {
+  storedName: string;
+}
 
 interface Product {
   id: number;
@@ -17,10 +21,10 @@ interface Product {
   location: string;
   type: "CAFE" | "DIRECT";
   openChatUrl: string;
-  imageUrls: string[];
+  images: ProductImage[];
   sellerName: string;
   timeAgo: string;
-  favorited: boolean; 
+  favorited: boolean;
 }
 
 export const OfferingItemDetailPage = () => {
@@ -29,6 +33,7 @@ export const OfferingItemDetailPage = () => {
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -37,7 +42,7 @@ export const OfferingItemDetailPage = () => {
           withCredentials: true
         });
         setOffering(response.data);
-        setIsLiked(response.data.favorited); 
+        setIsLiked(response.data.favorited);
         setNotFound(false);
       } catch (err: any) {
         console.error("상세 정보 불러오기 실패:", err);
@@ -55,23 +60,22 @@ export const OfferingItemDetailPage = () => {
   }, [id]);
 
   const toggleFavorite = async () => {
-  if (!offering) return;
-  try {
-    const response = await axios.post(`/api/products/${offering.id}/favorite`, null, {
-      withCredentials: true
-    });
+    if (!offering) return;
+    try {
+      const response = await axios.post(`/api/products/${offering.id}/favorite`, null, {
+        withCredentials: true
+      });
 
-    setIsLiked(response.data === true);
-
-  } catch (err: any) {
-    console.error("즐겨찾기 토글 실패:", err);
-    if (err.response?.status === 401) {
-      alert("로그인이 필요합니다.");
-    } else {
-      alert("즐겨찾기 처리 중 오류가 발생했습니다.");
+      setIsLiked(response.data === true);
+    } catch (err: any) {
+      console.error("즐겨찾기 토글 실패:", err);
+      if (err.response?.status === 401) {
+        alert("로그인이 필요합니다.");
+      } else {
+        alert("즐겨찾기 처리 중 오류가 발생했습니다.");
+      }
     }
-  }
-};
+  };
 
   const handleOpenChat = () => {
     if (offering?.openChatUrl) {
@@ -91,6 +95,16 @@ export const OfferingItemDetailPage = () => {
         )
       : 0;
 
+  const goPrev = () => {
+    if (imageIndex > 0) setImageIndex((prev) => prev - 1);
+  };
+
+  const goNext = () => {
+    if (offering && imageIndex < offering.images.length - 1) {
+      setImageIndex((prev) => prev + 1);
+    }
+  };
+
   return (
     <PageBackground>
       <PageLayout>
@@ -103,16 +117,25 @@ export const OfferingItemDetailPage = () => {
           ) : offering ? (
             <>
               <ImageWrapper>
+                <ArrowButton left disabled={imageIndex === 0} onClick={goPrev}>
+                  <FaChevronLeft />
+                </ArrowButton>
                 <ProductImage
                   src={
-                    offering.imageUrls[0]
-                      ? offering.imageUrls[0].startsWith("http")
-                        ? offering.imageUrls[0]
-                        : `https://keepbara.duckdns.org${offering.imageUrls[0]}`
+                    offering.images[imageIndex]?.storedName
+                      ? `https://keepbara.duckdns.org/images/${offering.images[imageIndex].storedName}`
                       : "/default-image.png"
                   }
                   alt={offering.title}
                 />
+                <ArrowButton disabled={imageIndex === offering.images.length - 1} onClick={goNext}>
+                  <FaChevronRight />
+                </ArrowButton>
+                <Dots>
+                  {offering.images.map((_, idx) => (
+                    <Dot key={idx} active={idx === imageIndex} />
+                  ))}
+                </Dots>
               </ImageWrapper>
 
               <SellerInfo>
@@ -165,7 +188,7 @@ export const OfferingItemDetailPage = () => {
   );
 };
 
-// 스타일 컴포넌트
+// 스타일
 
 const Wrapper = styled.div`
   padding-bottom: 100px;
@@ -186,6 +209,51 @@ const ProductImage = styled.img`
   width: 100%;
   height: 600px;
   object-fit: cover;
+`;
+
+const ArrowButton = styled.button<{ left?: boolean }>`
+  position: absolute;
+  top: 50%;
+  ${(props) => (props.left ? "left: 10px;" : "right: 10px;")}
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.3;
+  }
+
+  svg {
+    font-size: 1.3rem;
+    color: #666;
+  }
+`;
+
+
+const Dots = styled.div`
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+`;
+
+const Dot = styled.div<{ active: boolean }>`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: ${({ active }) => (active ? "#6fc667" : "#ccc")};
 `;
 
 const SellerInfo = styled.div`
@@ -235,7 +303,6 @@ const SectionTitle = styled.h4`
   font-size: 1.2rem;
   font-weight: bold;
   margin: 24px 0 8px;
-  margin-bottom: 10px;
 `;
 
 const InfoBox = styled.div`

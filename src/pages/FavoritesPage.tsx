@@ -92,14 +92,14 @@ const EmptyWrapper = styled.div`
 `;
 
 const EmptyImage = styled.img`
-  width: 300px; 
+  width: 400px; 
   height: auto;
   margin-top: 2.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
 `;
 
 const EmptyText = styled.p`
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   color: #666;
   text-align: center;
 `;
