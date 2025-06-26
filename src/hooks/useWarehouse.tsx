@@ -13,6 +13,7 @@ interface WarehouseContextProps {
     getLocations: () => Promise<Location[]>;
     getLocation: (id: Location["id"]) => Promise<Location>;
     updateLocation: (id: Location["id"], req: EditLocationReq) => Promise<Location[]>;
+    deleteLocation: (id: Location["id"]) => Promise<void>;
 
     shotBarcode: (file: FormData) => Promise<BarcodeRes>;
     createItem: (req: CreateItemReq) => Promise<void>;
@@ -112,6 +113,25 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
+    const deleteLocation = async (id: Location["id"]) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.delete(
+                `/api/box/locations/${id}`,
+                {withCredentials: true}
+            );
+            if (res.status !== 204) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+        } catch (error) {
+            console.error("Error deleting location:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     const shotBarcode = async (file: FormData): Promise<BarcodeRes> => {
         setIsLoading(true);
         try {
@@ -203,6 +223,8 @@ export const WarehouseProvider: FC = ({children}) => {
             getLocations,
             getLocation,
             updateLocation,
+            deleteLocation,
+
             shotBarcode,
             createItem,
             shotExpire,

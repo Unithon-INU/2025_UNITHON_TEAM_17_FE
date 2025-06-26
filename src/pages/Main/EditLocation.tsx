@@ -1,4 +1,4 @@
-import type {FC} from "react";
+import type {FC, FormEvent} from "react";
 import {PageBackground, PageLayout} from "../../styles/PageLayout";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {InputRow} from "../../components/InputRow";
@@ -8,6 +8,15 @@ import {useWarehouse} from "../../hooks/useWarehouse";
 import {NavHeader} from "../../components/NavHeader";
 import {Button} from "../../components/common/Button";
 import {RoutePath} from "../../RoutePath";
+import styled from "styled-components";
+
+const Form = styled.form`
+  padding: 16px;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
 
 export const EditLocation: FC = () => {
     const navigate = useNavigate();
@@ -20,12 +29,13 @@ export const EditLocation: FC = () => {
         setLocation(foundLocation);
     }
 
-    const onSubmit = async () => {
+    const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         try {
             const updatedLocations = await updateLocation(location!!.id, location!!);
             navigate(RoutePath.warehouseDetail(id), {replace: true})
-        }
-        catch (e) {
+        } catch (e) {
             console.error("장소 수정 중 오류 발생:", e)
         }
     }
@@ -34,22 +44,25 @@ export const EditLocation: FC = () => {
         onLoadLocation()
     }, [])
 
-    if(!location) {
+    if (!location) {
         return "장소를 불러오는 중입니다..."
     }
 
     return (
         <PageBackground>
             <PageLayout>
-                <NavHeader title={"장소 수정"} backButton={true} />
+                <NavHeader title={"장소 수정"} backButton={true}/>
 
-                <InputRow
-                    value={location.name}
-                    onChange={v => setLocation({...location!!, name : v})}
-                    label={"장소 이름"}
-                />
+                <Form onSubmit={(e) => onSubmit(e)}>
+                    <InputRow
+                        value={location.name}
+                        onChange={v => setLocation({...location!!, name: v})}
+                        label={"장소 이름"}
+                    />
 
-                <Button onClick={() => onSubmit()}>수정</Button>
+                    <Button onClick={() => onSubmit(e)}>수정</Button>
+                </Form>
+
             </PageLayout>
         </PageBackground>
     );
