@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { PageBackground, PageLayout } from "../styles/PageLayout";
 import { NavHeader } from "../components/common/NavHeader";
 import styled from "styled-components";
@@ -101,6 +101,12 @@ export const LoginPage: FC = () => {
                             type="password"
                         />
                         <Button type="submit">로그인</Button>
+                        <Button
+                            type="button"
+                            background={"#ECECEC"}
+                            color={"#979797"}
+                            onClick={() => navigate(RoutePath.signUp)}
+                        >회원가입</Button>
 
                         <Space style={{ height: 65 }} />
                         <SubLoginMessage>다른 로그인 방식 선택</SubLoginMessage>
