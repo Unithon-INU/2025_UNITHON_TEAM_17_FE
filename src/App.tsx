@@ -5,7 +5,7 @@ import {RoutePath} from "./RoutePath";
 import {MainPage} from "./pages/Main/MainPage";
 import {FavoritesPage} from "./pages/FavoritesPage";
 import {WarehousePage} from "./pages/Warehouse/WarehousePage";
-import {MyPage} from "./pages/MyPage";
+import {MyPage} from "./pages/Mypage/MyPage";
 import {SplashPage} from "./pages/SplashPage";
 import {Resize} from "./components/Resize";
 import {EditLocation} from "./pages/Main/EditLocation";
@@ -17,6 +17,9 @@ import {LoginPage} from "./pages/LoginPage";
 import {SignUpPage} from "./pages/SignUpPage";
 import { GuidePage } from "./pages/Guide/GuidePage";
 import { GuideDetailPage } from "./pages/Guide/GuideDetailPage";
+import { OfferingItemEditPage } from "./pages/Main/OfferingItemEditPage";
+import { ChangePasswordPage } from "./pages/Mypage/ChangePasswordPage";
+import { ChangeEmailPage } from "./pages/Mypage/ChangeEmailPage";
 
 function App() {
     return (
@@ -41,6 +44,9 @@ function App() {
                     <Route path={RoutePath.temp} element={<TempPage/>}/>
                     <Route path="/home/guide" element={<GuidePage />} />
                     <Route path="/home/guide/:topic" element={<GuideDetailPage />} />
+                    <Route path="/home/main/:id/edit" element={<OfferingItemEditPage />} />
+                    <Route path="/edit-email" element={<ChangeEmailPage />} />
+                     <Route path="/change-password" element={<ChangePasswordPage />} />
                 </Routes>
             </BrowserRouter>
         </div>
