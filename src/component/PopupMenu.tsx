@@ -29,7 +29,7 @@ const PopupMenuStyle = styled.ul`
     border-radius: 0 0 11px 11px;
   }
 `
-const MenuItem = styled.li<{ color: string }>`
+const MenuItem = styled.li<{ color?: string }>`
   color: ${props => props.color || "#333"};
   padding: 14px;
   background-color: #f5f5f5;
