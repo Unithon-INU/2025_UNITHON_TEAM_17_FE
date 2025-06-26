@@ -57,11 +57,10 @@ function App() {
                         <Route path="/home/main/:id" element={<OfferingItemDetailPage/> } />
                         <Route path={RoutePath.warehouse} element={<WarehousePage/>}/>
                         <Route path={"/home/warehouse/:locationName"} element={<LocationDetailPage />} />
-                        <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
+                        <Route path={RoutePath.mainPage.editLocation(null)} element={<EditLocation/>}/>
                         <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
                         <Route path={RoutePath.itemCreate} element={<ItemAddPage />} />
                         <Route path={RoutePath.my} element={<MyPage/>}/>
-                        <Route path={RoutePath.mainPage.editLocation} element={<EditLocation/>}/>
                         <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
                         {/*<Route path={RoutePath.mainPage.cart} element={<Cart/>}/>*/}
                         <Route path={RoutePath.warehouseCreate} element={<AddLocationPage />} />

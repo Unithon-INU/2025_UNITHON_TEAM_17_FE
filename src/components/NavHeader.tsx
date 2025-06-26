@@ -53,7 +53,7 @@ export const NavHeader: FC<NavHeaderProps> = ({
     if (onLeftClick) {
       onLeftClick();
     } else {
-      navigate(-1);
+      navigate(-1, {replace: true});
     }
   };
 
