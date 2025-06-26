@@ -7,6 +7,7 @@ interface WarehouseContextProps {
     isLoading: boolean;
     createLocation: (req: CreateLocationMakeReq) => Promise<Location>;
     getLocations: () => Promise<Location[]>;
+    getLocation: (id : Location["id"]) => Promise<Location>;
     shotBarcode: (file: FormData) => Promise<BarcodeRes>;
     createItem: (req: CreateItemReq) => Promise<void>;
     shotExpire: (file: FormData) => Promise<ExpireDateRes>;
@@ -66,6 +67,21 @@ export const WarehouseProvider: FC = ({children}) => {
             console.error("Error fetching locations:", error);
             throw error; // Re-throw the error for further handling
         } finally {
+            setIsLoading(false);
+        }
+    }
+
+    const getLocation = async (id : Location["id"]) => {
+        setIsLoading(true)
+        try {
+            const locations = await getLocations();
+            const foundLocation = locations.find(loc => loc.id == id);
+            return foundLocation
+        } catch (error) {
+            console.error("Error fetching location:", error);
+            throw error; // Re-throw the error for further handling
+        }
+        finally {
             setIsLoading(false);
         }
     }
@@ -155,7 +171,7 @@ export const WarehouseProvider: FC = ({children}) => {
     }
 
     return (
-        <WarehouseContext.Provider value={{isLoading, createLocation, getLocations, shotBarcode, createItem, shotExpire, getItems}}>
+        <WarehouseContext.Provider value={{isLoading, createLocation, getLocations, getLocation, shotBarcode, createItem, shotExpire, getItems}}>
             {children}
         </WarehouseContext.Provider>
     )

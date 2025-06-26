@@ -32,7 +32,7 @@ const EmptyBox = styled.div`
 export const LocationDetailPage = () => {
     const navigate = useNavigate();
     const {locationName: locationId} = useParams();
-    const {getLocations, getItems} = useWarehouse();
+    const {getLocation, getItems} = useWarehouse();
 
     const [isPopupMenuOpen, setIsPopupMenuOpen] = useState<boolean>(false);
     const [location, setLocation] = useState<Location>(null);
@@ -40,18 +40,14 @@ export const LocationDetailPage = () => {
 
     const onLoadLocation = async () => {
         try {
-            const locations = await getLocations();
-            const foundLocation = locations.find(loc => loc.id == locationId);
-            if (!foundLocation) {
-                throw new Error("존재하지 않는 장소입니다.");
-            }
-
+            const foundLocation = await getLocation(Number(locationId));
             const allItems = await getItems();
             const foundItems = allItems.filter(item => item.locationId === foundLocation.id);
 
             setItems(foundItems)
             setLocation(foundLocation)
         } catch (e) {
+            console.error(e)
             navigate(RoutePath.warehouse)
         }
     }
@@ -159,8 +155,8 @@ export const LocationDetailPage = () => {
                 <PaddedLayout>
                     <PopupMenu
                         isOpen={isPopupMenuOpen}
-                        onEdit={}
-                        onDelete={}
+                        onEdit={() => navigate(RoutePath.mainPage.editLocation(location.id))}
+                        onDelete={() => {}}
                     />
                     <NavHeader
                         title={location.name}
