@@ -1,5 +1,5 @@
 import {GlobalStyle} from "./styles/GlobalStyle";
-import {BrowserRouter, Link, Navigate, Outlet, Route, Routes, useNavigate} from "react-router-dom";
+import {BrowserRouter, Navigate, Outlet, Route, Routes, useNavigate} from "react-router-dom";
 import {TempPage} from "./pages/TempPage";
 import {RoutePath} from "./RoutePath";
 import {MainPage} from "./pages/Main/MainPage";
@@ -9,17 +9,18 @@ import {MyPage} from "./pages/MyPage";
 import {SplashPage} from "./pages/SplashPage";
 import {Resize} from "./components/Resize";
 import {EditLocation} from "./pages/Main/EditLocation";
-import { PostWrite } from "./pages/Main/PostWrite";
-import { LocationDetailPage } from "./pages/Warehouse/LocationDetailPage";
-import { AddLocationPage } from "./pages/Warehouse/AddLocationPage";
-import { OfferingItemDetailPage } from "./pages/Main/OfferingItemDetailPage";
+import {PostWrite} from "./pages/Main/PostWrite";
+import {LocationDetailPage} from "./pages/Warehouse/LocationDetailPage";
+import {AddLocationPage} from "./pages/Warehouse/AddLocationPage";
+import {OfferingItemDetailPage} from "./pages/Main/OfferingItemDetailPage";
 import {LoginPage} from "./pages/LoginPage";
 import {SignUpPage} from "./pages/SignUpPage";
 import {ItemAddPage} from "./pages/addItem/ItemAddPage";
-import { GuidePage } from "./pages/Guide/GuidePage";
-import { GuideDetailPage } from "./pages/Guide/GuideDetailPage";
+import {GuidePage} from "./pages/Guide/GuidePage";
+import {GuideDetailPage} from "./pages/Guide/GuideDetailPage";
 import {FC} from "react";
 import {useAuth} from "./hooks/useAuth";
+import {ItemUpdatePage} from "./pages/ItemUpdatePage";
 
 const LoginGuard : FC = () => {
     const navigate = useNavigate();
@@ -60,6 +61,7 @@ function App() {
                         <Route path={RoutePath.mainPage.editLocation(null)} element={<EditLocation/>}/>
                         <Route path="/home/warehouse/add-location" element={<AddLocationPage />} />
                         <Route path={RoutePath.itemCreate} element={<ItemAddPage />} />
+                        <Route path={RoutePath.itemUpdate(null)} element={<ItemUpdatePage />} />
                         <Route path={RoutePath.my} element={<MyPage/>}/>
                         <Route path={RoutePath.mainPage.postWrite} element={<PostWrite/>}/>
                         {/*<Route path={RoutePath.mainPage.cart} element={<Cart/>}/>*/}

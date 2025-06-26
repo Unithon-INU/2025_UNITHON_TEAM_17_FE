@@ -26,6 +26,12 @@ export const RoutePath = {
         },
 
     itemCreate: "/item/add",
+    itemUpdate: (id: string | null) => {
+        if (id == null)
+            return "/item/update/:id"
+        else
+            return `/item/update/${id}`
+    },
     my: "/home/my",
     temp: "/temp"
 }

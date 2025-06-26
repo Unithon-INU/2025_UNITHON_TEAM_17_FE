@@ -1,10 +1,13 @@
 import {createContext, FC, useContext, useState} from 'react';
-import {CreateLocationMakeReq, Location} from "../type/Warehouse";
+import {CreateLocationMakeReq, EditLocationReq, Location} from "../type/Warehouse";
 import axios from "axios";
 import {BarcodeRes, CreateItemReq, ExpireDateRes, Item} from "../type/item";
 
-type EditLocationReq = {
-    name: Location["name"]
+type UpdateItemReq = {
+    name: string;
+    expireDate: string;
+    locationId: number;
+    alarmEnabled: boolean;
 }
 
 interface WarehouseContextProps {
@@ -19,6 +22,7 @@ interface WarehouseContextProps {
     createItem: (req: CreateItemReq) => Promise<void>;
     shotExpire: (file: FormData) => Promise<ExpireDateRes>;
     getItems: () => Promise<Item[]>
+    updateItem : (id: Item["id"], req: UpdateItemReq) => Promise<void>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -213,7 +217,26 @@ export const WarehouseProvider: FC = ({children}) => {
         } finally {
             setIsLoading(false);
         }
+    }
 
+    const updateItem  = async (id: Item["id"], req: UpdateItemReq) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.patch(
+                `/api/box/items/${id}`,
+                req,
+                {withCredentials: true}
+            );
+            if (res.status !== 200) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+        } catch (error) {
+            console.error("Error updating item:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -228,7 +251,8 @@ export const WarehouseProvider: FC = ({children}) => {
             shotBarcode,
             createItem,
             shotExpire,
-            getItems
+            getItems,
+            updateItem
         }}>
             {children}
         </WarehouseContext.Provider>
