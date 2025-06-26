@@ -1,4 +1,4 @@
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import { mockLocations, mockProducts } from "../../mocks/mockData";
 import { differenceInDays } from "date-fns";
 import { NavHeader } from "../../components/NavHeader";
@@ -7,6 +7,8 @@ import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import styled from "styled-components";
 import {useWarehouse} from "../../hooks/useWarehouse";
 import {RoutePath} from "../../RoutePath";
+import {Location} from "../../type/Warehouse";
+import {useEffect, useState} from "react";
 
 const PaddedLayout = styled(PageLayout)`
   padding: 2rem;
@@ -25,10 +27,36 @@ const EmptyBox = styled.div`
 `;
 
 export const LocationDetailPage = () => {
-  const { locationName } = useParams();
-  const location = mockLocations.find(loc => loc.id === locationName);
+  const  navigate = useNavigate();
+  const { locationName : locationId } = useParams();
+  const {getLocations} = useWarehouse();
+  const [location, setLocation] = useState<Location>(null);
 
-  if (!location) return <div>존재하지 않는 장소입니다.</div>;
+
+  const onLoadLocation = async () => {
+      try {
+          const locations = await getLocations();
+          const foundLocation = locations.find(loc => loc.id == locationId);
+          if(!foundLocation) {
+              throw new Error("존재하지 않는 장소입니다.");
+          }
+
+          setLocation(foundLocation)
+      }
+      catch (e) {
+          navigate(RoutePath.warehouse)
+      }
+  }
+
+  useEffect(() => {
+      onLoadLocation()
+  }, [])
+
+
+
+  if (!location) {
+      return <div>존재하지 않는 장소입니다.</div>;
+  }
 
   const today = new Date();
 
