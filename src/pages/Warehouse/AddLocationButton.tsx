@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import { FiPlusCircle } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import {FiPlusCircle} from "react-icons/fi";
+import {useNavigate} from "react-router-dom";
+import {useWarehouse} from "../../hooks/useWarehouse";
+import {RoutePath} from "../../RoutePath";
 
 const Button = styled.button`
   width: 100%;
@@ -23,12 +25,12 @@ const PlusIcon = styled(FiPlusCircle)`
 `;
 
 export const AddLocationButton = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  return (
-    <Button onClick={() => navigate("/home/warehouse/add-location")}>
-      <PlusIcon />
-      장소 추가하기
-    </Button>
-  );
+    return (
+        <Button onClick={() => navigate(RoutePath.warehouseCreate)}>
+            <PlusIcon/>
+            장소 추가하기
+        </Button>
+    );
 };

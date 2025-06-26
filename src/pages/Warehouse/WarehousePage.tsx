@@ -1,43 +1,52 @@
 import type {FC} from "react";
-import { PageBackground, PageLayout} from "../../styles/PageLayout";
+import {useEffect, useState} from "react";
+import {PageBackground, PageLayout} from "../../styles/PageLayout";
 import {BottomNavigation} from "../../components/BottomNavigation";
 import {AddLocationButton} from "./AddLocationButton"
 import {LocationItem} from "./LocationItem"
-import { mockLocations, mockProducts } from "../../mocks/mockData";
-import { ExpiringProduct } from "./ExpiringProduct";
+import {ExpiringProduct} from "./ExpiringProduct";
 import styled from "styled-components";
+import {useWarehouse} from "../../hooks/useWarehouse";
+import {Location} from "../../type/Warehouse";
 
 export const WarehousePage: FC = () => {
-  return (
-    <PageBackground>
-      <PageLayout $isBottomNavigation>
-        <PaddedLayout>
-          <HeaderWrapper>
-            <Title>내 창고</Title>
-          </HeaderWrapper>
+    const {getLocations} = useWarehouse();
+    const [locations, setLocations] = useState<Location[]>([])
 
-          <ExpiringProduct/>
+    useEffect(() => {
+        getLocations().then(setLocations)
+    }, [])
 
-          {mockLocations.map((location) => {
-          const count = mockProducts.filter(p => p.locationId === location.id).length;
+    return (
+        <PageBackground>
+            <PageLayout isBottomNavigation>
+                <PaddedLayout>
+                    <HeaderWrapper>
+                        <Title>내 창고</Title>
+                    </HeaderWrapper>
 
-            return (
-              <LocationItem
-                id={location.id}
-                key={location.name}
-                name={location.name}
-                description={location.description}
-                productCount={count}  
-                imageUrl={location.imageUrl}
-              />
-            );
-          })}
-          <AddLocationButton />
-          <BottomNavigation />
-        </PaddedLayout>
-      </PageLayout>
-    </PageBackground>
-  );
+                    <ExpiringProduct/>
+
+                    {locations.map((location) => {
+                        const count = locations.length;
+
+                        return (
+                            <LocationItem
+                                id={location.id}
+                                key={location.name}
+                                name={location.name}
+                                description={""}
+                                productCount={count}
+                                imageUrl={"https://picsum.photos/200/200?random=" + location.id}
+                            />
+                        );
+                    })}
+                    <AddLocationButton/>
+                    <BottomNavigation/>
+                </PaddedLayout>
+            </PageLayout>
+        </PageBackground>
+    );
 };
 
 

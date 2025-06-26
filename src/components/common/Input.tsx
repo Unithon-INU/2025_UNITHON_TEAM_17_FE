@@ -6,7 +6,7 @@ export type InputProps = {
     onChange: (value: string) => void;
     label: string;
     placeholder: string;
-    type: "text" | "email" | "password";
+    type: "text" | "email" | "password" | "number" | "date" | "tel" | "search" | "url" | "time" | "datetime-local" | "month" | "week" | "color" | "file";
     error?: string | null;
 }
 const InputStyle = styled.div`

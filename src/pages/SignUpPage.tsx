@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { RoutePath } from "../RoutePath";
 import axios from "axios";
 import styled from "styled-components";
-
+import {useAuth} from "../hooks/useAuth";
 
 type SignUpStep = "email" | "password" | "passwordCheck" | "name";
 
@@ -26,6 +26,7 @@ function useSignUpInput(initialValue: string): [
 
 export const SignUpPage: FC = () => {
   const navigate = useNavigate();
+  const {signUp} = useAuth();
 
   const [step, setStep] = useState<SignUpStep>("email");
   const [email, setEmail, emailError, setEmailError] = useSignUpInput("");
@@ -43,20 +44,16 @@ export const SignUpPage: FC = () => {
 
   const onSignUp = async () => {
     try {
-      const response = await axios.post("/api/auth/signup", {
-        email,
-        password,
-        name
-      }, {
-        withCredentials: true
-      });
+      // const response = await axios.post("/api/auth/signup", {
+      //   email,
+      //   password,
+      //   name
+      // }, {
+      //   withCredentials: true
+      // });
 
-      if (response.data?.message === "회원가입 완료") {
-        alert("회원가입이 완료되었습니다. 로그인 화면으로 이동합니다.");
-        navigate(RoutePath.login); // 회원가입 후 로그인 화면으로 이동
-      } else {
-        alert("회원가입에 실패했습니다. 다시 시도해주세요.");
-      }
+      const response = await signUp({email, password, name})
+      navigate(RoutePath.login); // 회원가입 후 로그인 화면으로 이동
     } catch (error: any) {
       if (error.response?.data?.error) {
         alert(error.response.data.error); // "이미 가입된 이메일입니다." 등의 메시지
