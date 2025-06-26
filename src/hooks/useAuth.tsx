@@ -3,10 +3,17 @@ import type {ReactNode} from 'react';
 import axios from "axios";
 import {LoginReq, LoginRes, SignUpReq, SignUpRes, User} from "../type/auth";
 
-
-interface AuthProviderProps {
-    children: ReactNode;
+type SessionLogin = {
+    loginStatus: true;
+    id: User["id"];
+    name: User["name"];
 }
+type SessionNotLogin = {
+    loginStatus: false;
+    message: "세션 없음 (로그인 안됨)"
+}
+
+type SessionCheckRes = SessionLogin | SessionNotLogin
 
 interface AuthContextProps {
     isLoading: boolean;
@@ -16,6 +23,8 @@ interface AuthContextProps {
     login: (req: LoginReq) => Promise<User>;
     loginByOAuth: (provider: "google" | "kakao") => Promise<void>;
     setRedirectUrl: (url: string) => void;
+
+    sessionCheck: () => Promise<SessionCheckRes>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -107,8 +116,29 @@ export const AuthProvider: FC = ({children}) => {
         }
     }
 
+    const sessionCheck = async () => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(
+                "/api/auth/session-check",
+                {withCredentials: true}
+            );
+
+            const body = res.data as SessionCheckRes;
+            if (body.loginStatus) {
+                setUser({name: body.name, id: body.id, email: user?.email || ""});
+            }
+            return body
+        } catch (error) {
+            console.error("Session check failed:", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{isLoading, user, signUp, login, loginByOAuth, setRedirectUrl}}>
+        <AuthContext.Provider value={{isLoading, user, signUp, login, loginByOAuth, setRedirectUrl, sessionCheck}}>
             {children}
         </AuthContext.Provider>
     )
