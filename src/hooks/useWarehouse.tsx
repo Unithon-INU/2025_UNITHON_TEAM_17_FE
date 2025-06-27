@@ -22,7 +22,7 @@ interface WarehouseContextProps {
     createItem: (req: CreateItemReq) => Promise<void>;
     shotExpire: (file: FormData) => Promise<ExpireDateRes>;
     getItems: () => Promise<Item[]>
-    updateItem : (id: Item["id"], req: UpdateItemReq) => Promise<void>;
+    updateItem: (id: Item["id"], req: UpdateItemReq) => Promise<void>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -137,16 +137,15 @@ export const WarehouseProvider: FC = ({children}) => {
     }
 
     const shotBarcode = async (file: FormData): Promise<BarcodeRes> => {
+        for (const [k, v] of file.entries()) {
+            console.log(k, v); // file File {name: "...", size: ...}
+        }
         setIsLoading(true);
         try {
             const res = await axios.post(
                 '/api/box/items/shot-barcode',
                 file,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
+                {withCredentials: true}
             );
             return res.data
         } catch (error) {
@@ -219,7 +218,7 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
-    const updateItem  = async (id: Item["id"], req: UpdateItemReq) => {
+    const updateItem = async (id: Item["id"], req: UpdateItemReq) => {
         setIsLoading(true);
         try {
             const res = await axios.patch(
