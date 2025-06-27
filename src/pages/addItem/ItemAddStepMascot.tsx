@@ -3,7 +3,7 @@ import {Button} from "../../components/common/Button";
 import {ItemAddStepProps} from "./ItemAddPage";
 import styled from "styled-components";
 import {Space} from "../../components/common/Space";
-import mascotImage from "../../assets/empty_bear.png";
+import mascotImage from "../../assets/start.png";
 
 const Container = styled.div`
   flex : 1;

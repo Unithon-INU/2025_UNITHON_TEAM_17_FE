@@ -150,10 +150,11 @@ export const WarehouseProvider: FC = ({children}) => {
             return res.data
         } catch (error) {
             console.error('업로드 실패:', error);
+            throw error;
         } finally {
             setIsLoading(false);
         }
-    };
+        };
 
     const shotExpire = async (file: FormData): Promise<ExpireDateRes> => {
         setIsLoading(true);
