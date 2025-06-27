@@ -41,11 +41,17 @@ export const GuideDetailPage: FC = () => {
           <Title>{slides[pageIndex].title}</Title>
           <Image src={slides[pageIndex].image} alt="guide" />
 
-          <Description>
-            {slides[pageIndex].description.map((line, i) => (
+          <Description1>
+            {slides[pageIndex].description1.map((line, i) => (
               <p key={i}>{line}</p>
             ))}
-          </Description>
+          </Description1>
+
+          <Description2>
+            {slides[pageIndex].description2.map((line, i) => (
+              <p key={i}>{line}</p>
+            ))}
+          </Description2>
 
           <Dots>
             {slides.map((_, i) => (
@@ -75,25 +81,33 @@ const Title = styled.h2`
 
 const Image = styled.img`
   width: 100%;
-  height: 400px;
+  height: 300px;
   object-fit: contain;
   background: #ddd;
   border-radius: 8px;
   margin-bottom: 0.5rem;
 `;
 
-const Description = styled.div`
+const Description1 = styled.div`
   margin-top: 1rem;
   font-size: 1.2rem;
   line-height: 1.5;
-  margin-bottom: 10rem;
+  margin-bottom: 50px;
+`;
+
+const Description2 = styled.div`
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 50px;
+  font-weight: 550;
 `;
 
 const Dots = styled.div`
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  margin: 1.5rem 0;
+  margin: 5.5rem 0;
 `;
 
 const Dot = styled.div<{ active: boolean }>`

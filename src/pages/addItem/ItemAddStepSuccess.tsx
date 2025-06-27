@@ -2,7 +2,7 @@ import {FC} from "react";
 import {Button} from "../../components/common/Button";
 import {ItemAddStepProps} from "./ItemAddPage";
 import styled from "styled-components";
-import mascotImage from "../../assets/empty_bear.png";
+import mascotImage from "../../assets/happy.png";
 import {Space} from "../../components/common/Space";
 
 const Container = styled.div`

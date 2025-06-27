@@ -80,7 +80,7 @@ export const ItemAddStepBarcode: FC<ItemAddStepProps> = ({ onNext }) => {
     }
 
     const formData = new FormData();
-    formData.append("file", barcodeImage);
+    formData.append("image", barcodeImage);
 
     try {
       const res = await shotBarcode(formData);

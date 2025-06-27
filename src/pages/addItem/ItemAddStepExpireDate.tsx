@@ -82,7 +82,7 @@ export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({ onNext }) => {
     if (!expireImage) return;
 
     const formData = new FormData();
-    formData.append("imageFile", expireImage);
+    formData.append("image", expireImage);
 
     try {
       const res: ExpireDateRes = await shotExpire(formData);

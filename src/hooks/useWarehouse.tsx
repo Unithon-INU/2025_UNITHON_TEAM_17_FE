@@ -136,25 +136,18 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
-    const shotBarcode = async (file: FormData): Promise<BarcodeRes> => {
+    const shotBarcode = async (formData: FormData): Promise<BarcodeRes> => {
         setIsLoading(true);
         try {
-            const res = await axios.post(
-                '/api/box/items/shot-barcode',
-                file,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            );
-            return res.data
+            const res = await axios.post('/api/box/items/shot-barcode', formData); // 헤더 제거!
+            return res.data;
         } catch (error) {
             console.error('업로드 실패:', error);
+            throw error;
         } finally {
             setIsLoading(false);
         }
-    };
+        };
 
     const shotExpire = async (file: FormData): Promise<ExpireDateRes> => {
         setIsLoading(true);
