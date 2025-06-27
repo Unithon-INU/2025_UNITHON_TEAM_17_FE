@@ -86,7 +86,7 @@ export const ItemAddStepBarcode: FC<ItemAddStepProps> = ({ onNext }) => {
       const res = await shotBarcode(formData);
       onNext(res);
     } catch (error) {
-      toast.error("유통기한 인식에 실패했어요. 다시 시도해주세요.");
+      toast.error("바코드 인식에 실패했어요. 다시 시도해주세요.");
       console.error("Error uploading file:", error);
     }
   };
