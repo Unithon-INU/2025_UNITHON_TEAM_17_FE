@@ -2,11 +2,19 @@ import {createContext, FC, useContext, useState} from 'react';
 import {CreateLocationMakeReq, EditLocationReq, Location} from "../type/Warehouse";
 import axios from "axios";
 import {BarcodeRes, CreateItemReq, ExpireDateRes, Item, UpdateItemReq} from "../type/item";
+import {User} from "../type/auth";
+
+type UpdateItemReq = {
+    name: string;
+    expireDate: string;
+    locationId: number;
+    alarmEnabled: boolean;
+}
 
 interface WarehouseContextProps {
     isLoading: boolean;
     createLocation: (req: CreateLocationMakeReq) => Promise<Location>;
-    getLocations: () => Promise<Location[]>;
+    getLocations: (memberId : User["id"] | null) => Promise<Location[]>;
     getLocation: (id: Location["id"]) => Promise<Location>;
     updateLocation: (id: Location["id"], req: EditLocationReq) => Promise<Location[]>;
     deleteLocation: (id: Location["id"]) => Promise<void>;
@@ -66,11 +74,11 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     };
 
-    const getLocations = async (): Promise<Location[]> => {
+    const getLocations = async (memberId : User["id"] | null): Promise<Location[]> => {
         setIsLoading(true);
         try {
             const res = await axios.get(
-                `/api/box/locations`,
+                `/api/box/locations?memberId=${memberId}`,
                 {withCredentials: true}
             );
             if (res.status !== 200) {
@@ -89,7 +97,7 @@ export const WarehouseProvider: FC = ({children}) => {
     const getLocation = async (id: Location["id"]) => {
         setIsLoading(true)
         try {
-            const locations = await getLocations();
+            const locations = await getLocations(null);
             const foundLocation = locations.find(loc => loc.id == id);
             return foundLocation
         } catch (error) {

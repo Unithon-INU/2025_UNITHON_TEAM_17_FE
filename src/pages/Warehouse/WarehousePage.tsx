@@ -8,13 +8,15 @@ import {ExpiringProduct} from "./ExpiringProduct";
 import styled from "styled-components";
 import {useWarehouse} from "../../hooks/useWarehouse";
 import {Location} from "../../type/Warehouse";
+import {useAuth} from "../../hooks/useAuth";
 
 export const WarehousePage: FC = () => {
+    const {user} = useAuth();
     const {getLocations} = useWarehouse();
     const [locations, setLocations] = useState<Location[]>([])
 
     useEffect(() => {
-        getLocations().then(setLocations)
+        getLocations(user!!.id).then(setLocations)
     }, [])
 
     return (
