@@ -8,6 +8,7 @@ import {InputRow} from "../components/InputRow";
 import {usePreviewImage} from "../hooks/UsePreviewImage";
 import {NavHeader} from "../components/NavHeader";
 import {Update} from "vite";
+import {Button} from "../components/common/Button";
 
 export type ItemUpdatePageProps = {}
 
@@ -48,6 +49,8 @@ const Description = styled.textarea`
 
 const InputWrap = styled.div`
   flex: 1;
+  
+  padding: 40px;
 
   display: flex;
   flex-direction: column;
@@ -57,7 +60,7 @@ const InputWrap = styled.div`
 export const ItemUpdatePage: FC<ItemUpdatePageProps> = () => {
     const navigate = useNavigate();
     const {id} = useParams()
-    const {getItem, updateItem} = useWarehouse();
+    const {getItem, updateItem, deleteItem} = useWarehouse();
     const [item, setItem] = useState<Item | null>(null)
 
     const onLoadItem = async () => {
@@ -81,6 +84,18 @@ export const ItemUpdatePage: FC<ItemUpdatePageProps> = () => {
         catch (e) {
             console.error("Failed to update item:", e)
         }
+    }
+
+    const onDelete = async () => {
+        try {
+            if (!item) return;
+
+            await deleteItem(item.id);
+            navigate(-1, {replace: true});
+        } catch (error) {
+            console.error("Failed to delete item:", error);
+        }
+
     }
 
     useEffect(() => {
@@ -124,6 +139,7 @@ export const ItemUpdatePage: FC<ItemUpdatePageProps> = () => {
                         onChange={v => setItem({...item!, expireDate: v})}
                         type={"date"}
                     />
+                    <Button background={"#FF5D5D"} onClick={() => onDelete()}>삭제</Button>
                 </InputWrap>
             </PageLayout>
         </PageBackground>

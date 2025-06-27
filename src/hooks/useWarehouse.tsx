@@ -25,6 +25,7 @@ interface WarehouseContextProps {
     getItems: () => Promise<Item[]>
     getItem: (id: Item["id"]) => Promise<Item>;
     updateItem : (id: Item["id"], req: UpdateItemReq) => Promise<void>;
+    deleteItem: (id: Item["id"]) => Promise<void>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -151,7 +152,7 @@ export const WarehouseProvider: FC = ({children}) => {
                 `/api/box/locations/${id}`,
                 {withCredentials: true}
             );
-            if (res.status !== 204) {
+            if (res.status !== 200) {
                 console.log(res)
                 throw new Error(res.statusText);
             }
@@ -283,6 +284,25 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
+    const deleteItem = async (id: Item["id"]) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.delete(
+                `/api/box/items/${id}`,
+                {withCredentials: true}
+            );
+            if (res.status == 200) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+        } catch (error) {
+            console.error("Error deleting item:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <WarehouseContext.Provider value={{
             isLoading,
@@ -297,7 +317,8 @@ export const WarehouseProvider: FC = ({children}) => {
             shotExpire,
             getItems,
             getItem,
-            updateItem
+            updateItem,
+            deleteItem,
         }}>
             {children}
         </WarehouseContext.Provider>
