@@ -1,4 +1,5 @@
 import {Location} from "./type/Warehouse";
+import {Item} from "./type/item";
 
 export const RoutePath = {
     main: "/home/main",
@@ -28,7 +29,7 @@ export const RoutePath = {
     },
 
     itemCreate: "/item/add",
-    itemUpdate: (id: string | null) => {
+    itemUpdate: (id: Item["id"] | null) => {
         if (id == null)
             return "/item/update/:id"
         else

@@ -105,10 +105,11 @@ export const ItemAddPage: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-                <NavHeader title=""
-                           onLeftClick={() => {
-                               navigate(-1)
-                           }}
+                <NavHeader
+                    title=""
+                    onLeftClick={() => {
+                        navigate(-1)
+                    }}
                 />
                 {stepTemplate}
             </PageLayout>

@@ -56,8 +56,7 @@ export const LocationDetailPage = () => {
         try {
             await deleteLocation(location.locationId);
             navigate(-1, {replace: true})
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }

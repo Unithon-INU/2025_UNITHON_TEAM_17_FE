@@ -3,6 +3,14 @@ import {CreateLocationMakeReq, EditLocationReq, Location} from "../type/Warehous
 import axios from "axios";
 import {BarcodeRes, CreateItemReq, ExpireDateRes, Item, UpdateItemReq} from "../type/item";
 
+export type DdayItem = {
+    daysLeft: number;
+    expireDate: string;
+    itemId: Item["id"];
+    locationName: string;
+    name: string;
+}
+
 interface WarehouseContextProps {
     isLoading: boolean;
     createLocation: (req: CreateLocationMakeReq) => Promise<Location>;
@@ -19,7 +27,7 @@ interface WarehouseContextProps {
     updateItem : (id: Item["id"], req: UpdateItemReq) => Promise<void>;
     deleteItem: (id: Item["id"]) => Promise<void>;
 
-    getDdayItem : () => Promise<Item[]>;
+    getDdayItem : () => Promise<DdayItem[]>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
