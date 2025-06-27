@@ -66,7 +66,6 @@ const HiddenInput = styled.input`
 export const ItemAddStepBarcode: FC<ItemAddStepProps> = ({ onNext }) => {
   const { shotBarcode } = useWarehouse();
 
-  // ✅ 객체 구조로 수정된 usePreviewImage 사용
   const {
     file: barcodeImage,
     onFileChange: onChangeBarcodeImage,
