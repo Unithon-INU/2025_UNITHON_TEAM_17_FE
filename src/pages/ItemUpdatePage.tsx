@@ -1,26 +1,49 @@
 import styled from "styled-components";
 import {FC, useEffect, useState} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
-import {useAsyncError, useParams} from "react-router-dom";
-import {Item} from "../type/item";
+import {useAsyncError, useNavigate, useParams} from "react-router-dom";
+import {Item, UpdateItemReq} from "../type/item";
 import {useWarehouse} from "../hooks/useWarehouse";
 import {InputRow} from "../components/InputRow";
 import {usePreviewImage} from "../hooks/UsePreviewImage";
+import {NavHeader} from "../components/NavHeader";
+import {Update} from "vite";
 
 export type ItemUpdatePageProps = {}
 
-const PreviewImage = styled.div<{ src: string }>`
+const Form = styled.form`
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const Label = styled.label`
+  padding: 41px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PreviewImage = styled.img`
   width: 138px;
   height: 138px;
+  object-fit: cover;
   border-radius: 100%;
-  
   margin: 0 auto;
+`;
 
-  background-image: url(${p => p.src});
-  background-position: center;
-  background-size: cover;
-  
-  cursor: pointer;
+const Description = styled.textarea`
+  min-height: 200px;
+
+  font-size: 16px;
+  font-weight: 500;
+  padding: 20px;
+  resize: none;
+
+  border: 1px solid #000;
+  border-radius: 15px;
 `
 
 const InputWrap = styled.div`
@@ -32,8 +55,9 @@ const InputWrap = styled.div`
 `
 
 export const ItemUpdatePage: FC<ItemUpdatePageProps> = () => {
+    const navigate = useNavigate();
     const {id} = useParams()
-    const {getItem} = useWarehouse();
+    const {getItem, updateItem} = useWarehouse();
     const [item, setItem] = useState<Item | null>(null)
 
     const onLoadItem = async () => {
@@ -44,6 +68,18 @@ export const ItemUpdatePage: FC<ItemUpdatePageProps> = () => {
             setItem(itemData);
         } catch (error) {
             console.error("Failed to load item:", error);
+        }
+    }
+
+    const onSubmit = async () => {
+        try{
+            if (!item) return;
+
+            await updateItem(item.id, item as UpdateItemReq);
+            navigate(-1, {replace: true});
+        }
+        catch (e) {
+            console.error("Failed to update item:", e)
         }
     }
 
@@ -59,6 +95,12 @@ export const ItemUpdatePage: FC<ItemUpdatePageProps> = () => {
     return (
         <PageBackground>
             <PageLayout>
+                <NavHeader
+                    title={"제품 수정"}
+                    rightIcon={
+                        <div onClick={() => onSubmit()}>완료</div>
+                    }
+                />
                 <InputWrap>
                     <PreviewImage
                         src={item.imageUrl}/>

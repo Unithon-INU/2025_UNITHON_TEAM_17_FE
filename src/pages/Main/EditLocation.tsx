@@ -102,7 +102,7 @@ export const EditLocation: FC = () => {
                 />
 
                 <Form>
-                    <input type="file" id="zz" hidden/>
+                    <input type="file" id="zz" hidden onChange={onFileChange}/>
                     <Label htmlFor={"zz"}>
                         <PreviewImage
                             src={previewUrl ? previewUrl : `https://keepbara.duckdns.org${location.imagePath}`}
