@@ -51,7 +51,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
     },
     {
       title: "유통기한 등록은 어디서 할 수 있나요?",
-      image: "/src/assets/empty_bear.png",
+      image: "/src/assets/guide/register2.png",
       description1: [
         "등록하고 싶은 상품이 위치한 장소에 들어가요. 등록할 상품이 음식이면 냉장고, 샴푸면 화장실을 눌러요 !",
       ],
@@ -61,7 +61,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
     },
     {
       title: "유통기한 등록은 어디서 할 수 있나요?",
-      image: "/src/assets/empty_bear.png",
+      image: "/src/assets/guide/register3.png",
       description1: [
         "상단의 카메라 버튼을 눌러서 상품의 유통기한을 입력할 수 있어요!",
       ],
