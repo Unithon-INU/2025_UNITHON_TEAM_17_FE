@@ -6,12 +6,16 @@ export type Warehouse = {
     memberId: number;
 }
 export type CreateLocationMakeReq = {
-    name: string
-}
+    name: string;
+    description: string;
+    image: File;
+};
 export type Location = {
     id: number;
     name: string;
     memberId: User["id"];
+    imagePath: string;
+    description: string;
 }
 export type EditLocationReq = {
     name: Location["name"]
