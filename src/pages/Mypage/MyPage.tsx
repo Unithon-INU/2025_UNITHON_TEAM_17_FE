@@ -18,7 +18,6 @@ export const MyPage: FC = () => {
           withCredentials: true,
         });
 
-        // ✅ loginStatus 기준으로 체크
         if (response.data?.loginStatus && response.data?.name) {
           setName(response.data.name);
         }
@@ -69,7 +68,7 @@ export const MyPage: FC = () => {
           </MenuItem>
 
           <SectionTitle>판매</SectionTitle>
-          <MenuItem>
+          <MenuItem onClick={() => navigate("/sales-history")}>
             판매 내역 <Arrow>〉</Arrow>
           </MenuItem>
 
@@ -80,7 +79,6 @@ export const MyPage: FC = () => {
   );
 };
 
-// 스타일 컴포넌트는 동일
 const PaddedLayout = styled(PageLayout)`
   padding: 2.5rem;
 `;

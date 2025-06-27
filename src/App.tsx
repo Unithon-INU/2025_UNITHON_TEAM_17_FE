@@ -24,6 +24,7 @@ import {GuideDetailPage} from "./pages/Guide/GuideDetailPage";
 import {FC} from "react";
 import {useAuth} from "./hooks/useAuth";
 import {ItemUpdatePage} from "./pages/ItemUpdatePage";
+import { SalesHistoryPage } from "./pages/Mypage/SalesHistoryPage";
 
 const LoginGuard : FC = () => {
     const navigate = useNavigate();
@@ -89,6 +90,7 @@ function App() {
                         <Route path="/home/main/:id/edit" element={<OfferingItemEditPage />} />
                         <Route path="/edit-email" element={<ChangeEmailPage />} />
                         <Route path="/change-password" element={<ChangePasswordPage />} />
+                        <Route path="/sales-history" element={<SalesHistoryPage />} />
                       </Route>
                 </Routes>
             </BrowserRouter>
