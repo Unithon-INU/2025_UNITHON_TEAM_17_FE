@@ -3,7 +3,6 @@ import {PageBackground, PageLayout} from "../../styles/PageLayout";
 import {NavHeader} from "../../components/NavHeader";
 import styled from "styled-components";
 import {FiImage} from "react-icons/fi";
-import {mockLocations, mockProducts} from "../../mocks/mockData";
 import {Route, useNavigate} from "react-router-dom";
 import {RoutePath} from "../../RoutePath";
 import {useWarehouse} from "../../hooks/useWarehouse";

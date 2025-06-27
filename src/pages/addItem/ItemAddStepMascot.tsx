@@ -15,6 +15,7 @@ const Container = styled.div`
 `
 
 const Title = styled.h2`
+  margin-top : 30px;
   font-size: 24px;
   font-weight: 600;
 `
@@ -32,7 +33,7 @@ const MascotImageWrap = styled.div`
 export const ItemAddStepMascot: FC<ItemAddStepProps> = ({onNext}) => {
     return (
         <Container>
-            <Title>아이템 추가</Title>
+            <Title>제품 등록을 시작할게요</Title>
             <Space v={15}/>
             <Message>
                 등록할 제품을 준비해주세요 <br/>

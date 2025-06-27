@@ -105,7 +105,7 @@ export const ItemAddPage: FC = () => {
     return (
         <PageBackground>
             <PageLayout>
-                <NavHeader
+                <NavHeader title=""
                     onLeftClick={() => {
                         navigate(-1)
                     }}

@@ -13,15 +13,17 @@ type ItemAddStepEditProps = ItemAddStepProps & {
 
 const Container = styled.div`
   height: 100%;
-  padding: 24px 32px;
-
+  padding: 54px 72px;
   display: flex;
   flex-direction: column;
-`
+  align-items: center; 
+`;
 
 const Title = styled.h2`
   font-size: 24px;
   font-weight: 600;
+  margin-bottom : 30px;
+  align-self: flex-start;
 `
 
 const PreviewImage = styled.div<{ src: string }>`
@@ -32,25 +34,29 @@ const PreviewImage = styled.div<{ src: string }>`
   background-image: url(${p => p.src});
   background-position: center;
   background-size: cover;
+  margin-bottom : 30px;
 `
 
 const InputWrap = styled.div`
-  flex: 1;
-  
+  width: 100%;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-`
+  margin-top: 32px;
+`;
 
 const ButtonWrap = styled.div`
   display: flex;
-  flex-direction: row;
-  gap: 18px;
-  
-  & > * {
+  gap: 16px;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 500px; 
+
+  & > button {
     flex: 1;
   }
-`
+`;
 
 
 export const ItemAddStepEdit: FC<ItemAddStepEditProps> = ({initialData, onPrev, onNext}) => {
@@ -63,7 +69,7 @@ export const ItemAddStepEdit: FC<ItemAddStepEditProps> = ({initialData, onPrev, 
                 잘못된 정보를 수정해주세요
             </Title>
             <Space v={58}/>
-            <PreviewImage src={data.imageUrl} alt="Preview"/>
+            <PreviewImage src={data.imageUrl}/>
             <Space v={58}/>
             <InputWrap>
                 <InputRow label={"제품 이름"} value={data.name} onChange={v => setData({...data, name: v})} type={"text"}/>
