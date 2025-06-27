@@ -19,4 +19,6 @@ export type Location = {
 }
 export type EditLocationReq = {
     name: Location["name"]
+    description: Location["description"]
+    image: File;
 }

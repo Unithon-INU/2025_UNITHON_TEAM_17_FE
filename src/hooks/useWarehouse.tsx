@@ -112,23 +112,37 @@ export const WarehouseProvider: FC = ({children}) => {
     const updateLocation = async (id: Location["id"], req: EditLocationReq) => {
         setIsLoading(true);
         try {
+            const formData = new FormData();
+            formData.append("name", req.name);
+            formData.append("description", req.description);
+            if (req.image) {
+                formData.append("image", req.image);
+            }
+
             const res = await axios.patch(
                 `/api/box/locations/${id}`,
-                req,
-                {withCredentials: true}
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                    withCredentials: true
+                }
             );
+
             if (res.status !== 200) {
-                console.log(res)
+                console.log(res);
                 throw new Error(res.statusText);
             }
+
             return res.data;
         } catch (error) {
             console.error("Error updating location:", error);
-            throw error; // Re-throw the error for further handling
+            throw error;
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     const deleteLocation = async (id: Location["id"]) => {
         setIsLoading(true);
