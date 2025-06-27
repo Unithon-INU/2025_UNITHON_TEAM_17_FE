@@ -64,8 +64,13 @@ const HiddenInput = styled.input`
   display: none;
 `;
 
+const LoadingMessage = styled.div`
+  text-align: center;
+  padding: 20px 0;
+`
+
 export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({ onNext }) => {
-  const { shotExpire } = useWarehouse();
+  const { shotExpire, isLoading } = useWarehouse();
   const {
     file: expireImage,
     onFileChange,
@@ -126,6 +131,10 @@ export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({ onNext }) => {
         <Button onClick={onShotExpire} style={{ marginTop: "16px" }}>
           업로드
         </Button>
+      )}
+
+      {isLoading && (
+          <LoadingMessage>로딩중입니다.</LoadingMessage>
       )}
     </Container>
   );
