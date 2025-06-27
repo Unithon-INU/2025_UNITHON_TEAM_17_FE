@@ -6,6 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {DdayItem, useWarehouse} from "./hooks/useWarehouse";
 import {RoutePath} from "./RoutePath";
 import {NotificationMenu} from "./components/NotificationMenuProps";
+import {BiDotsHorizontalRounded} from "react-icons/bi";
 
 export type DdayPageProps = {}
 const DdayPageStyle = styled.div`
@@ -17,6 +18,7 @@ export const DdayPage: FC<DdayPageProps> = () => {
     const navigate = useNavigate()
     const {getDdayItem} = useWarehouse()
     const [items, setItems] = useState<DdayItem[]>([])
+    const [isOpen, setIsOpen] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -27,13 +29,20 @@ export const DdayPage: FC<DdayPageProps> = () => {
     return (
         <PageBackground>
             <PageLayout>
-                <NotificationMenu isOpen={true} onEditDate={() => {}}/>
                 <NavHeader
                     title="D - 14"
                     onLeftClick={() => {
                         navigate(-1, {replace: true})
                     }}
+                    rightIcon={
+                        <BiDotsHorizontalRounded
+                            onClick={() => setIsOpen(!isOpen)}
+                            style={{fontSize: '1.5em'}}
+                        />
+                    }
                 />
+                <NotificationMenu isOpen={isOpen} onEditDate={() => {
+                }}/>
 
                 <div
                     style={{

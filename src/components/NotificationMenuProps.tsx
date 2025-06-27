@@ -16,8 +16,8 @@ const MenuWrapper = styled.ul`
 
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.31);
   position: absolute;
-  right: 50px;
-  top: 90px;
+  right: 20px;
+  top: 60px;
   z-index: 100;
 `;
 const MenuItem = styled.li`
@@ -29,7 +29,7 @@ const MenuItem = styled.li`
   justify-content: space-between;
   align-items: center;
 
-  border-radius: 11px; /* 하나뿐이므로 상·하 모두 라운딩 */
+  border-radius: 11px;
   cursor: pointer;
 `;
 export const NotificationMenu: FC<NotificationMenuProps> = ({isOpen, onEditDate}) => {
