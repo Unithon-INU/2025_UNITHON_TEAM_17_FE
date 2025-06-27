@@ -1,3 +1,15 @@
+import keepbara1 from "../assets/guide/keepbara1.png";
+import keepbara2 from "../assets/guide/keepbara2.png";
+import keepbara3 from "../assets/guide/keepbara3.png";
+
+import register1 from "../assets/guide/register1.png";
+import register2 from "../assets/guide/register2.png";
+import register3 from "../assets/guide/register3.png";
+
+import trade1 from "../assets/guide/trade1.png";
+import trade2 from "../assets/guide/trade2.png";
+import trade3 from "../assets/guide/trade3.png";
+
 export type SlideContent = {
   title: string;
   image: string;
@@ -10,7 +22,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
   keepbara: [
     {
       title: "키피바라는 무슨 앱인가요?",
-      image: "/src/assets/guide/keepbara1.png",
+      image: keepbara1,
       description1: [
         "키피바라는 'Keep'과 'Capybara'의 합성어로",
         "소비자들이 유통기한이 임박한 제품을 놓치지 않도록 도와주는 앱이에요.",
@@ -19,7 +31,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
     },
     {
       title: "키피바라는 무슨 앱인가요?",
-      image: "/src/assets/guide/keepbara2.png",
+      image: keepbara2,
       description1: [
         "키피바라에서는 물건 관리와 상품 거래를 할 수 있어요.",
       ],
@@ -30,7 +42,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
     },
     {
       title: "키피바라는 무슨 앱인가요?",
-      image: "/src/assets/guide/keepbara3.png",
+      image: keepbara3,
       description1: [
         "키피바라와 함께 유통기한 임박 상품을 똑똑하게 관리하고",
         "지구 자원 절약도, 환경 보호도 시작해보세요!",
@@ -41,7 +53,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
   register: [
     {
       title: "유통기한 등록은 어디서 할 수 있나요?",
-      image: "/src/assets/guide/register1.png",
+      image: register1,
       description1: [
         "유통기한 등록은 창고 화면에서 등록할 수 있어요.",
       ],
@@ -51,7 +63,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
     },
     {
       title: "유통기한 등록은 어디서 할 수 있나요?",
-      image: "/src/assets/guide/register2.png",
+      image: register2,
       description1: [
         "등록하고 싶은 상품이 위치한 장소에 들어가요. 등록할 상품이 음식이면 냉장고, 샴푸면 화장실을 눌러요 !",
       ],
@@ -61,7 +73,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
     },
     {
       title: "유통기한 등록은 어디서 할 수 있나요?",
-      image: "/src/assets/guide/register3.png",
+      image: register3,
       description1: [
         "상단의 카메라 버튼을 눌러서 상품의 유통기한을 입력할 수 있어요!",
       ],
@@ -74,7 +86,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
   trade: [
     {
       title: "어떻게 상품을 거래하나요?",
-      image: "/src/assets/guide/trade1.png",
+      image: trade1,
       description1: [
         "상품 거래는 메인에서 할 수 있어요.",
       ],
@@ -84,7 +96,7 @@ export const guideSlides: Record<string, SlideContent[]> = {
     },
     {
       title: "어떻게 상품을 거래하나요?",
-      image: "/src/assets/guide/trade2.png",
+      image: trade2,
       description1: [
         "원하는 상품을 누르면 상세 설명이 나와요.",
         "해당 게시글의 오픈 채팅방 링크로 문의하면 돼요!",
@@ -95,13 +107,13 @@ export const guideSlides: Record<string, SlideContent[]> = {
     },
     {
       title: "어떻게 상품을 거래하나요?",
-      image: "/src/assets/guide/trade3.png",
+      image: trade3,
       description1: [
         "상단 아이콘을 클릭하여 글을 작성하고,",
         "오픈 채팅방 링크를 붙여넣으면 구매자들이 문의할 수 있어요.",
       ],
       description2: [
-         "[상단의 작성 아이콘 클릭]",
+        "[상단의 작성 아이콘 클릭]",
       ],
       showButton: true,
     },

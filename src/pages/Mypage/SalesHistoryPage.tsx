@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
-import { FaChevronLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { NavHeader } from "../../components/NavHeader";
+import sadImage from "../../assets/sad.png"; 
 
 interface SoldProduct {
   id: number;
@@ -45,7 +45,7 @@ export const SalesHistoryPage: FC = () => {
           <p>불러오는 중...</p>
           ) : products.length === 0 ? (
             <EmptyContainer>
-              <EmptyImage src="src/assets/sad.png" alt="울고 있는 카피바라" />
+              <EmptyImage src={sadImage} alt="울고 있는 카피바라" />
               <EmptyText>판매한 상품이 없습니다.</EmptyText>
             </EmptyContainer>
           ) : (
