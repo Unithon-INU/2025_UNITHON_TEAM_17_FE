@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 import {PageBackground, PageLayout} from "../styles/PageLayout";
-import {useParams} from "react-router-dom";
+import {useAsyncError, useParams} from "react-router-dom";
+import {Item} from "../type/item";
+import {useWarehouse} from "../hooks/useWarehouse";
 
 export type ItemUpdatePageProps = {
 
@@ -27,11 +29,35 @@ const InputWrap = styled.div`
 
 export const ItemUpdatePage: FC<ItemUpdatePageProps> = () => {
     const {id} = useParams()
+    const {getItem} = useWarehouse();
+    const [item, setItem] = useState<Item | null>(null)
+
+    const onLoadItem = async () => {
+        if (!id) return;
+
+        try {
+            const itemData = await getItem(Number(id));
+            setItem(itemData);
+        } catch (error) {
+            console.error("Failed to load item:", error);
+        }
+    }
+
+    useEffect(() => {
+        onLoadItem()
+    }, [])
+
+    if(!item) {
+        return <div>Loading...</div>;
+    }
+
 
     return (
         <PageBackground>
             <PageLayout>
-
+                {id}
+                <PreviewImage src={item.imageUrl}/>
+                {item.name}
             </PageLayout>
         </PageBackground>
     );

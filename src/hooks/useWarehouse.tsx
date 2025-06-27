@@ -22,6 +22,7 @@ interface WarehouseContextProps {
     createItem: (req: CreateItemReq) => Promise<void>;
     shotExpire: (file: FormData) => Promise<ExpireDateRes>;
     getItems: () => Promise<Item[]>
+    getItem: (id: Item["id"]) => Promise<Item>;
     updateItem : (id: Item["id"], req: UpdateItemReq) => Promise<void>;
 }
 
@@ -239,6 +240,23 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
+    const getItem = async (id: Item["id"]): Promise<Item> => {
+        setIsLoading(true);
+        try {
+            const items = await getItems();
+            const foundItem = items.find(item => item.id === id);
+            if(!foundItem) {
+                throw new Error("Item not found");
+            }
+            return foundItem
+        } catch (error) {
+            console.error("Error fetching item:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <WarehouseContext.Provider value={{
             isLoading,
@@ -252,6 +270,7 @@ export const WarehouseProvider: FC = ({children}) => {
             createItem,
             shotExpire,
             getItems,
+            getItem,
             updateItem
         }}>
             {children}
