@@ -75,7 +75,7 @@ export const EditLocation: FC = () => {
     const onSubmit = async () => {
         try {
             const req: EditLocationReq = {...(location as EditLocationReq), image: image!!};
-            const updatedLocations = await updateLocation(location!!.id, req);
+            const updatedLocations = await updateLocation(location!!.locationId, req);
             navigate(RoutePath.warehouseDetail(id), {replace: true})
         } catch (e) {
             console.error("장소 수정 중 오류 발생:", e)

@@ -11,11 +11,12 @@ export type CreateLocationMakeReq = {
     image: File;
 };
 export type Location = {
-    id: number;
+    locationId: number;
     name: string;
     memberId: User["id"];
     imagePath: string;
     description: string;
+    itemCount: number;
 }
 export type EditLocationReq = {
     name: Location["name"]

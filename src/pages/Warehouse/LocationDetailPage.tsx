@@ -42,7 +42,7 @@ export const LocationDetailPage = () => {
         try {
             const foundLocation = await getLocation(Number(locationId));
             const allItems = await getItems();
-            const foundItems = allItems.filter(item => item.locationId === foundLocation.id);
+            const foundItems = allItems.filter(item => item.locationId === foundLocation.locationId);
 
             setItems(foundItems)
             setLocation(foundLocation)
@@ -54,7 +54,7 @@ export const LocationDetailPage = () => {
 
     const onDeleteClick = async () => {
         try {
-            await deleteLocation(location.id);
+            await deleteLocation(location.locationId);
             navigate(-1, {replace: true})
         }
         catch (e) {
@@ -167,7 +167,7 @@ export const LocationDetailPage = () => {
                 <PaddedLayout>
                     <PopupMenu
                         isOpen={isPopupMenuOpen}
-                        onEdit={() => navigate(RoutePath.mainPage.editLocation(location.id))}
+                        onEdit={() => navigate(RoutePath.mainPage.editLocation(location.locationId))}
                         onDelete={() => onDeleteClick()}
                     />
                     <NavHeader

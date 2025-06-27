@@ -15,6 +15,7 @@ import {NavHeader} from "../../components/NavHeader";
 import styled from "styled-components";
 import toast, {Toaster} from "react-hot-toast";
 import {RoutePath} from "../../RoutePath";
+import {Location} from "../../type/Warehouse";
 
 type ItemAddStep = "mascot" | "barcode" | "expireDate" | "edit" | "success";
 
@@ -25,14 +26,14 @@ export type ItemAddStepProps = {
 export const ItemAddPage: FC = () => {
     const navigate = useNavigate()
     const locationFunction = useLocation();
-    const {location} = locationFunction.state || {};
+    const {location} : {location : Location} = locationFunction.state || {};
     const {shotBarcode, createItem, shotExpire} = useWarehouse();
     const {user} = useAuth()
 
     const [step, setStep] = useState<ItemAddStep>("mascot");
     const createItemReq = useRef({
         memberId: user!!.id,
-        locationId: location!!.id,
+        locationId: location!!.locationId,
     } as CreateItemReq);
 
     const onCreateItem = async (req: CreateItemReq) => {

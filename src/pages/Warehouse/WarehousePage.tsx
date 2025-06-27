@@ -30,16 +30,13 @@ export const WarehousePage: FC = () => {
                     <ExpiringProduct/>
 
                     {locations.map((location) => {
-                        console.log(location)
-                        const count = locations.length;
-
                         return (
                             <LocationItem
-                                id={location.id}
+                                id={location.locationId}
                                 key={location.name}
                                 name={location.name}
                                 description={location.description}
-                                productCount={count}
+                                productCount={location.itemCount}
                                 imageUrl={"https://keepbara.duckdns.org" + location.imagePath}
                             />
                         );

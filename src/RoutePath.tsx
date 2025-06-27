@@ -7,7 +7,7 @@ export const RoutePath = {
     signUp: "/signup",
     mainPage: {
         postWrite: "/home/main/post-write",
-        editLocation: (id : Location["id"] | null) => {
+        editLocation: (id : Location["locationId"] | null) => {
             if (id == null)
                 return "/home/main/edit-location/:id"
             else

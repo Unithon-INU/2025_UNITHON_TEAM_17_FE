@@ -15,9 +15,9 @@ interface WarehouseContextProps {
     isLoading: boolean;
     createLocation: (req: CreateLocationMakeReq) => Promise<Location>;
     getLocations: () => Promise<Location[]>;
-    getLocation: (id: Location["id"]) => Promise<Location>;
-    updateLocation: (id: Location["id"], req: EditLocationReq) => Promise<Location[]>;
-    deleteLocation: (id: Location["id"]) => Promise<void>;
+    getLocation: (id: Location["locationId"]) => Promise<Location>;
+    updateLocation: (id: Location["locationId"], req: EditLocationReq) => Promise<Location[]>;
+    deleteLocation: (id: Location["locationId"]) => Promise<void>;
 
     shotBarcode: (file: FormData) => Promise<BarcodeRes>;
     createItem: (req: CreateItemReq) => Promise<void>;
@@ -96,11 +96,11 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
-    const getLocation = async (id: Location["id"]) => {
+    const getLocation = async (id: Location["locationId"]) => {
         setIsLoading(true)
         try {
             const locations = await getLocations();
-            const foundLocation = locations.find(loc => loc.id == id);
+            const foundLocation = locations.find(loc => loc.locationId == id);
             return foundLocation
         } catch (error) {
             console.error("Error fetching location:", error);
@@ -110,7 +110,7 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
-    const updateLocation = async (id: Location["id"], req: EditLocationReq) => {
+    const updateLocation = async (id: Location["locationId"], req: EditLocationReq) => {
         setIsLoading(true);
         try {
             const formData = new FormData();
@@ -145,7 +145,7 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     };
 
-    const deleteLocation = async (id: Location["id"]) => {
+    const deleteLocation = async (id: Location["locationId"]) => {
         setIsLoading(true);
         try {
             const res = await axios.delete(
@@ -165,9 +165,6 @@ export const WarehouseProvider: FC = ({children}) => {
     }
 
     const shotBarcode = async (file: FormData): Promise<BarcodeRes> => {
-        for (const [k, v] of file.entries()) {
-            console.log(k, v); // file File {name: "...", size: ...}
-        }
         setIsLoading(true);
         try {
             const res = await axios.post(

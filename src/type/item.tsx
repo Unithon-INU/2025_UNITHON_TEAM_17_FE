@@ -3,7 +3,7 @@ import {Location} from "./Warehouse";
 
 export type CreateItemReq = {
     memberId: User["id"];
-    locationId: Location["id"];
+    locationId: Location["locationId"];
     name: string;
     imageUrl: string;
     registerDate: string;

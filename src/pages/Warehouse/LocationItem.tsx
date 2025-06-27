@@ -5,7 +5,7 @@ import {Debugger} from "inspector";
 import {Location} from "../../type/Warehouse";
 
 interface LocationItemProps {
-  id: Location["id"];
+  id: Location["locationId"];
   name: string;
   description?: string;
   productCount?: number;
