@@ -9,6 +9,7 @@ export type DdayItem = {
     itemId: Item["id"];
     locationName: string;
     name: string;
+    imageUrl: string;
 }
 
 interface WarehouseContextProps {

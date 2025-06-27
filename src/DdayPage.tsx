@@ -34,16 +34,7 @@ export const DdayPage: FC<DdayPageProps> = () => {
                     onLeftClick={() => {
                         navigate(-1, {replace: true})
                     }}
-                    rightIcon={
-                        <BiDotsHorizontalRounded
-                            onClick={() => setIsOpen(!isOpen)}
-                            style={{fontSize: '1.5em'}}
-                        />
-                    }
                 />
-                <NotificationMenu isOpen={isOpen} onEditDate={() => {
-                }}/>
-
                 <div
                     style={{
                         padding: "1.5rem",
@@ -80,8 +71,10 @@ export const DdayPage: FC<DdayPageProps> = () => {
                                         justifyContent: "center",
                                     }}
                                 >
-                                    {/*<img src={product.imageUrl} alt={product.name}*/}
-                                    {/*     style={{width: 60, height: 60}}/>*/}
+                                    {product.imageUrl && (
+                                        <img src={product.imageUrl} alt={product.name}
+                                             style={{width: 60, height: 60}}/>
+                                    )}
                                 </div>
 
                                 <div>
