@@ -2,14 +2,6 @@ import {createContext, FC, useContext, useState} from 'react';
 import {CreateLocationMakeReq, EditLocationReq, Location} from "../type/Warehouse";
 import axios from "axios";
 import {BarcodeRes, CreateItemReq, ExpireDateRes, Item, UpdateItemReq} from "../type/item";
-import {User} from "../type/auth";
-
-type UpdateItemReq = {
-    name: string;
-    expireDate: string;
-    locationId: number;
-    alarmEnabled: boolean;
-}
 
 interface WarehouseContextProps {
     isLoading: boolean;
@@ -26,6 +18,8 @@ interface WarehouseContextProps {
     getItem: (id: Item["id"]) => Promise<Item>;
     updateItem : (id: Item["id"], req: UpdateItemReq) => Promise<void>;
     deleteItem: (id: Item["id"]) => Promise<void>;
+
+    getDdayItem : () => Promise<Item[]>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -300,6 +294,27 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
+    const getDdayItem = async () => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(
+                `/api/box/notify`,
+                {withCredentials: true}
+            );
+            if (res.status !== 200) {
+                console.log(res)
+                throw new Error(res.statusText);
+            }
+            return res.data;
+        }
+        catch (error) {
+            console.error("Error fetching D-day items:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <WarehouseContext.Provider value={{
             isLoading,
@@ -316,6 +331,8 @@ export const WarehouseProvider: FC = ({children}) => {
             getItem,
             updateItem,
             deleteItem,
+
+            getDdayItem
         }}>
             {children}
         </WarehouseContext.Provider>

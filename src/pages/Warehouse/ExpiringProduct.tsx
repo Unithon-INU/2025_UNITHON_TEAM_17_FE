@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import {useNavigate} from "react-router-dom";
+import {RoutePath} from "../../RoutePath";
 
 const Container = styled.div`
   background-color: #6FC667;
@@ -23,8 +25,9 @@ const Dday = styled.h1`
 `;
 
 export const ExpiringProduct = () => {
+    const navigate = useNavigate()
   return (
-    <Container>
+    <Container onClick={() => navigate(RoutePath.dday)}>
       <Label>⭐️ 유통기한 14일 이내인 제품들 ⭐️</Label>
       <Dday>D - 14</Dday>
     </Container>

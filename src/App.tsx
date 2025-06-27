@@ -26,6 +26,7 @@ import {useAuth} from "./hooks/useAuth";
 import {ItemUpdatePage} from "./pages/ItemUpdatePage";
 import { SalesHistoryPage } from "./pages/Mypage/SalesHistoryPage";
 import {Toaster} from "react-hot-toast";
+import {DdayPage} from "./DdayPage";
 
 const LoginGuard : FC = () => {
     const navigate = useNavigate();
@@ -92,6 +93,8 @@ function App() {
                         <Route path="/edit-email" element={<ChangeEmailPage />} />
                         <Route path="/change-password" element={<ChangePasswordPage />} />
                         <Route path="/sales-history" element={<SalesHistoryPage />} />
+
+                        <Route path={RoutePath.dday} element={<DdayPage/>}/>
                       </Route>
                 </Routes>
             </BrowserRouter>

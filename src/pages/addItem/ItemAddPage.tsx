@@ -2,18 +2,15 @@ import {FC, useRef, useState} from "react";
 import {PageBackground, PageLayout} from "../../styles/PageLayout";
 import {useWarehouse} from "../../hooks/useWarehouse";
 import {useAuth} from "../../hooks/useAuth";
-import {usePreviewImage} from "../../hooks/UsePreviewImage";
-import {Route, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {ItemAddStepMascot} from "./ItemAddStepMascot";
 import {ItemAddStepBarcode} from "./ItemAddStepBarcode";
 import {ItemAddStepExpireDate} from "./ItemAddStepExpireDate";
 import {ItemAddStepEdit} from "./ItemAddStepEdit";
 import {ItemAddStepSuccess} from "./ItemAddStepSuccess";
-import curriedDarken from "polished/lib/color/darken";
-import {BarcodeRes, CreateItemReq, ExpireDateRes} from "../../type/item";
+import {CreateItemReq} from "../../type/item";
 import {NavHeader} from "../../components/NavHeader";
-import styled from "styled-components";
-import toast, {Toaster} from "react-hot-toast";
+import toast from "react-hot-toast";
 import {RoutePath} from "../../RoutePath";
 import {Location} from "../../type/Warehouse";
 
@@ -26,7 +23,7 @@ export type ItemAddStepProps = {
 export const ItemAddPage: FC = () => {
     const navigate = useNavigate()
     const locationFunction = useLocation();
-    const {location} : {location : Location} = locationFunction.state || {};
+    const {location}: { location: Location } = locationFunction.state || {};
     const {shotBarcode, createItem, shotExpire} = useWarehouse();
     const {user} = useAuth()
 
@@ -109,12 +106,13 @@ export const ItemAddPage: FC = () => {
         <PageBackground>
             <PageLayout>
                 <NavHeader title=""
-                    onLeftClick={() => {
-                        navigate(-1)
-                    }}
+                           onLeftClick={() => {
+                               navigate(-1)
+                           }}
                 />
                 {stepTemplate}
             </PageLayout>
         </PageBackground>
     );
 };
+
