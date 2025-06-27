@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef } from "react";
+import toast, {Toaster} from "react-hot-toast";
 import styled from "styled-components";
 import { ItemAddStepProps } from "./ItemAddPage";
 import { usePreviewImage } from "../../hooks/UsePreviewImage";
@@ -6,7 +7,6 @@ import { useWarehouse } from "../../hooks/useWarehouse";
 import { Button } from "../../components/common/Button";
 import { BsCameraFill } from "react-icons/bs";
 import { ExpireDateRes } from "../../type/item";
-import toast from "react-hot-toast";
 import { isMobile } from "react-device-detect";
 
 interface PreviewImageProps {
@@ -72,7 +72,7 @@ export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({ onNext }) => {
     previewUrl: expireImageUrl,
   } = usePreviewImage(null);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const convertDateFormat = (dateStr: string) => {
     return dateStr.replace(/\./g, "-");

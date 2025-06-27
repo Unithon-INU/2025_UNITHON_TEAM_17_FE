@@ -4,6 +4,7 @@ import { PageBackground, PageLayout } from "../styles/PageLayout";
 import { NavHeader } from "../components/common/NavHeader";
 import styled from "styled-components";
 import {LoginInput} from "../components/login/LoginInput";
+import toast, {Toaster} from "react-hot-toast";
 import {useEffect, useState} from "react";
 import {Button} from "../components/common/Button";
 import {useAuth} from "../hooks/useAuth";
@@ -61,7 +62,7 @@ export const LoginPage: FC = () => {
         e.preventDefault();
 
         if (!email || !password) {
-            alert("이메일과 비밀번호를 모두 입력해주세요.");
+            toast.error("이메일과 비밀번호를 모두 입력해주세요.");
             return;
         }
 
@@ -69,7 +70,7 @@ export const LoginPage: FC = () => {
             const response = await login({email, password});
             navigate(RoutePath.main);
         } catch (error) {
-            alert("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
+            toast.error("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
         }
     };
 

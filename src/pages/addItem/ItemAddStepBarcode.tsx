@@ -1,4 +1,5 @@
 import { FC, useEffect, useRef } from "react";
+import toast, {Toaster} from "react-hot-toast";
 import styled from "styled-components";
 import { ItemAddStepProps } from "./ItemAddPage";
 import { usePreviewImage } from "../../hooks/UsePreviewImage";
@@ -85,6 +86,7 @@ export const ItemAddStepBarcode: FC<ItemAddStepProps> = ({ onNext }) => {
       const res = await shotBarcode(formData);
       onNext(res);
     } catch (error) {
+      toast.error("유통기한 인식에 실패했어요. 다시 시도해주세요.");
       console.error("Error uploading file:", error);
     }
   };

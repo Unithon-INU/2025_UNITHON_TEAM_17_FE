@@ -25,6 +25,7 @@ import {FC} from "react";
 import {useAuth} from "./hooks/useAuth";
 import {ItemUpdatePage} from "./pages/ItemUpdatePage";
 import { SalesHistoryPage } from "./pages/Mypage/SalesHistoryPage";
+import {Toaster} from "react-hot-toast";
 
 const LoginGuard : FC = () => {
     const navigate = useNavigate();
@@ -94,6 +95,10 @@ function App() {
                       </Route>
                 </Routes>
             </BrowserRouter>
+            <Toaster
+                position="bottom-center"
+                reverseOrder={false}
+            />
         </div>
     );
 }

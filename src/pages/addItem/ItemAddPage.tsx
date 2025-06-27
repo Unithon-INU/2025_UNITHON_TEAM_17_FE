@@ -13,6 +13,7 @@ import curriedDarken from "polished/lib/color/darken";
 import {BarcodeRes, CreateItemReq, ExpireDateRes} from "../../type/item";
 import {NavHeader} from "../../components/NavHeader";
 import styled from "styled-components";
+import toast, {Toaster} from "react-hot-toast";
 import {RoutePath} from "../../RoutePath";
 
 type ItemAddStep = "mascot" | "barcode" | "expireDate" | "edit" | "success";
@@ -40,6 +41,7 @@ export const ItemAddPage: FC = () => {
             setStep("success");
         } catch (error) {
             console.error("Error creating item:", error);
+            toast.error("아이템 생성에 실패했어요. 다시 시도해주세요.");
         }
     }
 
