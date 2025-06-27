@@ -30,3 +30,9 @@ export type Item = {
     locationName: string;
     locationId: number;
 }
+export type UpdateItemReq = {
+    name: string;
+    expireDate: string;
+    locationId: number;
+    alarmEnabled: boolean;
+}

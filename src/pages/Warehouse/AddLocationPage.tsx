@@ -7,6 +7,7 @@ import {Route, useNavigate} from "react-router-dom";
 import {RoutePath} from "../../RoutePath";
 import {useWarehouse} from "../../hooks/useWarehouse";
 import {CreateLocationMakeReq} from "../../type/Warehouse";
+import {usePreviewImage} from "../../hooks/UsePreviewImage";
 
 
 const PaddedLayout = styled(PageLayout)`
@@ -75,17 +76,9 @@ export const AddLocationPage = () => {
     const navigate = useNavigate();
     const {createLocation} = useWarehouse();
 
-    const [imageUrl, setImageUrl] = useState("");
+    const {file : image, onFileChange, previewUrl} = usePreviewImage(null)
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const localUrl = URL.createObjectURL(file);
-            setImageUrl(localUrl);
-        }
-    };
 
     const handleComplete = async () => {
         if (!name.trim()) {
@@ -93,13 +86,17 @@ export const AddLocationPage = () => {
             return;
         }
 
+        if(image === null) {
+            alert("이미지를 선택하세요")
+            return
+        }
+
         try {
-            const req : CreateLocationMakeReq = {name};
+            const req: CreateLocationMakeReq = {name, image, description};
             const res = await createLocation(req);
             console.log(res)
             navigate(RoutePath.warehouse)
-        }
-        catch (error) {
+        } catch (error) {
             alert("장소 생성에 실패했습니다. 다시 시도해주세요.");
             return;
         }
@@ -109,36 +106,37 @@ export const AddLocationPage = () => {
         <PageBackground>
             <PageLayout>
                 <NavHeader title="장소 입력" rightIcon="완료" onRightClick={handleComplete}/>
-                  <PaddedLayout>
+                <PaddedLayout>
                     <Wrapper>
-                      <ImageCircle htmlFor="image-upload">
-                          {imageUrl ? <PreviewImage src={imageUrl} alt="preview"/> : <FiImage size={40} color="#aaa"/>}
-                      </ImageCircle>
-                      <input
-                          type="file"
-                          id="image-upload"
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                          style={{display: "none"}}
-                      />
-                      <Label htmlFor="image-upload" as="label" style={{cursor: "pointer"}}>
-                          사진 추가
-                      </Label>
+                        <ImageCircle htmlFor="image-upload">
+                            {previewUrl ? <PreviewImage src={previewUrl} alt="preview"/> :
+                                <FiImage size={40} color="#aaa"/>}
+                        </ImageCircle>
+                        <input
+                            type="file"
+                            id="image-upload"
+                            accept="image/*"
+                            onChange={onFileChange}
+                            style={{display: "none"}}
+                        />
+                        <Label htmlFor="image-upload" as="label" style={{cursor: "pointer"}}>
+                            사진 추가
+                        </Label>
 
-                      <FieldLabel>장소 이름</FieldLabel>
-                      <Input
-                          placeholder="예: 냉장고, 거실..."
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                      />
+                        <FieldLabel>장소 이름</FieldLabel>
+                        <Input
+                            placeholder="예: 냉장고, 거실..."
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
 
-                      <TextArea
-                          placeholder="장소에 대한 설명을 작성해주세요"
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                      />
+                        <TextArea
+                            placeholder="장소에 대한 설명을 작성해주세요"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
                     </Wrapper>
-                  </PaddedLayout>
+                </PaddedLayout>
             </PageLayout>
         </PageBackground>
     );

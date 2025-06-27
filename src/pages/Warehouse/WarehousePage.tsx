@@ -28,6 +28,7 @@ export const WarehousePage: FC = () => {
                     <ExpiringProduct/>
 
                     {locations.map((location) => {
+                        console.log(location)
                         const count = locations.length;
 
                         return (
@@ -35,9 +36,9 @@ export const WarehousePage: FC = () => {
                                 id={location.id}
                                 key={location.name}
                                 name={location.name}
-                                description={""}
+                                description={location.description}
                                 productCount={count}
-                                imageUrl={"https://picsum.photos/200/200?random=" + location.id}
+                                imageUrl={"https://keepbara.duckdns.org" + location.imagePath}
                             />
                         );
                     })}
