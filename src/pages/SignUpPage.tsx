@@ -54,20 +54,22 @@ export const SignUpPage: FC = () => {
 
   const onSignUp = async () => {
     try {
-      // const response = await axios.post("/api/auth/signup", {
-      //   email,
-      //   password,
-      //   name
-      // }, {
-      //   withCredentials: true
-      // });
+      const response = await axios.post(
+        "/api/auth/signup",
+        { email, password, name },
+        { withCredentials: true }
+      );
 
-      const response = await signUp({email, password, name})
-      navigate(RoutePath.login); // 회원가입 후 로그인 화면으로 이동
-
+      navigate(RoutePath.login); // 성공 시 로그인 화면으로 이동
     } catch (error: any) {
-      if (error.response?.data?.error) {
-        alert(error.response.data.error);
+      const errorMessage =
+        typeof error.response?.data === "string"
+          ? error.response.data
+          : error.response?.data?.error;
+
+      if (errorMessage === "이미 가입된 이메일입니다.") {
+        setStep("email"); // 다시 이메일 입력 단계로 이동
+        setEmailError(errorMessage); // 에러 메시지 표시
       } else {
         alert("회원가입 중 오류가 발생했습니다.");
       }

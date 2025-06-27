@@ -1,47 +1,58 @@
 import type { FC } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import { NavHeader } from "../../components/NavHeader";
 import { Button } from "../../components/common/Button";
-import styled from "styled-components";
 
 export const ChangeEmailPage: FC = () => {
-  const [email1, setEmail1] = useState("");
-  const [email2, setEmail2] = useState("");
-  const [email3, setEmail3] = useState("");
+  const [newName, setNewName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSave = async () => {
+    if (!newName.trim()) {
+      alert("새 닉네임을 입력해주세요.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await axios.put("/api/mypage/name", { name: newName.trim() || "이름없음" });
+      alert("닉네임이 성공적으로 변경되었습니다!");
+      navigate("/home/my");
+    } catch (error) {
+      alert("닉네임 변경에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <PageBackground>
       <PageLayout>
         <NavHeader title="개인 정보 수정" />
         <FormContainer>
-          <Label>이메일</Label>
+          <Label>새 닉네임</Label>
           <Input
-            value={email1}
-            onChange={(e) => setEmail1(e.target.value)}
-            placeholder="이메일 주소를 입력하세요."
-          />
-          <Label>이메일</Label>
-          <Input
-            value={email2}
-            onChange={(e) => setEmail2(e.target.value)}
-            placeholder="이메일 주소를 입력하세요."
-          />
-          <Label>이메일</Label>
-          <Input
-            value={email3}
-            onChange={(e) => setEmail3(e.target.value)}
-            placeholder="이메일 주소를 입력하세요."
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            placeholder="새 닉네임을 입력하세요."
           />
         </FormContainer>
         <ButtonWrapper>
-          <Button isFullWidth>저장하기</Button>
+          <Button onClick={handleSave} isFullWidth isDisable={loading}>
+            {loading ? "저장 중..." : "저장하기"}
+          </Button>
         </ButtonWrapper>
       </PageLayout>
     </PageBackground>
   );
 };
 
+// 스타일은 동일
 const FormContainer = styled.div`
   padding: 0 30px;
   margin-left: 20px;
@@ -49,9 +60,8 @@ const FormContainer = styled.div`
 
 const Label = styled.label`
   display: block;
-  margin-top: 16px;
-  margin-bottom: 4px;
   margin-top: 50px;
+  margin-bottom: 4px;
   font-weight: 500;
 `;
 
