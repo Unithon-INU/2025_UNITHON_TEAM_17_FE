@@ -46,6 +46,8 @@ export const PageLayout = styled.div<PageLayoutProps>`
   box-shadow: 0 0 10px rgba(4, 3, 3, 0.05);
   font-family: 'Pretendard', sans-serif;
   box-sizing: border-box;
+  
+  position: relative;
 
   ${(props) =>
     props.$isBottomNavigation &&

@@ -4,13 +4,15 @@ import {NavHeader} from "./components/NavHeader";
 import styled from "styled-components";
 import {Link, useNavigate} from "react-router-dom";
 import {DdayItem, useWarehouse} from "./hooks/useWarehouse";
-import {Item} from "./type/item";
 import {RoutePath} from "./RoutePath";
+import {NotificationMenu} from "./components/NotificationMenuProps";
 
 export type DdayPageProps = {}
 const DdayPageStyle = styled.div`
 
 `
+
+
 export const DdayPage: FC<DdayPageProps> = () => {
     const navigate = useNavigate()
     const {getDdayItem} = useWarehouse()
@@ -25,6 +27,7 @@ export const DdayPage: FC<DdayPageProps> = () => {
     return (
         <PageBackground>
             <PageLayout>
+                <NotificationMenu isOpen={true} onEditDate={() => {}}/>
                 <NavHeader
                     title="D - 14"
                     onLeftClick={() => {
