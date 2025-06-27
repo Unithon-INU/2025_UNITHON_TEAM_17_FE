@@ -14,7 +14,7 @@ type UpdateItemReq = {
 interface WarehouseContextProps {
     isLoading: boolean;
     createLocation: (req: CreateLocationMakeReq) => Promise<Location>;
-    getLocations: (memberId : User["id"] | null) => Promise<Location[]>;
+    getLocations: () => Promise<Location[]>;
     getLocation: (id: Location["id"]) => Promise<Location>;
     updateLocation: (id: Location["id"], req: EditLocationReq) => Promise<Location[]>;
     deleteLocation: (id: Location["id"]) => Promise<void>;
@@ -23,7 +23,7 @@ interface WarehouseContextProps {
     createItem: (req: CreateItemReq) => Promise<void>;
     shotExpire: (file: FormData) => Promise<ExpireDateRes>;
     getItems: () => Promise<Item[]>
-    updateItem : (id: Item["id"], req: UpdateItemReq) => Promise<void>;
+    updateItem: (id: Item["id"], req: UpdateItemReq) => Promise<void>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -74,11 +74,11 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     };
 
-    const getLocations = async (memberId : User["id"] | null): Promise<Location[]> => {
+    const getLocations = async (): Promise<Location[]> => {
         setIsLoading(true);
         try {
             const res = await axios.get(
-                `/api/box/locations?memberId=${memberId}`,
+                `/api/box/locations`,
                 {withCredentials: true}
             );
             if (res.status !== 200) {
@@ -97,7 +97,7 @@ export const WarehouseProvider: FC = ({children}) => {
     const getLocation = async (id: Location["id"]) => {
         setIsLoading(true)
         try {
-            const locations = await getLocations(null);
+            const locations = await getLocations();
             const foundLocation = locations.find(loc => loc.id == id);
             return foundLocation
         } catch (error) {
@@ -231,7 +231,7 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
-    const updateItem  = async (id: Item["id"], req: UpdateItemReq) => {
+    const updateItem = async (id: Item["id"], req: UpdateItemReq) => {
         setIsLoading(true);
         try {
             const res = await axios.patch(

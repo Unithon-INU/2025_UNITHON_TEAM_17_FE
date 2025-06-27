@@ -16,7 +16,7 @@ export const WarehousePage: FC = () => {
     const [locations, setLocations] = useState<Location[]>([])
 
     useEffect(() => {
-        getLocations(user!!.id).then(setLocations)
+        getLocations().then(setLocations)
     }, [])
 
     return (
