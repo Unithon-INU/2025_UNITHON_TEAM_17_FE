@@ -110,35 +110,36 @@ export const AddLocationPage = () => {
         <PageBackground>
             <PageLayout>
                 <NavHeader title="장소 입력" rightIcon="완료" onRightClick={handleComplete}/>
+                  <PaddedLayout>
+                    <Wrapper>
+                      <ImageCircle htmlFor="image-upload">
+                          {imageUrl ? <PreviewImage src={imageUrl} alt="preview"/> : <FiImage size={40} color="#aaa"/>}
+                      </ImageCircle>
+                      <input
+                          type="file"
+                          id="image-upload"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          style={{display: "none"}}
+                      />
+                      <Label htmlFor="image-upload" as="label" style={{cursor: "pointer"}}>
+                          사진 추가
+                      </Label>
 
-                <Wrapper>
-                    <ImageCircle htmlFor="image-upload">
-                        {imageUrl ? <PreviewImage src={imageUrl} alt="preview"/> : <FiImage size={40} color="#aaa"/>}
-                    </ImageCircle>
-                    <input
-                        type="file"
-                        id="image-upload"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        style={{display: "none"}}
-                    />
-                    <Label htmlFor="image-upload" as="label" style={{cursor: "pointer"}}>
-                        사진 추가
-                    </Label>
+                      <FieldLabel>장소 이름</FieldLabel>
+                      <Input
+                          placeholder="예: 냉장고, 거실..."
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                      />
 
-                    <FieldLabel>장소 이름</FieldLabel>
-                    <Input
-                        placeholder="예: 냉장고, 거실..."
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-
-                    <TextArea
-                        placeholder="장소에 대한 설명을 작성해주세요"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                </Wrapper>
+                      <TextArea
+                          placeholder="장소에 대한 설명을 작성해주세요"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                      />
+                    </Wrapper>
+                  </PaddedLayout>
             </PageLayout>
         </PageBackground>
     );

@@ -1,12 +1,34 @@
-import type { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
 import styled from "styled-components";
 import { BottomNavigation } from "../../components/BottomNavigation";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../../hooks/useAuth";
 
 export const MyPage: FC = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
+  const [name, setName] = useState<string>("");
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await axios.get("/api/auth/session-check", {
+          withCredentials: true,
+        });
+
+        // ✅ loginStatus 기준으로 체크
+        if (response.data?.loginStatus && response.data?.name) {
+          setName(response.data.name);
+        }
+      } catch (error) {
+        console.error("세션 정보를 불러오는 데 실패했습니다", error);
+      }
+    };
+
+    fetchSession();
+  }, []);
 
   const handleLogout = async () => {
     const confirmLogout = window.confirm("로그아웃하시겠습니까?");
@@ -16,8 +38,8 @@ export const MyPage: FC = () => {
       await axios.post("/api/auth/logout", null, {
         withCredentials: true,
       });
-
-      navigate("/login"); // ✅ 로그아웃 후 로그인 화면으로 이동
+      setUser(null);
+      navigate("/login");
     } catch (error) {
       alert("로그아웃 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
@@ -28,7 +50,7 @@ export const MyPage: FC = () => {
       <PageLayout $isBottomNavigation>
         <PaddedLayout>
           <Header>
-            <UserName>김키피님</UserName>
+            <UserName>{name ? `${name}님` : ""}</UserName>
             <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
           </Header>
 
@@ -58,8 +80,7 @@ export const MyPage: FC = () => {
   );
 };
 
-
-// 스타일 컴포넌트는 그대로 유지
+// 스타일 컴포넌트는 동일
 const PaddedLayout = styled(PageLayout)`
   padding: 2.5rem;
 `;
