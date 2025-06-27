@@ -12,9 +12,19 @@ export function usePreviewImage(initialFile: File | null) {
     setPreviewUrl(URL.createObjectURL(file));
   };
 
+  const onFileSet = (file: File | null) => {
+    setFile(file);
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+    } else {
+      setPreviewUrl(null);
+    }
+  }
+
   return {
     file,
     onFileChange,
     previewUrl,
+    onFileSet,
   };
 }

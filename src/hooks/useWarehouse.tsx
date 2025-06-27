@@ -23,7 +23,8 @@ interface WarehouseContextProps {
     createItem: (req: CreateItemReq) => Promise<void>;
     shotExpire: (file: FormData) => Promise<ExpireDateRes>;
     getItems: () => Promise<Item[]>
-    updateItem: (id: Item["id"], req: UpdateItemReq) => Promise<void>;
+    getItem: (id: Item["id"]) => Promise<Item>;
+    updateItem : (id: Item["id"], req: UpdateItemReq) => Promise<void>;
 }
 
 const WarehouseContext = createContext<WarehouseContextProps | undefined>(undefined);
@@ -111,23 +112,37 @@ export const WarehouseProvider: FC = ({children}) => {
     const updateLocation = async (id: Location["id"], req: EditLocationReq) => {
         setIsLoading(true);
         try {
+            const formData = new FormData();
+            formData.append("name", req.name);
+            formData.append("description", req.description);
+            if (req.image) {
+                formData.append("image", req.image);
+            }
+
             const res = await axios.patch(
                 `/api/box/locations/${id}`,
-                req,
-                {withCredentials: true}
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                    withCredentials: true
+                }
             );
+
             if (res.status !== 200) {
-                console.log(res)
+                console.log(res);
                 throw new Error(res.statusText);
             }
+
             return res.data;
         } catch (error) {
             console.error("Error updating location:", error);
-            throw error; // Re-throw the error for further handling
+            throw error;
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     const deleteLocation = async (id: Location["id"]) => {
         setIsLoading(true);
@@ -251,6 +266,23 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
+    const getItem = async (id: Item["id"]): Promise<Item> => {
+        setIsLoading(true);
+        try {
+            const items = await getItems();
+            const foundItem = items.find(item => item.id === id);
+            if(!foundItem) {
+                throw new Error("Item not found");
+            }
+            return foundItem
+        } catch (error) {
+            console.error("Error fetching item:", error);
+            throw error; // Re-throw the error for further handling
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <WarehouseContext.Provider value={{
             isLoading,
@@ -264,6 +296,7 @@ export const WarehouseProvider: FC = ({children}) => {
             createItem,
             shotExpire,
             getItems,
+            getItem,
             updateItem
         }}>
             {children}
