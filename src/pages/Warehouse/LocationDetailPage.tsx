@@ -32,7 +32,7 @@ const EmptyBox = styled.div`
 export const LocationDetailPage = () => {
     const navigate = useNavigate();
     const {locationName: locationId} = useParams();
-    const {getLocation, getItems} = useWarehouse();
+    const {getLocation, getItems, deleteLocation} = useWarehouse();
 
     const [isPopupMenuOpen, setIsPopupMenuOpen] = useState<boolean>(false);
     const [location, setLocation] = useState<Location>(null);
@@ -49,6 +49,16 @@ export const LocationDetailPage = () => {
         } catch (e) {
             console.error(e)
             navigate(RoutePath.warehouse)
+        }
+    }
+
+    const onDeleteClick = async () => {
+        try {
+            await deleteLocation(location.id);
+            navigate(-1, {replace: true})
+        }
+        catch (e) {
+            console.log(e)
         }
     }
 
@@ -158,7 +168,7 @@ export const LocationDetailPage = () => {
                     <PopupMenu
                         isOpen={isPopupMenuOpen}
                         onEdit={() => navigate(RoutePath.mainPage.editLocation(location.id))}
-                        onDelete={() => {}}
+                        onDelete={() => onDeleteClick()}
                     />
                     <NavHeader
                         title={location.name}
