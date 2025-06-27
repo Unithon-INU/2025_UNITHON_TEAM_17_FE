@@ -7,6 +7,7 @@ import { OfferingItem } from "../../components/main/OfferingItem";
 import styled from "styled-components";
 import { OfferingTypeTab } from "../../components/main/OfferingTypeTab";
 import axios from "axios";
+import { OnboardingPopup } from "../OnboardingPopup";
 
 const OfferingList = styled.ul`
   display: flex;
@@ -37,6 +38,16 @@ export const MainPage: FC = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    localStorage.removeItem("hasSeenGuide"); 
+    const hasSeenGuide = localStorage.getItem("hasSeenGuide");
+    if (!hasSeenGuide) {
+      setShowPopup(true);
+      localStorage.setItem("hasSeenGuide", "true");
+    }
+}, []);
 
   const fetchProducts = async (type?: string) => {
     try {
@@ -64,6 +75,7 @@ export const MainPage: FC = () => {
 
   return (
     <PageBackground>
+      {showPopup && <OnboardingPopup onClose={() => setShowPopup(false)} />}
       <MainHeader
         searchKeyword={searchKeyword}
         onSearchChange={(e) => setSearchKeyword(e.target.value)}

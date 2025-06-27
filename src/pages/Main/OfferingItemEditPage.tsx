@@ -53,25 +53,31 @@ export const OfferingItemEditPage = () => {
     fetchDetail();
   }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: name === "originalPrice" || name === "salePrice" || name === "quantity" ? Number(value) : value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === "originalPrice" || name === "salePrice" || name === "quantity" ? Number(value) : value
+    }));
+  };
+
+  const handleTypeChange = (type: "CAFE" | "DIRECT") => {
+    setForm((prev) => ({ ...prev, type }));
   };
 
   const handleSubmit = async () => {
-  try {
-    await axios.put(`/api/products/${id}`, form, {
-      withCredentials: true,
-      headers: { "Content-Type": "application/json" },
-    });
-    alert("상품이 수정되었습니다.");
-    navigate(`/home/main/${id}`);
+    try {
+      await axios.put(`/api/products/${id}`, form, {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      });
+      alert("상품이 수정되었습니다.");
+      navigate(`/home/main/${id}`);
     } catch (err: any) {
-        if (err.response?.status === 403) alert("수정 권한이 없습니다.");
-        else alert("수정 중 오류가 발생했습니다.");
+      if (err.response?.status === 403) alert("수정 권한이 없습니다.");
+      else alert("수정 중 오류가 발생했습니다.");
     }
-    };
-
+  };
 
   if (loading) return <PageLayout>불러오는 중...</PageLayout>;
   if (notAllowed) return <PageLayout>접근 권한이 없습니다.</PageLayout>;
@@ -79,51 +85,158 @@ export const OfferingItemEditPage = () => {
   return (
     <PageBackground>
       <PageLayout>
-        <NavHeader title="상품 수정" />
-        <FormWrapper>
-          <Input name="title" value={form.title} onChange={handleChange} placeholder="제목" />
-          <TextArea name="description" value={form.description} onChange={handleChange} placeholder="설명" rows={4} />
-          <Input name="originalPrice" value={form.originalPrice} onChange={handleChange} placeholder="원가" type="number" />
-          <Input name="salePrice" value={form.salePrice} onChange={handleChange} placeholder="판매가" type="number" />
-          <Input name="quantity" value={form.quantity} onChange={handleChange} placeholder="수량" type="number" />
-          <Input name="location" value={form.location} onChange={handleChange} placeholder="거래 장소" />
-          <Input name="openChatUrl" value={form.openChatUrl} onChange={handleChange} placeholder="오픈채팅 URL" />
-          <Select name="type" value={form.type} onChange={handleChange}>
-            <option value="DIRECT">직거래</option>
-            <option value="CAFE">가게</option>
-          </Select>
-          <Button onClick={handleSubmit} style={{ marginTop: "24px" }}>수정 완료</Button>
-        </FormWrapper>
+        <NavHeader title="게시글 수정" />
+        <Form>
+          <TitleInput
+            name="title"
+            value={form.title}
+            onChange={handleChange}
+            placeholder="제목을 입력하세요"
+          />
+
+          <FormRow>
+            <FieldLabel>판매 종류</FieldLabel>
+            <RightAlignBox>
+              <ToggleButton selected={form.type === "CAFE"} onClick={() => handleTypeChange("CAFE")}>가게</ToggleButton>
+              <ToggleButton selected={form.type === "DIRECT"} onClick={() => handleTypeChange("DIRECT")}>직거래</ToggleButton>
+            </RightAlignBox>
+          </FormRow>
+
+          <FormRow>
+            <FieldLabel>원가</FieldLabel>
+            <InputWrapper>
+              <Input name="originalPrice" value={form.originalPrice} onChange={handleChange} />
+              <Unit>원</Unit>
+            </InputWrapper>
+          </FormRow>
+
+          <FormRow>
+            <FieldLabel>판매금액</FieldLabel>
+            <InputWrapper>
+              <Input name="salePrice" value={form.salePrice} onChange={handleChange} />
+              <Unit>원</Unit>
+            </InputWrapper>
+          </FormRow>
+
+          <FormRow>
+            <FieldLabel>수량</FieldLabel>
+            <InputWrapper>
+              <Input name="quantity" value={form.quantity} onChange={handleChange} />
+              <Unit>개</Unit>
+            </InputWrapper>
+          </FormRow>
+
+          <FormRow>
+            <FieldLabel>거래장소</FieldLabel>
+            <InputWrapper>
+              <Input name="location" value={form.location} onChange={handleChange} />
+            </InputWrapper>
+          </FormRow>
+
+          <Textarea
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            placeholder="제품에 대한 설명을 작성해주세요."
+          />
+
+          <SubmitButton onClick={handleSubmit}>수정 완료</SubmitButton>
+        </Form>
       </PageLayout>
     </PageBackground>
   );
 };
 
-const FormWrapper = styled.div`
+const Form = styled.div`
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin: 30px 20px 100px;
+  gap: 1rem;
+`;
+
+const TitleInput = styled.input`
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  border-bottom: 2px solid #000;
+  padding: 1rem 0;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const FormRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+`;
+
+const FieldLabel = styled.div`
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100px;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+  gap: 0.5rem;
 `;
 
 const Input = styled.input`
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: none;
+  background: transparent;
   font-size: 1rem;
+  text-align: right;
+  width: 150px;
+  &:focus {
+    outline: none;
+  }
 `;
 
-const TextArea = styled.textarea`
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+const Unit = styled.span`
   font-size: 1rem;
+  color: #888;
+`;
+
+const Textarea = styled.textarea`
+  width: 95%;
+  height: 180px;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1.5px solid #111;
+  border-radius: 20px;
   resize: none;
 `;
 
-const Select = styled.select`
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
+const SubmitButton = styled.button`
+  width: 80%;
+  padding: 1rem;
+  background-color: #6fc667;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+`;
+
+const RightAlignBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+`;
+
+const ToggleButton = styled.button<{ selected: boolean }>`
+  border-radius: 20px;
+  padding: 8px 20px;
+  background-color: ${({ selected }) => (selected ? "#6FC667" : "#eee")};
+  color: ${({ selected }) => (selected ? "white" : "black")};
+  font-weight: bold;
+  border: none;
 `;

@@ -1,94 +1,132 @@
-import {FC, useRef} from "react";
-import {Button} from "../../components/common/Button";
-import {ItemAddStepProps} from "./ItemAddPage";
-import {useWarehouse} from "../../hooks/useWarehouse";
-import {usePreviewImage} from "../../hooks/UsePreviewImage";
-import {ExpireDateRes} from "../../type/item";
+import { FC, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { ItemAddStepProps } from "./ItemAddPage";
+import { usePreviewImage } from "../../hooks/UsePreviewImage";
+import { useWarehouse } from "../../hooks/useWarehouse";
+import { Button } from "../../components/common/Button";
+import { BsCameraFill } from "react-icons/bs";
+import { ExpireDateRes } from "../../type/item";
+import toast from "react-hot-toast";
+import { isMobile } from "react-device-detect";
+
+interface PreviewImageProps {
+  $src: string | null;
+}
 
 const Container = styled.div`
-  min-height: 100%;
+  height: 100%;
   padding: 24px 32px;
-
   display: flex;
   flex-direction: column;
-`
+`;
 
 const Title = styled.h2`
   font-size: 24px;
   font-weight: 600;
-`
+`;
 
 const Message = styled.p`
   color: #9d9d9d;
   font-size: 16px;
   font-weight: 500;
-`
+`;
 
-const ImageWrap = styled.div`
+const CameraBox = styled.div`
   flex: 1;
-  padding: 60px;
-`
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-const PreviewImage = styled.div<{ src: string | null }>`
+const PreviewImage = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "$src",
+})<PreviewImageProps>`
   width: 224px;
   height: 224px;
-  border-radius: 100%;
-
-  margin: 0 auto;
-
-  background-image: url(${p => p.src});
+  border-radius: 16px;
+  background-image: url(${(p) => p.$src});
   background-position: center;
   background-size: cover;
-
-  background-color: ${p => p.src ? "transparent" : "#f0f0f0"};
+  background-color: ${(p) => (p.$src ? "transparent" : "#f0f0f0")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-`
+`;
 
-export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({onNext}) => {
-    const {shotExpire} = useWarehouse();
-    const [expireDateImage, onChangeExpireDateImage, expireDateImageUrl] = usePreviewImage(null);
+const CaptureButton = styled.label`
+  display: inline-block;
+  cursor: pointer;
+`;
 
-    function convertDateFormat(dateStr) {
-        return dateStr.replace(/\./g, '-');
+const HiddenInput = styled.input`
+  display: none;
+`;
+
+export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({ onNext }) => {
+  const { shotExpire } = useWarehouse();
+  const {
+    file: expireImage,
+    onFileChange,
+    previewUrl: expireImageUrl,
+  } = usePreviewImage(null);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const convertDateFormat = (dateStr: string) => {
+    return dateStr.replace(/\./g, "-");
+  };
+
+  const onShotExpire = async () => {
+    if (!expireImage) return;
+
+    const formData = new FormData();
+    formData.append("image", expireImage);
+
+    try {
+      const res: ExpireDateRes = await shotExpire(formData);
+      res.expireDate = convertDateFormat(res.expireDate);
+      onNext(res);
+    } catch (error) {
+      console.error("OCR 실패", error);
+      toast.error("유통기한 인식에 실패했어요. 다시 시도해주세요.");
     }
+  };
 
-    const onShotExpire = async () => {
-        if (!expireDateImage) return;
-
-        const formData = new FormData();
-        formData.append("imageFile", expireDateImage);
-
-        try {
-            let res = await shotExpire(formData);
-            res["expireDate"] = convertDateFormat(res["expireDate"]);
-            onNext(res)
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
+  useEffect(() => {
+    if (!isMobile) {
+      toast("PC 환경에서는 카메라 대신 사진을 업로드해주세요.");
     }
+  }, []);
 
-    return (
-        <Container>
-            <Title>유통기한 찍기</Title>
-            <Message>아이템을 추가하려면 바코드와 유통기한 사진을 찍어주세요.</Message>
+  return (
+    <Container>
+      <Title>유통기한 찍기</Title>
+      <Message>제품의 유통기한을 촬영해주세요.</Message>
 
-            <input
-                style={{display: "none"}}
-                type="file"
-                accept="image/*"
-                onChange={onChangeExpireDateImage}
-                id={"barcodeImageInput"}
-            />
+      <CameraBox>
+        <CaptureButton htmlFor="expireImageInput">
+          <PreviewImage $src={expireImageUrl}>
+            {!expireImageUrl && <BsCameraFill size={48} color="#ccc" />}
+          </PreviewImage>
+        </CaptureButton>
+      </CameraBox>
 
-            <ImageWrap>
-                <label
-                    htmlFor={"barcodeImageInput"}>
-                    <PreviewImage src={expireDateImageUrl}/>
-                </label>
-            </ImageWrap>
+      <HiddenInput
+        ref={inputRef}
+        id="expireImageInput"
+        type="file"
+        accept="image/*"
+        capture={isMobile ? "environment" : undefined}
+        onChange={onFileChange}
+      />
 
-            <Button onClick={() => onShotExpire()}>업로드</Button>
-        </Container>
-    );
-}
+      {expireImage && (
+        <Button onClick={onShotExpire} style={{ marginTop: "16px" }}>
+          업로드
+        </Button>
+      )}
+    </Container>
+  );
+};

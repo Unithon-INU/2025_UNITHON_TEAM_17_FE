@@ -8,8 +8,10 @@ import {ExpiringProduct} from "./ExpiringProduct";
 import styled from "styled-components";
 import {useWarehouse} from "../../hooks/useWarehouse";
 import {Location} from "../../type/Warehouse";
+import {useAuth} from "../../hooks/useAuth";
 
 export const WarehousePage: FC = () => {
+    const {user} = useAuth();
     const {getLocations} = useWarehouse();
     const [locations, setLocations] = useState<Location[]>([])
 
@@ -19,7 +21,7 @@ export const WarehousePage: FC = () => {
 
     return (
         <PageBackground>
-            <PageLayout isBottomNavigation>
+            <PageLayout $isBottomNavigation>
                 <PaddedLayout>
                     <HeaderWrapper>
                         <Title>내 창고</Title>
@@ -28,6 +30,7 @@ export const WarehousePage: FC = () => {
                     <ExpiringProduct/>
 
                     {locations.map((location) => {
+                        console.log(location)
                         const count = locations.length;
 
                         return (
@@ -35,9 +38,9 @@ export const WarehousePage: FC = () => {
                                 id={location.id}
                                 key={location.name}
                                 name={location.name}
-                                description={""}
+                                description={location.description}
                                 productCount={count}
-                                imageUrl={"https://picsum.photos/200/200?random=" + location.id}
+                                imageUrl={"https://keepbara.duckdns.org" + location.imagePath}
                             />
                         );
                     })}

@@ -1,7 +1,8 @@
 import {createContext, FC, useContext, useState} from 'react';
 import {CreateLocationMakeReq, EditLocationReq, Location} from "../type/Warehouse";
 import axios from "axios";
-import {BarcodeRes, CreateItemReq, ExpireDateRes, Item} from "../type/item";
+import {BarcodeRes, CreateItemReq, ExpireDateRes, Item, UpdateItemReq} from "../type/item";
+import {User} from "../type/auth";
 
 type UpdateItemReq = {
     name: string;
@@ -44,24 +45,35 @@ export const WarehouseProvider: FC = ({children}) => {
     const createLocation = async (req: CreateLocationMakeReq): Promise<Location> => {
         setIsLoading(true);
         try {
+            const formData = new FormData();
+            formData.append("name", req.name);
+            formData.append("description", req.description);
+            formData.append("image", req.image);
+
             const res = await axios.post(
-                `/api/box/locations`,
-                req,
-                {withCredentials: true}
+                "/api/box/locations",
+                formData,
+                {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }
             );
-            if (res.status !== 201) {
-                console.log(res)
+
+            if (res.status !== 200) {
+                console.log(res);
                 throw new Error(res.statusText);
             }
 
             return res.data;
         } catch (error) {
             console.error("Error creating location:", error);
-            throw error; // Re-throw the error for further handling
+            throw error;
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     const getLocations = async (): Promise<Location[]> => {
         setIsLoading(true);
@@ -138,24 +150,24 @@ export const WarehouseProvider: FC = ({children}) => {
     }
 
     const shotBarcode = async (file: FormData): Promise<BarcodeRes> => {
+        for (const [k, v] of file.entries()) {
+            console.log(k, v); // file File {name: "...", size: ...}
+        }
         setIsLoading(true);
         try {
             const res = await axios.post(
                 '/api/box/items/shot-barcode',
                 file,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
+                {withCredentials: true}
             );
             return res.data
         } catch (error) {
             console.error('업로드 실패:', error);
+            throw error;
         } finally {
             setIsLoading(false);
         }
-    };
+        };
 
     const shotExpire = async (file: FormData): Promise<ExpireDateRes> => {
         setIsLoading(true);
@@ -220,7 +232,7 @@ export const WarehouseProvider: FC = ({children}) => {
         }
     }
 
-    const updateItem  = async (id: Item["id"], req: UpdateItemReq) => {
+    const updateItem = async (id: Item["id"], req: UpdateItemReq) => {
         setIsLoading(true);
         try {
             const res = await axios.patch(
