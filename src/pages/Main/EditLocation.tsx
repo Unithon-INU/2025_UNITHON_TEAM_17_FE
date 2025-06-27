@@ -22,7 +22,14 @@ export const EditLocation: FC = () => {
     const navigate = useNavigate();
     const {id} = useParams()
     const {getLocation, updateLocation} = useWarehouse()
+
     const [location, setLocation] = useState<Location | null>(null);
+
+    const urlToFile = async (url: string, filename: string, mimeType = 'image/jpeg'): Promise<File> => {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        return new File([blob], filename, { type: mimeType });
+    };
 
     const onLoadLocation = async () => {
         const foundLocation = await getLocation(Number(id));
