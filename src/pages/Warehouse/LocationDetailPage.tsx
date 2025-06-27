@@ -9,7 +9,7 @@ import {RoutePath} from "../../RoutePath";
 import {Location} from "../../type/Warehouse";
 import {useEffect, useState} from "react";
 import {Item} from "../../type/item";
-import {PopupMenu} from "../../component/PopupMenu";
+import {PopupMenu} from "../../components/PopupMenu";
 
 
 const PaddedLayout = styled(PageLayout)`
