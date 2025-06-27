@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import { PageBackground, PageLayout } from "../../styles/PageLayout";
-import { FaChevronLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { NavHeader } from "../../components/NavHeader";
+import sadImage from "../../assets/sad.png"; 
 
 interface SoldProduct {
   id: number;
@@ -43,33 +43,36 @@ export const SalesHistoryPage: FC = () => {
         <NavHeader title="판매 내역" />
         {loading ? (
           <p>불러오는 중...</p>
-        ) : products.length === 0 ? (
-          <EmptyMessage>판매한 상품이 없습니다.</EmptyMessage>
-        ) : (
-          <Grid>
-            {products.map((item) => {
-              const fullThumbnailUrl =
-                item.thumbnail?.startsWith("http")
-                  ? item.thumbnail
-                  : item.thumbnail
-                  ? `https://keepbara.duckdns.org${item.thumbnail}`
-                  : "/default-image.png";
+          ) : products.length === 0 ? (
+            <EmptyContainer>
+              <EmptyImage src={sadImage} alt="울고 있는 카피바라" />
+              <EmptyText>판매한 상품이 없습니다.</EmptyText>
+            </EmptyContainer>
+          ) : (
+            <Grid>
+              {products.map((item) => {
+                const fullThumbnailUrl =
+                  item.thumbnail?.startsWith("http")
+                    ? item.thumbnail
+                    : item.thumbnail
+                    ? `https://keepbara.duckdns.org${item.thumbnail}`
+                    : "/default-image.png";
 
-              return (
-                <ItemCard key={item.id} onClick={() => navigate(`/home/main/${item.id}`)}>
-                  <Image src={fullThumbnailUrl} alt={item.title} />
-                  <TextContainer>
-                    <ProductTitle>{item.title}</ProductTitle>
-                    <InfoRow>
-                      <Date>{item.timeAgo}</Date>
-                      <Price>{item.salePrice.toLocaleString()}원</Price>
-                    </InfoRow>
-                  </TextContainer>
-                </ItemCard>
-              );
-            })}
-          </Grid>
-        )}
+                return (
+                  <ItemCard key={item.id} onClick={() => navigate(`/home/main/${item.id}`)}>
+                    <Image src={fullThumbnailUrl} alt={item.title} />
+                    <TextContainer>
+                      <ProductTitle>{item.title}</ProductTitle>
+                      <InfoRow>
+                        <Date>{item.timeAgo}</Date>
+                        <Price>{item.salePrice.toLocaleString()}원</Price>
+                      </InfoRow>
+                    </TextContainer>
+                  </ItemCard>
+                );
+              })}
+            </Grid>
+          )}
       </PaddedLayout>
     </PageLayout>
   </PageBackground>
@@ -146,5 +149,25 @@ const EmptyMessage = styled.div`
   margin-top: 80px;
   text-align: center;
   font-size: 16px;
+  color: #888;
+`;
+
+const EmptyContainer = styled.div`
+  margin-top: 80px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+`;
+
+const EmptyImage = styled.img`
+  width: 300px;
+  height: auto;
+  object-fit: contain;
+`;
+
+const EmptyText = styled.div`
+  font-size: 20px;
   color: #888;
 `;
