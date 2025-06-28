@@ -114,7 +114,7 @@ export const ItemAddStepBarcode: FC<ItemAddStepProps> = ({ onNext }) => {
         id="barcodeImageInput"
         type="file"
         accept="image/*"
-        capture={isMobile ? "environment" : undefined}
+        // capture={isMobile ? "environment" : undefined}
         onChange={onChangeBarcodeImage}
       />
 
