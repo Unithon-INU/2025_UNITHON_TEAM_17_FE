@@ -123,7 +123,7 @@ export const ItemAddStepExpireDate: FC<ItemAddStepProps> = ({ onNext }) => {
         id="expireImageInput"
         type="file"
         accept="image/*"
-        capture={isMobile ? "environment" : undefined}
+        // capture={isMobile ? "environment" : undefined}
         onChange={onFileChange}
       />
 
