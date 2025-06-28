@@ -19,6 +19,10 @@ const BottomNavigationStyle = styled.div`
   transform: translateX(-50%);
   bottom: 0;
   z-index: 999;
+
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `;
 
 const IconWrap = styled.div`
@@ -46,7 +50,13 @@ const MainIcon = styled.div<{ $active?: boolean }>`
   transform: translate(-50%, -50%);
   color: white;
   font-size: 28px;
-`;
+
+  @media (max-width: 480px) {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+  }
+`
 
 const NavItem = styled(Link)<{ $active?: boolean }>`
   display: flex;
@@ -59,6 +69,14 @@ const NavItem = styled(Link)<{ $active?: boolean }>`
     font-size: 22px;
     margin-bottom: 5px;
     stroke: ${({ $active }) => ($active ? "#000000" : "#999999")};
+  }
+
+  @media (max-width: 480px) {
+    font-size: 10px;
+
+    svg {
+      font-size: 18px;
+    }
   }
 `;
 
